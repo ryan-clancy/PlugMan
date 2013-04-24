@@ -3,6 +3,7 @@ package com.ryanclancy000.plugman;
 import com.ryanclancy000.plugman.utilities.MetricsLite;
 import com.ryanclancy000.plugman.utilities.Utilities;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,11 +30,11 @@ public class PlugMan extends JavaPlugin {
     private void initConfig() {
         try {
             getConfig().options().copyDefaults(true);
-            for (final String s : getConfig().getStringList("skip-on-reload")) {
+            for (String s : getConfig().getStringList("skip-on-reload")) {
                 skipPlugins.add(s);
             }
             saveConfig();
-        } catch (final Exception e) {
+        } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
             skipPlugins.clear();
         }
@@ -48,7 +49,7 @@ public class PlugMan extends JavaPlugin {
             try {
                 new MetricsLite(this).start();
                 getLogger().log(Level.INFO, "Metrics successfully started!");
-            } catch (final Exception e) {
+            }  catch (final IOException e) {
                 getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
             }
         } else {

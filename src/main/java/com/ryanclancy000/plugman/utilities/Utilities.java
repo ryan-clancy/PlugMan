@@ -31,7 +31,6 @@ import org.bukkit.plugin.UnknownDependencyException;
 public class Utilities {
 
     private final PlugMan plugin;
-
     private static final String pre = ChatColor.GRAY + "[" + ChatColor.GREEN + "PlugMan" + ChatColor.GRAY + "] ";
     private static final String tooMany = ChatColor.RED + "Too many arguments!";
     private static final String specifyPlugin = ChatColor.RED + "Must specify a plugin!";
@@ -77,7 +76,7 @@ public class Utilities {
             sender.sendMessage(ChatColor.GREEN + "/plugman info [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Give plugin info.");
         }
         if (sender.hasPermission("plugman.usage")) {
-            sender.sendMessage(ChatColor.GREEN + "/plugman usage [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "List command plugin has registeChatColor.RED.");
+            sender.sendMessage(ChatColor.GREEN + "/plugman usage [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "List command plugin has registered.");
         }
         if (sender.hasPermission("plugman.status")) {
             sender.sendMessage(ChatColor.GREEN + "/plugman status [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Give the status of a plugin.");
@@ -106,154 +105,120 @@ public class Utilities {
     }
 
     public void listCommand(CommandSender sender, String[] args) {
-
-        if (args.length > 1) {
-            sender.sendMessage(pre + ChatColor.RED + tooMany);
-        } else {
-
-            String pluginName = "";
-            StringBuilder list = new StringBuilder();
-            List<String> pluginList = new ArrayList<String>();
-
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                pluginName = (pl.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + pl.getDescription().getName();
-                pluginList.add(pluginName);
-            }
-            Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-            for (String name : pluginList) {
-                if (list.length() > 0) {
-                    list.append(ChatColor.WHITE).append(", ");
-                }
-                list.append(name);
-            }
-            sender.sendMessage(pre + ChatColor.GRAY + "Plugins: " + list);
+        String pluginName = "";
+        StringBuilder list = new StringBuilder();
+        List<String> pluginList = new ArrayList<String>();
+        for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+            pluginName = (pl.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + pl.getDescription().getName();
+            pluginList.add(pluginName);
         }
+        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+        for (String name : pluginList) {
+            if (list.length() > 0) {
+                list.append(ChatColor.WHITE).append(", ");
+            }
+            list.append(name);
+        }
+        sender.sendMessage(pre + ChatColor.GRAY + "Plugins: " + list);
     }
 
     public void vlistCommand(CommandSender sender, String[] args) {
-
-        if (args.length > 1) {
-            sender.sendMessage(pre + ChatColor.RED + tooMany);
-        } else {
-
-            String pluginName = "";
-            StringBuilder list = new StringBuilder();
-            List<String> pluginList = new ArrayList<String>();
-
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                pluginName = (pl.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + pl.getDescription().getFullName();
-                pluginList.add(pluginName);
-            }
-            Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-            for (String name : pluginList) {
-                if (list.length() > 0) {
-                    list.append(ChatColor.WHITE).append(", ");
-                }
-                list.append(name);
-            }
-            sender.sendMessage(pre + ChatColor.GRAY + "Plugins: " + list);
+        String pluginName = "";
+        StringBuilder list = new StringBuilder();
+        List<String> pluginList = new ArrayList<String>();
+        for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+            pluginName = (pl.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + pl.getDescription().getFullName();
+            pluginList.add(pluginName);
         }
+        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+        for (String name : pluginList) {
+            if (list.length() > 0) {
+                list.append(ChatColor.WHITE).append(", ");
+            }
+            list.append(name);
+        }
+        sender.sendMessage(pre + ChatColor.GRAY + "Plugins: " + list);
     }
 
     public void infoCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(consolidateArgs(args));
-
-        if (targetPlugin == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+        if (args.length > 1) {
+            Plugin targetPlugin = getPlugin(consolidateArgs(args));
+            if (targetPlugin == null) {
+                sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+            } else {
+                sender.sendMessage(pre + ChatColor.GRAY + "Plugin Info: " + ChatColor.GREEN + targetPlugin.getName());
+                sender.sendMessage(ChatColor.GREEN + "Version: " + ChatColor.GRAY + targetPlugin.getDescription().getVersion());
+                sender.sendMessage(ChatColor.GREEN + "Authors: " + ChatColor.GRAY + targetPlugin.getDescription().getAuthors());
+                sender.sendMessage(ChatColor.GREEN + "Status: " + (targetPlugin.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"));
+            }
         } else {
-            sender.sendMessage(pre + ChatColor.GRAY + "Plugin Info: " + ChatColor.GREEN + targetPlugin.getName());
-            sender.sendMessage(ChatColor.GREEN + "Version: " + ChatColor.GRAY + targetPlugin.getDescription().getVersion());
-            sender.sendMessage(ChatColor.GREEN + "Authors: " + ChatColor.GRAY + targetPlugin.getDescription().getAuthors());
-            sender.sendMessage(ChatColor.GREEN + "Status: " + (targetPlugin.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"));
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
     }
 
     public void statusCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(consolidateArgs(args));
-
-        if (targetPlugin == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-        } else if (targetPlugin.isEnabled()) {
-            sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " is enabled!");
+        if (args.length > 1) {
+            Plugin targetPlugin = getPlugin(consolidateArgs(args));
+            if (targetPlugin == null) {
+                sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+            } else if (targetPlugin.isEnabled()) {
+                sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " is enabled!");
+            } else {
+                sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " is disabled!");
+            }
         } else {
-            sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " is disabled!");
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
     }
 
     public void usageCommand(CommandSender sender, String[] args) {
 
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(consolidateArgs(args));
-
-        if (targetPlugin == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-        } else {
-            ArrayList<String> out = new ArrayList<String>();
-            ArrayList<String> parsedCommands = new ArrayList<String>();
-            Map commands = targetPlugin.getDescription().getCommands();
-
-            if (commands != null) {
-                Iterator commandsIt = commands.entrySet().iterator();
-                while (commandsIt.hasNext()) {
-                    Map.Entry thisEntry = (Map.Entry) commandsIt.next();
-                    if (thisEntry != null) {
-                        parsedCommands.add((String) thisEntry.getKey());
+        if (args.length > 1) {
+            Plugin targetPlugin = getPlugin(consolidateArgs(args));
+            if (targetPlugin != null) {
+                ArrayList<String> out = new ArrayList<String>();
+                ArrayList<String> parsedCommands = new ArrayList<String>();
+                Map commands = targetPlugin.getDescription().getCommands();
+                if (commands != null) {
+                    Iterator commandsIt = commands.entrySet().iterator();
+                    while (commandsIt.hasNext()) {
+                        Map.Entry thisEntry = (Map.Entry) commandsIt.next();
+                        if (thisEntry != null) {
+                            parsedCommands.add((String) thisEntry.getKey());
+                        }
                     }
                 }
-            }
-
-            if (!parsedCommands.isEmpty()) {
-
-                StringBuilder commandsOut = new StringBuilder();
-                commandsOut.append(pre).append(ChatColor.GRAY).append("Command List: ");
-
-                for (int i = 0; i < parsedCommands.size(); i++) {
-
-                    String thisCommand = parsedCommands.get(i);
-
-                    if (commandsOut.length() + thisCommand.length() > 55) {
-                        sender.sendMessage(commandsOut.toString());
-                        commandsOut = new StringBuilder();
+                if (!parsedCommands.isEmpty()) {
+                    StringBuilder commandsOut = new StringBuilder();
+                    commandsOut.append(pre).append(ChatColor.GRAY).append("Command List: ");
+                    for (int i = 0; i < parsedCommands.size(); i++) {
+                        String thisCommand = parsedCommands.get(i);
+                        if (commandsOut.length() + thisCommand.length() > 55) {
+                            sender.sendMessage(commandsOut.toString());
+                            commandsOut = new StringBuilder();
+                        }
+                        if (parsedCommands.size() > 0) {
+                            commandsOut.append(ChatColor.GREEN).append("\"").append(thisCommand).append("\" ");
+                        } else {
+                            commandsOut.append(ChatColor.GREEN).append("\"").append(thisCommand).append("\"");
+                        }
                     }
-
-                    if (parsedCommands.size() > 0) {
-                        commandsOut.append(ChatColor.GREEN).append("\"").append(thisCommand).append("\" ");
-                    } else {
-                        commandsOut.append(ChatColor.GREEN).append("\"").append(thisCommand).append("\"");
-                    }
-
+                    out.add(commandsOut.toString());
+                } else {
+                    out.add(pre + ChatColor.RED + "Plugin has no registered commands!");
                 }
-
-                out.add(commandsOut.toString());
-
+                for (String s : out) {
+                    sender.sendMessage(s);
+                }
             } else {
-                out.add(pre + ChatColor.RED + "Plugin has no registeChatColor.RED commands!");
+                sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
             }
-
-            for (String s : out) {
-                sender.sendMessage(s);
-            }
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
     }
 
     public void testCommand(CommandSender sender, String[] args) {
-
         if (args.length == 1) {
             sender.sendMessage(pre + ChatColor.RED + "Must specify permission and player!");
         } else if (args.length == 2) {
@@ -279,33 +244,30 @@ public class Utilities {
     }
 
     public void loadCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        String pl = consolidateArgs(args);
-        Plugin targetPlugin = getPlugin(pl);
-
-        if (targetPlugin != null) {
-            if (targetPlugin.isEnabled()) {
-                sender.sendMessage(pre + ChatColor.RED + "Plugin already loaded and enabled!");
-                return;
-            } else {
-                sender.sendMessage(pre + ChatColor.RED + "Plugin already loaded, but is disabled!");
+        if (args.length > 1) {
+            String pl = consolidateArgs(args);
+            Plugin targetPlugin = getPlugin(pl);
+            if (targetPlugin != null) {
+                if (targetPlugin.isEnabled()) {
+                    sender.sendMessage(pre + ChatColor.RED + "Plugin already loaded and enabled!");
+                } else {
+                    sender.sendMessage(pre + ChatColor.RED + "Plugin already loaded, but is disabled!");
+                }
                 return;
             }
+            sender.sendMessage(loadPlugin(pl));
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
-        sender.sendMessage(loadPlugin(pl));
     }
 
     private String loadPlugin(String pl) {
-
         Plugin targetPlugin = null;
         String msg = "";
         File pluginDir = new File("plugins");
-        if (!pluginDir.isDirectory()) {return(pre + ChatColor.RED + "Plugin directory not found!");}
+        if (!pluginDir.isDirectory()) {
+            return (pre + ChatColor.RED + "Plugin directory not found!");
+        }
         File pluginFile = new File(pluginDir, pl + ".jar");
         //plugin.getLogger().info("Want: " + pluginFile);
         if (!pluginFile.isFile()) {
@@ -321,7 +283,7 @@ public class Utilities {
                         }
                     }
                 } catch (InvalidDescriptionException e) {
-                    return(pre + ChatColor.RED + "Couldn't find file and failed to search descriptions!");
+                    return (pre + ChatColor.RED + "Couldn't find file and failed to search descriptions!");
                 }
             }
         }
@@ -330,31 +292,28 @@ public class Utilities {
             targetPlugin = getPlugin(pl);
             targetPlugin.onLoad();
             plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-            return(pre + ChatColor.GREEN + getPlugin(pl) + " loaded " + msg + "and enabled!");
+            return (pre + ChatColor.GREEN + getPlugin(pl) + " loaded " + msg + "and enabled!");
         } catch (UnknownDependencyException e) {
-            return(pre + ChatColor.RED + "File exists, but is missing a dependency!");
+            return (pre + ChatColor.RED + "File exists, but is missing a dependency!");
         } catch (InvalidPluginException e) {
             plugin.getLogger().log(Level.SEVERE, "Tried to load invalid Plugin.\n", e);
-            return(pre + ChatColor.RED + "File exists, but isn't a loadable plugin file!");
+            return (pre + ChatColor.RED + "File exists, but isn't a loadable plugin file!");
         } catch (InvalidDescriptionException e) {
-            return(pre + ChatColor.RED + "Plugin exists, but has an invalid description!");
+            return (pre + ChatColor.RED + "Plugin exists, but has an invalid description!");
         }
     }
 
     public void unloadCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        String pl = consolidateArgs(args);
-        Plugin targetPlugin = getPlugin(pl);
-
-        if (targetPlugin == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+        if (args.length > 1) {
+            String pl = consolidateArgs(args);
+            Plugin targetPlugin = getPlugin(pl);
+            if (targetPlugin == null) {
+                sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+            } else {
+                sender.sendMessage(unloadPlugin(pl));
+            }
         } else {
-            sender.sendMessage(unloadPlugin(pl));
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
     }
 
@@ -395,9 +354,9 @@ public class Utilities {
                 knownCommandsField.setAccessible(true);
                 commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
             } catch (NoSuchFieldException e) {
-                return(pre + ChatColor.RED + "Failed to unload plugin!");
+                return (pre + ChatColor.RED + "Failed to unload plugin!");
             } catch (IllegalAccessException e) {
-                return(pre + ChatColor.RED + "Failed to unload plugin!");
+                return (pre + ChatColor.RED + "Failed to unload plugin!");
             }
         }
 
@@ -440,142 +399,114 @@ public class Utilities {
                 }
             }
         }
-        return(pre + ChatColor.GREEN + tp + "has been unloaded and disabled!");
+        return (pre + ChatColor.GREEN + tp + "has been unloaded and disabled!");
     }
-
 
     public void reloadCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
-                    continue;
-                } else {
-                    String pn = pl.getName();
-                    sender.sendMessage(unloadPlugin(pn));
-                    sender.sendMessage(loadPlugin(pn));
+        if (args.length > 1) {
+            if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+                for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                    if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
+                        continue;
+                    } else {
+                        String pn = pl.getName();
+                        sender.sendMessage(unloadPlugin(pn));
+                        sender.sendMessage(loadPlugin(pn));
+                    }
                 }
+                sender.sendMessage(pre + ChatColor.GREEN + "All plugins reloaded!");
+                return;
             }
-            sender.sendMessage(pre + ChatColor.GREEN + "All plugins reloaded!");
-            return;
+            String pl = consolidateArgs(args);
+            if (getPlugin(pl) != null) {
+                sender.sendMessage(unloadPlugin(pl));
+                sender.sendMessage(loadPlugin(pl));
+            } else {
+                sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+            }
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
-
-        String pl = consolidateArgs(args);
-
-        if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-            return;
-        }
-
-        sender.sendMessage(unloadPlugin(pl));
-        sender.sendMessage(loadPlugin(pl));
-
     }
 
-
     public void restartCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
-                    continue;
+        if (args.length > 1) {
+            if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+                for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                    if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
+                        continue;
+                    } else {
+                        plugin.getServer().getPluginManager().disablePlugin(pl);
+                        plugin.getServer().getPluginManager().enablePlugin(pl);
+                    }
+                }
+                sender.sendMessage(pre + ChatColor.GREEN + "All plugins restarted!");
+            } else {
+                String pl = consolidateArgs(args);
+                if (getPlugin(pl) != null) {
+                    Plugin targetPlugin = getPlugin(pl);
+                    plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
+                    plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
+                    sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " Restarted!");
                 } else {
-                    plugin.getServer().getPluginManager().disablePlugin(pl);
-                    plugin.getServer().getPluginManager().enablePlugin(pl);
+                    sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
                 }
             }
-            sender.sendMessage(pre + ChatColor.GREEN + "All plugins restarted!");
-            return;
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
-
-        String pl = consolidateArgs(args);
-
-        if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
-        plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
-        plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-        sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " Restarted!");
-
     }
 
     public void enableCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                plugin.getServer().getPluginManager().enablePlugin(pl);
+        if (args.length > 1) {
+            if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+                for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                    plugin.getServer().getPluginManager().enablePlugin(pl);
+                }
+                sender.sendMessage(pre + ChatColor.GREEN + "All plugins enabled!");
+            } else {
+                String pl = consolidateArgs(args);
+                if (getPlugin(pl) != null) {
+                    if (!getPlugin(pl).isEnabled()) {
+                        Plugin targetPlugin = getPlugin(pl);
+                        plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
+                        sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " Enabled!");
+                    } else {
+                        sender.sendMessage(pre + ChatColor.RED + "Plugin already enabled!");
+                    }
+                } else {
+                    sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+                }
             }
-            sender.sendMessage(pre + ChatColor.GREEN + "All plugins enabled!");
-            return;
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
-
-        String pl = consolidateArgs(args);
-
-        if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-            return;
-        }
-
-        if (getPlugin(pl).isEnabled()) {
-            sender.sendMessage(pre + ChatColor.RED + "Plugin already enabled!");
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
-        plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-        sender.sendMessage(pre + ChatColor.GREEN + targetPlugin.getName() + " Enabled!");
-
     }
 
     public void disableCommand(CommandSender sender, String[] args) {
-
-        if (args.length == 1) {
-            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
-            return;
-        }
-
-        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                plugin.getServer().getPluginManager().disablePlugin(pl);
+        if (args.length > 1) {
+            if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+                for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                    plugin.getServer().getPluginManager().disablePlugin(pl);
+                }
+                sender.sendMessage(pre + ChatColor.RED + "All plugins disabled!");
+            } else {
+                String pl = consolidateArgs(args);
+                if (getPlugin(pl) != null) {
+                    if (getPlugin(pl).isEnabled()) {
+                        Plugin targetPlugin = getPlugin(pl);
+                        plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
+                        sender.sendMessage(pre + ChatColor.RED + targetPlugin.getName() + " Disabled!");
+                    } else {
+                        sender.sendMessage(pre + ChatColor.RED + "Plugin already disabled!");
+                    }
+                } else {
+                    sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
+                }
             }
-            sender.sendMessage(pre + ChatColor.RED + "All plugins disabled!");
-            return;
+        } else {
+            sender.sendMessage(pre + ChatColor.RED + specifyPlugin);
         }
-
-        String pl = consolidateArgs(args);
-
-        if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + ChatColor.RED + pluginNotFound);
-            return;
-        }
-
-        if (!getPlugin(pl).isEnabled()) {
-            sender.sendMessage(pre + ChatColor.RED + "Plugin already disabled!");
-            return;
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
-        plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
-        sender.sendMessage(pre + ChatColor.RED + targetPlugin.getName() + " Disabled!");
-
     }
 
     public void noPerms(CommandSender sender) {

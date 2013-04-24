@@ -8,8 +8,8 @@ public class PlugManCommands implements CommandExecutor {
 
     private final PlugMan plugin;
 
-    public PlugManCommands(PlugMan instance) {
-        this.plugin = instance;
+    public PlugManCommands(final PlugMan instance) {
+        plugin = instance;
     }
 
     @Override

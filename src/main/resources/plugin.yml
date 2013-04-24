@@ -10,8 +10,8 @@ commands:
     aliases: pm
     description: Manage Plugins Status.
     usage: /plugman [help|list|vlist]
-           /plugman test [PermissionNode] [Player]
-           /plugman [info|usage|status|load|unload|reload|restart|enable|disable] [PluginName]
+           /plugman test [node] [player]
+           /plugman [info|usage|status|load|unload|reload|restart|enable|disable] [pluginname]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.
