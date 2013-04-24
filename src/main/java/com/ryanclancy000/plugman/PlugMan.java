@@ -2,15 +2,18 @@ package com.ryanclancy000.plugman;
 
 import com.ryanclancy000.plugman.utilities.MetricsLite;
 import com.ryanclancy000.plugman.utilities.Utilities;
+
 import java.util.List;
 import java.util.logging.Level;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
     private List<String> skipPlugins;
+
     private final Utilities utils = new Utilities(this);
-    
+
     @Override
     public void onDisable() {
         skipPlugins.clear();
@@ -54,7 +57,7 @@ public class PlugMan extends JavaPlugin {
     public List<String> getSkipped() {
         return skipPlugins;
     }
-    
+
     public Utilities getUtils() {
         return utils;
     }

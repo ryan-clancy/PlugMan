@@ -1,7 +1,5 @@
 package com.ryanclancy000.plugman;
 
-import com.ryanclancy000.plugman.utilities.Utilities;
-import java.util.logging.Level;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

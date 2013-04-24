@@ -1,6 +1,7 @@
 package com.ryanclancy000.plugman.utilities;
 
 import com.ryanclancy000.plugman.PlugMan;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.SortedSet;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
