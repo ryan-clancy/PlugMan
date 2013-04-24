@@ -4,7 +4,7 @@
 
     <groupId>com.ryanclancy000</groupId>
     <artifactId>PlugMan</artifactId>
-    <version>1.8.4</version>
+    <version>1.8.5</version>
     <packaging>jar</packaging>
 
     <name>PlugMan</name>
