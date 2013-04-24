@@ -410,7 +410,9 @@ public class Utilities {
                 Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
                 commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+            } catch (NoSuchFieldException e) {
+                return(pre + red + "Failed to unload plugin!");
+            } catch (IllegalAccessException e) {
                 return(pre + red + "Failed to unload plugin!");
             }
         }
