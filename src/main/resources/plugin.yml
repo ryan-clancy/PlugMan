@@ -1,6 +1,6 @@
 name: PlugMan
 main: com.ryanclancy000.plugman.PlugMan
-version: 1.8.3
+version: 1.8.4
 description: Plugin Manager for Bukkit
 authors:
   - ryanclancy000

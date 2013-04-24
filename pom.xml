@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.jinks</groupId>
+    <groupId>com.ryanclancy000</groupId>
     <artifactId>PlugMan</artifactId>
-    <version>1.8.3</version>
+    <version>1.8.4</version>
     <packaging>jar</packaging>
 
     <name>PlugMan</name>
@@ -14,18 +14,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.5-R0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
     <repositories>
         <repository>
-            <id>spout</id>
-            <url>http://nexus.spout.org/content/groups/public/</url>
+            <id>bukkit</id>
+            <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -107,4 +99,11 @@
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.5.1-R0.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
