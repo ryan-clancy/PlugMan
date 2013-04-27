@@ -7,7 +7,6 @@ authors:
   - jinks
 commands:
   plugman:
-    aliases: pm
     description: Manage Plugins Status.
     usage: /plugman [help|list|vlist]
            /plugman test [node] [player]
