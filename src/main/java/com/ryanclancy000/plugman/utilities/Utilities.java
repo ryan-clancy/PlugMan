@@ -1,7 +1,6 @@
 package com.ryanclancy000.plugman.utilities;
 
 import com.ryanclancy000.plugman.PlugMan;
-
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,9 +8,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.SortedSet;
-
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,8 +20,8 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
@@ -375,7 +373,7 @@ public class Utilities {
 
                 if (listeners != null && reloadlisteners) {
                     for (SortedSet<RegisteredListener> set : listeners.values()) {
-                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
+                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext(); ) {
                             RegisteredListener value = it.next();
 
                             if (value.getPlugin() == p) {
@@ -386,7 +384,7 @@ public class Utilities {
                 }
 
                 if (cmdMap != null) {
-                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
+                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
                         Map.Entry<String, Command> entry = it.next();
                         if (entry.getValue() instanceof PluginCommand) {
                             PluginCommand c = (PluginCommand) entry.getValue();

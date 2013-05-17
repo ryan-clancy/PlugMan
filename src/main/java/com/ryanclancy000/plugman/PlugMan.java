@@ -2,19 +2,17 @@ package com.ryanclancy000.plugman;
 
 import com.ryanclancy000.plugman.utilities.MetricsLite;
 import com.ryanclancy000.plugman.utilities.Utilities;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
     private final Utilities utils = new Utilities(this);
     private final List<String> skipPlugins = new ArrayList<String>();
-    
+
     @Override
     public void onDisable() {
         skipPlugins.clear();
@@ -49,7 +47,7 @@ public class PlugMan extends JavaPlugin {
             try {
                 new MetricsLite(this).start();
                 getLogger().log(Level.INFO, "Metrics successfully started!");
-            }  catch (final IOException e) {
+            } catch (final IOException e) {
                 getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
             }
         } else {

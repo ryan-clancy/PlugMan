@@ -20,7 +20,7 @@
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
     </repositories>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
