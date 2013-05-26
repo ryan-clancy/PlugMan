@@ -2,10 +2,12 @@ package com.rylinaux.plugman;
 
 import com.rylinaux.plugman.utilities.MetricsLite;
 import com.rylinaux.plugman.utilities.Utilities;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {

@@ -39,6 +39,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -201,15 +202,14 @@ public class MetricsLite {
      * 1200
      * ticks.
      *
-     * @return
-     * True
-     * if
-     * statistics
-     * measuring
-     * is
-     * running,
-     * otherwise
-     * false.
+     * @return True
+     *         if
+     *         statistics
+     *         measuring
+     *         is
+     *         running,
+     *         otherwise
+     *         false.
      */
     public boolean start() {
         synchronized (optOutLock) {
@@ -267,16 +267,15 @@ public class MetricsLite {
      * plugin
      * metrics?
      *
-     * @return
-     * true
-     * if
-     * metrics
-     * should
-     * be
-     * opted
-     * out
-     * of
-     * it
+     * @return true
+     *         if
+     *         metrics
+     *         should
+     *         be
+     *         opted
+     *         out
+     *         of
+     *         it
      */
     public boolean isOptOut() {
         synchronized (optOutLock) {
@@ -319,8 +318,7 @@ public class MetricsLite {
      * metrics
      * task.
      *
-     * @throws
-     * java.io.IOException
+     * @throws java.io.IOException
      */
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
@@ -359,8 +357,7 @@ public class MetricsLite {
      * metrics
      * task.
      *
-     * @throws
-     * java.io.IOException
+     * @throws java.io.IOException
      */
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
@@ -403,14 +400,13 @@ public class MetricsLite {
      * opt-out
      * status
      *
-     * @return
-     * the
-     * File
-     * object
-     * for
-     * the
-     * config
-     * file
+     * @return the
+     *         File
+     *         object
+     *         for
+     *         the
+     *         config
+     *         file
      */
     public File getConfigFile() {
         // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to use
@@ -534,15 +530,14 @@ public class MetricsLite {
      * POST
      * requests
      *
-     * @return
-     * true
-     * if
-     * mineshafter
-     * is
-     * installed
-     * on
-     * the
-     * server
+     * @return true
+     *         if
+     *         mineshafter
+     *         is
+     *         installed
+     *         on
+     *         the
+     *         server
      */
     private boolean isMineshafterPresent() {
         try {
@@ -587,25 +582,19 @@ public class MetricsLite {
      * encodeDataPair(data, "version", description.getVersion());
      * </code>
      *
-     * @param
-     * buffer
-     * the
-     * stringbuilder
-     * to
-     * append
-     * the
-     * data
-     * pair
-     * onto
-     * @param
-     * key
-     * the
-     * key
-     * value
-     * @param
-     * value
-     * the
-     * value
+     * @param buffer the
+     *               stringbuilder
+     *               to
+     *               append
+     *               the
+     *               data
+     *               pair
+     *               onto
+     * @param key    the
+     *               key
+     *               value
+     * @param value  the
+     *               value
      */
     private static void encodeDataPair(final StringBuilder buffer, final String key, final String value) throws UnsupportedEncodingException {
         buffer.append('&').append(encode(key)).append('=').append(encode(value));
@@ -617,18 +606,15 @@ public class MetricsLite {
      * as
      * UTF-8
      *
-     * @param
-     * text
-     * the
-     * text
-     * to
-     * encode
-     * @return
-     * the
-     * encoded
-     * text,
-     * as
-     * UTF-8
+     * @param text the
+     *             text
+     *             to
+     *             encode
+     * @return the
+     *         encoded
+     *         text,
+     *         as
+     *         UTF-8
      */
     private static String encode(final String text) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, "UTF-8");

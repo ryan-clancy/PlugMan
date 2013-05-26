@@ -1,6 +1,7 @@
 package com.rylinaux.plugman.utilities;
 
 import com.rylinaux.plugman.PlugMan;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.logging.Level;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -373,7 +375,7 @@ public class Utilities {
 
                 if (listeners != null && reloadlisteners) {
                     for (SortedSet<RegisteredListener> set : listeners.values()) {
-                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
+                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext(); ) {
                             RegisteredListener value = it.next();
 
                             if (value.getPlugin() == p) {
@@ -384,7 +386,7 @@ public class Utilities {
                 }
 
                 if (cmdMap != null) {
-                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
+                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
                         Map.Entry<String, Command> entry = it.next();
                         if (entry.getValue() instanceof PluginCommand) {
                             PluginCommand c = (PluginCommand) entry.getValue();
