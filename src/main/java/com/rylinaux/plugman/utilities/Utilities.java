@@ -320,35 +320,33 @@ public class Utilities {
     private String unloadPlugin(String pl) {
 
         PluginManager pm = plugin.getServer().getPluginManager();
-        SimplePluginManager spm = (SimplePluginManager) pm;
         SimpleCommandMap cmdMap = null;
         List<Plugin> plugins = null;
         Map<String, Plugin> names = null;
         Map<String, Command> commands = null;
         Map<Event, SortedSet<RegisteredListener>> listeners = null;
         boolean reloadlisteners = true;
-
-        if (spm != null) {
+        if (pm != null) {
             try {
-                Field pluginsField = spm.getClass().getDeclaredField("plugins");
+                Field pluginsField = plugin.getServer().getPluginManager().getClass().getDeclaredField("plugins");
                 pluginsField.setAccessible(true);
-                plugins = (List<Plugin>) pluginsField.get(spm);
+                plugins = (List<Plugin>) pluginsField.get(pm);
 
-                Field lookupNamesField = spm.getClass().getDeclaredField("lookupNames");
+                Field lookupNamesField = plugin.getServer().getPluginManager().getClass().getDeclaredField("lookupNames");
                 lookupNamesField.setAccessible(true);
-                names = (Map<String, Plugin>) lookupNamesField.get(spm);
+                names = (Map<String, Plugin>) lookupNamesField.get(pm);
 
                 try {
-                    Field listenersField = spm.getClass().getDeclaredField("listeners");
+                    Field listenersField = plugin.getServer().getPluginManager().getClass().getDeclaredField("listeners");
                     listenersField.setAccessible(true);
-                    listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(spm);
+                    listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(pm);
                 } catch (Exception e) {
                     reloadlisteners = false;
                 }
 
-                Field commandMapField = spm.getClass().getDeclaredField("commandMap");
+                Field commandMapField = plugin.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
                 commandMapField.setAccessible(true);
-                cmdMap = (SimpleCommandMap) commandMapField.get(spm);
+                cmdMap = (SimpleCommandMap) commandMapField.get(pm);
 
                 Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
