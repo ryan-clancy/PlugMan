@@ -1,6 +1,7 @@
 package com.rylinaux.plugman;
 
-import com.rylinaux.plugman.utilities.MetricsLite;
+import org.mcstats.Metrics;
+
 import com.rylinaux.plugman.utilities.Utilities;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class PlugMan extends JavaPlugin {
     private void initMetrics() {
         if (getConfig().getBoolean("use-metrics")) {
             try {
-                new MetricsLite(this).start();
+                new Metrics(this).start();
                 getLogger().log(Level.INFO, "Metrics successfully started!");
             } catch (final IOException e) {
                 getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);

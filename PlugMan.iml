@@ -11,6 +11,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.5.2-R0.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.mcstats.bukkit:metrics:R7" level="project" />
   </component>
 </module>
 
