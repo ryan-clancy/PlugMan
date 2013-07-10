@@ -1,4 +1,3 @@
-use-metrics: true
 skip-on-reload:
   - Spout
   - dynmap

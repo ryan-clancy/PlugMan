@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     private final Utilities utils = new Utilities(this);
+
     private final List<String> skipPlugins = new ArrayList<String>();
 
     @Override
@@ -46,15 +47,12 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void initMetrics() {
-        if (getConfig().getBoolean("use-metrics")) {
-            try {
-                new Metrics(this).start();
-                getLogger().log(Level.INFO, "Metrics successfully started!");
-            } catch (final IOException e) {
-                getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
-            }
-        } else {
-            getLogger().log(Level.INFO, "Ignoring Metrics!");
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+            this.getLogger().log(Level.INFO, "Metrics successfully started!");
+        } catch (IOException e) {
+            this.getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
         }
     }
 
