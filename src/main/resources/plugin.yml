@@ -8,7 +8,7 @@ commands:
     description: Manage Plugins Status.
     usage: /plugman [help|list|vlist]
            /plugman test [node] [player]
-           /plugman [info|usage|status|load|unload|reload|restart|enable|disable] [pluginname]
+           /plugman [info|usage|status|load|unload|reload|restart|enable|disable] [plugin]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.

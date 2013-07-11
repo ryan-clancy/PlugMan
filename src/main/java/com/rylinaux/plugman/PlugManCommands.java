@@ -8,7 +8,7 @@ public class PlugManCommands implements CommandExecutor {
 
     private final PlugMan plugin;
 
-    public PlugManCommands(final PlugMan instance) {
+    public PlugManCommands(PlugMan instance) {
         plugin = instance;
     }
 
@@ -16,7 +16,7 @@ public class PlugManCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (args.length == 0) {
-            plugin.getUtils().thisInfo(sender);
+            plugin.getUtils().info(sender);
         } else if ("help".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.help")) {
                 plugin.getUtils().helpCommand(sender);
