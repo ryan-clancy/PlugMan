@@ -1,8 +1,13 @@
+/** TODO: Maven checkstyle, maven license **/
+
 package com.rylinaux.plugman;
 
+import com.rylinaux.plugman.utilities.ConfigurationManager;
+import com.rylinaux.plugman.utilities.Messaging;
+import com.rylinaux.plugman.utilities.Profiler;
+import com.rylinaux.plugman.utilities.Updater;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,52 +16,91 @@ import org.mcstats.Metrics;
 
 public class PlugMan extends JavaPlugin {
 
-    private final Utilities utils = new Utilities(this);
+    private static final String METRICS_URL = "http://mcstats.org/plugin/PlugMan";
 
-    private final List<String> skipPlugins = new ArrayList<String>();
+    private static final String SLUG = "plugman";
+
+    private ConfigurationManager configurationManager = null;
+
+    private Messaging messaging = null;
 
     @Override
     public void onDisable() {
-        skipPlugins.clear();
+        configurationManager.unload();
     }
 
     @Override
     public void onEnable() {
-        initConfig();
+
+        Profiler profiler = new Profiler("Config");
+        profiler.start();
+
+        configurationManager = new ConfigurationManager(this, this.getConfig());
+        configurationManager.load();
+
         initCommands();
         initMetrics();
-    }
+        initUpdater();
 
-    private void initConfig() {
-        try {
-            this.getConfig().options().copyDefaults(true);
-            skipPlugins.addAll(this.getConfig().getStringList("skip-on-reload"));
-            this.saveConfig();
-        } catch (Exception e) {
-            this.getLogger().log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
-            skipPlugins.clear();
-        }
+        profiler.end();
+        log(Level.INFO, profiler.toString());
+
     }
 
     private void initCommands() {
-        this.getCommand("plugman").setExecutor(new PlugManCommands(this));
+        this.getCommand("plugman").setExecutor(new PlugManCommandExecutor(this));
     }
 
     private void initMetrics() {
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-            this.getLogger().log(Level.INFO, "Metrics successfully started!");
-        } catch (IOException e) {
-            this.getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
+        boolean useMetrics = (boolean) configurationManager.get("use-metrics");
+        if (useMetrics) {
+            try {
+                Metrics metrics = new Metrics(this);
+                metrics.start();
+                log(Level.INFO, "Metrics started (%s).", METRICS_URL);
+            } catch (IOException e) {
+                log(Level.WARNING, "Metrics failed to start.");
+            }
+        } else {
+            log(Level.INFO, "Skipping Metrics.");
         }
     }
 
-    public List<String> getSkipped() {
-        return skipPlugins;
+    private void initUpdater() {
+        String updaterType = (String) configurationManager.get("updater-type");
+        if (!updaterType.equalsIgnoreCase("none")) {
+            Updater updater = null;
+            boolean showProgress = this.getConfig().getBoolean("update-progress");
+            switch (updaterType) {
+                case "download":
+                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.DEFAULT, showProgress);
+                    break;
+                case "check":
+                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, showProgress);
+                    break;
+                case "force":
+                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, showProgress);
+                    break;
+            }
+            Updater.UpdateResult result = updater.getResult();
+            switch (result) {
+                case SUCCESS:
+                    log(Level.INFO, "Updater successfully downloaded new version - restart server for changes to apply.");
+            }
+        } else {
+            log(Level.INFO, "Skipping Updater.");
+        }
     }
 
-    public Utilities getUtils() {
-        return utils;
+    private void log(Level level, String message) {
+        log(level, message, null);
+    }
+
+    private void log(Level level, String message, Object... args) {
+        this.getLogger().log(level, String.format(message, args));
+    }
+
+    public ConfigurationManager getConfigurationManager() {
+        return configurationManager;
     }
 }
