@@ -1,84 +1,52 @@
 package com.rylinaux.plugman.utilities;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.ChatColor;
 
 public class Messaging {
 
-    private JavaPlugin plugin;
+    public static final String PREFIX = ChatColor.GRAY + "[" + ChatColor.GREEN + "PlugMan" + ChatColor.GRAY + "] ";
 
-    private File file = null;
+    public static final String UPDATE_AVAILABLE = PREFIX + "An update is available: %s (Current version: %s)";
 
-    private FileConfiguration config = null;
+    public static final String NO_PERMISSION = PREFIX + "You don't have permission for this.";
 
-    private String fileName = "messaging.yml";
+    public static final String NO_EXIST = PREFIX + "Plugin doesn't exist.";
 
-    private Map<String, String> cache = new HashMap<>();
+    public static final String MUST_SPECIFY = PREFIX + "Must specify a plugin.";
 
-    public Messaging(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
+    public static final String ENABLED = PREFIX + "%s has been enabled.";
 
-    public void load() {
-        for (String key : config.getKeys(false)) {
-            cache.put(key.toLowerCase(), config.getString(key));
-        }
-    }
+    public static final String DISABLED = PREFIX + "%s has been disabled.";
 
-    public void unload() {
-        cache.clear();
-    }
+    public static final String ALREADY_ENABLED = PREFIX + "%s is already enabled.";
 
-    public String get(String path) {
-        if (cache.keySet().contains(path.toLowerCase())) {
-            return cache.get(path);
-        }
-        return null;
-    }
+    public static final String ALREADY_DISABLED = PREFIX + "%s is already disabled.";
 
-    public void reload() {
-        if (file == null) {
-            file = new File(plugin.getDataFolder(), fileName);
-        }
-        config = YamlConfiguration.loadConfiguration(file);
-        InputStream defConfigStream = plugin.getResource(fileName);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            config.setDefaults(defConfig);
-        }
-    }
+    public static final String LIST = PREFIX + "Plugins: ";
 
-    public FileConfiguration getConfig() {
-        if (config == null) {
-            reload();
-        }
-        return config;
-    }
+    public static final String RELOADED = PREFIX + "%s has been reloaded.";
 
-    public void save() {
-        if (config != null && file != null) {
-            try {
-                getConfig().save(file);
-            } catch (IOException e) {
-                plugin.getLogger().log(Level.SEVERE, "Could not save config to " + file, e);
-            }
-        }
-    }
+    public static final String HELP_HEADER = ChatColor.GRAY + "--------------------- [" + ChatColor.GREEN + " PlugMan " + ChatColor.GRAY + "] ---------------------";
 
-    public void saveDefaults() {
-        if (file == null) {
-            file = new File(plugin.getDataFolder(), fileName);
-        }
-        if (!file.exists()) {
-            this.plugin.saveResource(fileName, false);
-        }
-    }
+    public static final String HELP_LIST = ChatColor.GREEN + "/plugman list [-v]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "List all plugins.";
+
+    public static final String HELP_INFO = ChatColor.GREEN + "/plugman info [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Give plugin info.";
+
+    public static final String HELP_USAGE = ChatColor.GREEN + "/plugman usage [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "List command plugin has registered.";
+
+    public static final String HELP_STATUS = ChatColor.GREEN + "/plugman status [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Give the status of a plugin.";
+
+    public static final String HELP_LOAD = ChatColor.GREEN + "/plugman load [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Load a plugin.";
+
+    public static final String HELP_UNLOAD = ChatColor.GREEN + "/plugman unload [plugin]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Unload a plugin.";
+
+    public static final String HELP_RELOAD = ChatColor.GREEN + "/plugman reload [plugin|all]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Reload a plugin.";
+
+    public static final String HELP_RESTART = ChatColor.GREEN + "/plugman restart [plugin|all]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Restart a plugin.";
+
+    public static final String HELP_ENABLE = ChatColor.GREEN + "/plugman enable [plugin|all]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Enable a plugin.";
+
+    public static final String HELP_DISABLE = ChatColor.GREEN + "/plugman disable [plugin|all]" + ChatColor.WHITE + " - " + ChatColor.GRAY + "Disable a plugin.";
+
+
 }

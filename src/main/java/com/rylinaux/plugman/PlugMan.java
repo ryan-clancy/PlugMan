@@ -1,10 +1,5 @@
-/** TODO: Maven checkstyle, maven license **/
-
 package com.rylinaux.plugman;
 
-import com.rylinaux.plugman.utilities.ConfigurationManager;
-import com.rylinaux.plugman.utilities.Messaging;
-import com.rylinaux.plugman.utilities.Profiler;
 import com.rylinaux.plugman.utilities.Updater;
 
 import java.io.IOException;
@@ -18,33 +13,31 @@ public class PlugMan extends JavaPlugin {
 
     private static final String METRICS_URL = "http://mcstats.org/plugin/PlugMan";
 
-    private static final String SLUG = "plugman";
+    private static final int PROJECT_ID = 36006;
 
-    private ConfigurationManager configurationManager = null;
-
-    private Messaging messaging = null;
+    private boolean updateAvailable = false;
 
     @Override
     public void onDisable() {
-        configurationManager.unload();
     }
 
     @Override
     public void onEnable() {
 
-        Profiler profiler = new Profiler("Config");
-        profiler.start();
+        PlugManConfiguration configuration = new PlugManConfiguration(this, this.getConfig());
+        configuration.cache();
+        configuration.printCache();
 
-        configurationManager = new ConfigurationManager(this, this.getConfig());
-        configurationManager.load();
-
+        initConfig();
         initCommands();
         initMetrics();
         initUpdater();
 
-        profiler.end();
-        log(Level.INFO, profiler.toString());
+    }
 
+    private void initConfig() {
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
     }
 
     private void initCommands() {
@@ -52,55 +45,76 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void initMetrics() {
-        boolean useMetrics = (boolean) configurationManager.get("use-metrics");
+        boolean useMetrics = this.getConfig().getBoolean("use-metrics");
         if (useMetrics) {
             try {
                 Metrics metrics = new Metrics(this);
                 metrics.start();
-                log(Level.INFO, "Metrics started (%s).", METRICS_URL);
+                this.getLogger().log(Level.INFO, "Metrics started (%s).", METRICS_URL);
             } catch (IOException e) {
-                log(Level.WARNING, "Metrics failed to start.");
+                this.getLogger().log(Level.WARNING, "Metrics failed to start.");
             }
         } else {
-            log(Level.INFO, "Skipping Metrics.");
+            this.getLogger().log(Level.INFO, "Skipping Metrics.");
         }
     }
 
     private void initUpdater() {
-        String updaterType = (String) configurationManager.get("updater-type");
+        String updaterType = this.getConfig().getString("updater-type");
         if (!updaterType.equalsIgnoreCase("none")) {
             Updater updater = null;
             boolean showProgress = this.getConfig().getBoolean("update-progress");
             switch (updaterType) {
                 case "download":
-                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.DEFAULT, showProgress);
+                    updater = new Updater(this, PROJECT_ID, this.getFile(), Updater.UpdateType.DEFAULT, showProgress);
                     break;
                 case "check":
-                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, showProgress);
+                    updater = new Updater(this, PROJECT_ID, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, showProgress);
                     break;
                 case "force":
-                    updater = new Updater(this, SLUG, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, showProgress);
+                    updater = new Updater(this, PROJECT_ID, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, showProgress);
                     break;
             }
             Updater.UpdateResult result = updater.getResult();
             switch (result) {
                 case SUCCESS:
-                    log(Level.INFO, "Updater successfully downloaded new version - restart server for changes to apply.");
+                    this.getLogger().log(Level.INFO, "A new update has been downloaded. Please restart the server for the changes to take effect.");
+                    break;
+                case NO_UPDATE:
+                    this.getLogger().log(Level.INFO, "No update was found.");
+                    break;
+                case DISABLED:
+                    this.getLogger().log(Level.INFO, "Updater did not run, it is globally disabled.");
+                    break;
+                case FAIL_DOWNLOAD:
+                    this.getLogger().log(Level.WARNING, "An update was found, but failed to download.");
+                    break;
+                case FAIL_DBO:
+                    this.getLogger().log(Level.WARNING, "Updater was unable to connect with dev.bukkit.org to look for updates.");
+                    break;
+                case FAIL_NOVERSION:
+                    this.getLogger().log(Level.WARNING, "Invalid version name on dev.bukkit.org - please contact the author.");
+                    break;
+                case FAIL_BADID:
+                    this.getLogger().log(Level.WARNING, "The project ID was invalid or could not be found.");
+                    break;
+                case FAIL_APIKEY:
+                    this.getLogger().log(Level.WARNING, "Invalid API key.");
+                    break;
+                case UPDATE_AVAILABLE:
+                    this.getLogger().log(Level.INFO, "A new update has been found. Please visit \"" + updater.getLatestFileLink() + "\" to download it.");
+                    updateAvailable = true;
+                    break;
+                default:
+                    this.getLogger().log(Level.WARNING, "An unexpected result was recieved from Updater.");
+                    break;
             }
         } else {
-            log(Level.INFO, "Skipping Updater.");
+            this.getLogger().log(Level.INFO, "Skipping Updater.");
         }
     }
 
-    private void log(Level level, String message) {
-        log(level, message, null);
-    }
-
-    private void log(Level level, String message, Object... args) {
-        this.getLogger().log(level, String.format(message, args));
-    }
-
-    public ConfigurationManager getConfigurationManager() {
-        return configurationManager;
+    public boolean isUpdateAvailable() {
+        return updateAvailable;
     }
 }

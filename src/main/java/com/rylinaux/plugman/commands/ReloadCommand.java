@@ -8,11 +8,12 @@ import com.rylinaux.plugman.utilities.Utilities;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EnableCommand extends SimpleCommand implements SimpleCommandExecutor {
+public class ReloadCommand extends SimpleCommand implements SimpleCommandExecutor {
 
-    public EnableCommand(JavaPlugin plugin, CommandSender sender, Command command, String label, String[] args, String permission) {
+    public ReloadCommand(JavaPlugin plugin, CommandSender sender, Command command, String label, String[] args, String permission) {
         super(plugin, sender, command, label, args, permission);
     }
 
@@ -35,16 +36,13 @@ public class EnableCommand extends SimpleCommand implements SimpleCommandExecuto
             return;
         }
 
-        if (target.isEnabled()) {
-            sender.sendMessage(String.format(Messaging.ALREADY_ENABLED, target.getName()));
-            return;
-        }
+        PluginManager pluginManager = plugin.getServer().getPluginManager();
 
-        // TODO: Enable all plugins
+        pluginManager.disablePlugin(target);
+        pluginManager.enablePlugin(target);
 
-        Utilities.enable(target);
+        sender.sendMessage(String.format(Messaging.RELOADED, target.getName()));
 
-        sender.sendMessage(String.format(Messaging.ENABLED, target.getName()));
     }
 
 }

@@ -1,9 +1,6 @@
 # /plugman debug true/false -s (save to config)
 debug: false
 
-# PlugMan requires Java 7 or above to function properly, only set this to true if you know you are on Java 7 (or above) but the version check fails.
-skip-java-version-check: false
-
 # Should we use Metrics stat collection?
 use-metrics: true
 
