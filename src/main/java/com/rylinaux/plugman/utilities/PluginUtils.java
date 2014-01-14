@@ -1,6 +1,7 @@
 package com.rylinaux.plugman.utilities;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
 public class PluginUtils {
@@ -29,6 +30,17 @@ public class PluginUtils {
         }
     }
 
+    public static String getFormattedName(Plugin plugin) {
+        return getFormattedName(plugin, false);
+    }
+
+    public static String getFormattedName(Plugin plugin, boolean includeVersions) {
+        ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
+        if (includeVersions)
+            return color + plugin.getDescription().getFullName();
+        return color + plugin.getDescription().getName();
+    }
+
     public static Plugin getPluginByName(String[] args, int start) {
         String plugin = args[start];
         if (args.length > (start + 1)) {
@@ -36,7 +48,7 @@ public class PluginUtils {
                 plugin = plugin + " " + args[i];
             }
         }
-        return Bukkit.getPluginManager().getPlugin(plugin);
+        return Bukkit.getServer().getPluginManager().getPlugin(plugin);
     }
 
 }
