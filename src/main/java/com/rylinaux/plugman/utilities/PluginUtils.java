@@ -18,7 +18,9 @@ public class PluginUtils {
 
     public static void disable(Plugin plugin) {
         if (plugin.isEnabled() && plugin != null)
-            Bukkit.getServer().getPluginManager().disablePlugin(plugin);
+            // Don't disable ourself, for safety reasons.
+            if (!plugin.getName().equalsIgnoreCase("PlugMan"))
+                Bukkit.getServer().getPluginManager().disablePlugin(plugin);
     }
 
     public static void disableAll() {
