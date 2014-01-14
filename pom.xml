@@ -20,6 +20,10 @@
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
         <repository>
+            <id>gravity</id>
+            <url>http://repo.gravitydevelopment.net</url>
+        </repository>
+        <repository>
             <id>metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
@@ -35,7 +39,11 @@
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics</artifactId>
             <version>R7</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.gravitydevelopment.updater</groupId>
+            <artifactId>updater</artifactId>
+            <version>2.1</version>
         </dependency>
     </dependencies>
 
