@@ -9,17 +9,17 @@ import org.bukkit.plugin.Plugin;
 
 // TODO: Add functionality for all plugins to be enabled, and/or for multiple to be listed.
 
-public class EnableCommand extends AbstractCommand {
+public class DisableCommand extends AbstractCommand {
 
-    public static final String DESCRIPTION = "Enable a plugin.";
+    public static final String DESCRIPTION = "Disable a plugin.";
 
-    public static final String PERMISSION = "plugman.enable";
+    public static final String PERMISSION = "plugman.disable";
 
-    public static final String USAGE = "/plugman enable [plugin|all]";
+    public static final String USAGE = "/plugman disable [plugin|all]";
 
     public static final String[] SUB_PERMISSIONS = {"all"};
 
-    public EnableCommand(CommandSender sender) {
+    public DisableCommand(CommandSender sender) {
         super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -37,8 +37,8 @@ public class EnableCommand extends AbstractCommand {
 
         if (args[1].equalsIgnoreCase("all")) {
             if (hasPermission("all")) {
-                PluginUtils.enableAll();
-                sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.all"));
+                PluginUtils.disableAll();
+                sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.all"));
             } else {
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
             }
@@ -54,14 +54,14 @@ public class EnableCommand extends AbstractCommand {
 
         // TODO: Change messaging format? "{0} is already enabled." vs "That plugin is already enabled."
 
-        if (target.isEnabled()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.already-enabled", target.getName()));
+        if (!target.isEnabled()) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.already-disabled", target.getName()));
             return;
         }
 
-        PluginUtils.enable(target);
+        PluginUtils.disable(target);
 
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.enabled", target.getName()));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.disabled", target.getName()));
 
     }
 
