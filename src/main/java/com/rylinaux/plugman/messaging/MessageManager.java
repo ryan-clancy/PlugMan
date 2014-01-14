@@ -25,4 +25,8 @@ public class MessageManager {
         return messaging;
     }
 
+    public String raw(String key) {
+        return ChatColor.translateAlternateColorCodes('&', messaging.get(key));
+    }
+
 }
