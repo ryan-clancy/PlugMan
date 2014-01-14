@@ -1,6 +1,11 @@
 package com.rylinaux.plugman;
 
+import com.rylinaux.plugman.listeners.PlugManListener;
 import com.rylinaux.plugman.messaging.MessageManager;
+import com.rylinaux.plugman.metrics.MetricsHandler;
+import com.rylinaux.plugman.updater.UpdaterHandler;
+
+import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,11 +22,47 @@ public class PlugMan extends JavaPlugin {
 
         messageManager = new MessageManager(this);
 
+        this.getCommand("plugman").setExecutor(new PlugManCommands());
+
+        initConfig();
+
+        initAlerts();
+        initMetrics();
+        initUpdater();
+
     }
 
     @Override
     public void onDisable() {
+        instance = null;
+        messageManager = null;
+    }
 
+    private void initAlerts() {
+        boolean alerts = this.getConfig().getBoolean("update-alerts");
+        if (alerts)
+            this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
+    }
+
+    private void initConfig() {
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+    }
+
+    private void initMetrics() {
+        boolean useMetrics = this.getConfig().getBoolean("use-metrics");
+        if (useMetrics)
+            new MetricsHandler(this).run();
+        else
+            this.getLogger().log(Level.INFO, "Skipping Metrics.");
+    }
+
+    private void initUpdater() {
+        String updaterType = this.getConfig().getString("updater-type");
+        if (!updaterType.equalsIgnoreCase("none"))
+            new UpdaterHandler(this, 36006, this.getFile(), updaterType, true).run();
+        else
+            this.getLogger().log(Level.INFO, "Skipping Updater.");
     }
 
     public static PlugMan getInstance() {
