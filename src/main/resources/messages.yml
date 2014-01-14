@@ -1,0 +1,7 @@
+enable:
+  already-enabled: '{0} is already enabled.'
+  enabled: '{0} has been enabled.'
+error:
+  invalid-plugin: '&4That is not a valid plugin.'
+  no-permission: '&4You do not have permission to do this.'
+  specify-plugin: '&4You must specify a plugin.'

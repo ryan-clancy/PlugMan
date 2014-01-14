@@ -1,50 +1,58 @@
 package com.rylinaux.plugman.commands;
 
-import com.rylinaux.plugman.contructs.SimpleCommand;
-import com.rylinaux.plugman.contructs.SimpleCommandExecutor;
-import com.rylinaux.plugman.utilities.Messaging;
-import com.rylinaux.plugman.utilities.Utilities;
+import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.utilities.PluginUtils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class EnableCommand extends SimpleCommand implements SimpleCommandExecutor {
+// TODO: Add functionality for all plugins to be enabled, and/or for multiple to be listed.
 
-    public EnableCommand(JavaPlugin plugin, CommandSender sender, Command command, String label, String[] args, String permission) {
-        super(plugin, sender, command, label, args, permission);
+public class EnableCommand extends AbstractCommand {
+
+    public static final String DESCRIPTION = "Enable a plugin.";
+
+    public static final String PERMISSION = "plugman.enable";
+
+    public static final String USAGE = "/plugman enable";
+
+    public static final String[] SUB_PERMISSIONS = {"all"};
+
+    public EnableCommand(CommandSender sender) {
+        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
-    public void execute() {
+    public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(Messaging.NO_PERMISSION);
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
             return;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(Messaging.MUST_SPECIFY);
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
             return;
         }
 
-        Plugin target = Utilities.getPluginByName(args, 1);
+        Plugin target = PluginUtils.getPluginByName(args, 1);
 
         if (target == null) {
-            sender.sendMessage(String.format(Messaging.NO_EXIST));
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
             return;
         }
+
+        // TODO: Change messaging format? "{0} is already enabled." vs "That plugin is already enabled."
 
         if (target.isEnabled()) {
-            sender.sendMessage(String.format(Messaging.ALREADY_ENABLED, target.getName()));
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.already-enabled", target.getName()));
             return;
         }
 
-        // TODO: Enable all plugins
+        PluginUtils.enable(target);
 
-        Utilities.enable(target);
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.enabled", target.getName()));
 
-        sender.sendMessage(String.format(Messaging.ENABLED, target.getName()));
     }
 
 }
