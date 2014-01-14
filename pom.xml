@@ -80,6 +80,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit</include>
+                                    <include>net.gravitydevelopment.updater</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
