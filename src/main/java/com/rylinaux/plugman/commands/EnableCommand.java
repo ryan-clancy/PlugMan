@@ -23,6 +23,7 @@ public class EnableCommand extends AbstractCommand {
         super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
+    @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
