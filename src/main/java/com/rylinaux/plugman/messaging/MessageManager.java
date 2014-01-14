@@ -16,7 +16,7 @@ public class MessageManager {
     public String format(String key, Object... args) {
         String message = messaging.get("prefix") + messaging.get(key);
         for (int i = 0; i < args.length; i++) {
-            message.replaceAll("{" + i + "}", String.valueOf(args[i]));
+            message = message.replace("{" + i + "}", String.valueOf(args[i]));
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }
