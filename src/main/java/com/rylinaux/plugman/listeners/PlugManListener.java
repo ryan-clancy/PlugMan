@@ -21,9 +21,9 @@ public class PlugManListener implements Listener {
         Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-               if (UpdaterHandler.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
+                if (UpdaterHandler.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
                     event.getPlayer().sendMessage(plugin.getMessageManager().format("updater.available"));
-               }
+                }
             }
         }, 100L);
     }

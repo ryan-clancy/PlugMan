@@ -1,7 +1,5 @@
 package com.rylinaux.plugman.utilities;
 
-import org.apache.commons.lang.Validate;
-
 import com.rylinaux.plugman.PlugMan;
 
 import java.io.File;

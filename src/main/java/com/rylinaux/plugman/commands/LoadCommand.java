@@ -3,13 +3,9 @@ package com.rylinaux.plugman.commands;
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.utilities.PluginUtils;
 
-import java.io.File;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 
 public class LoadCommand extends AbstractCommand {
 
