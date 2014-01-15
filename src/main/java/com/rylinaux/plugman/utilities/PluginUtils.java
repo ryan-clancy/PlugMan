@@ -1,17 +1,29 @@
 package com.rylinaux.plugman.utilities;
 
+import com.google.common.base.Joiner;
+
 import com.rylinaux.plugman.PlugMan;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredListener;
 
 public class PluginUtils {
 
@@ -78,6 +90,34 @@ public class PluginUtils {
         return plugins;
     }
 
+    public static String getUsages(Plugin plugin) {
+
+        List<String> parsedCommands = new ArrayList<String>();
+
+        Map commands = plugin.getDescription().getCommands();
+
+        if (commands != null) {
+            Iterator commandsIt = commands.entrySet().iterator();
+            while (commandsIt.hasNext()) {
+                Map.Entry thisEntry = (Map.Entry) commandsIt.next();
+                if (thisEntry != null) {
+                    parsedCommands.add((String) thisEntry.getKey());
+                }
+            }
+        }
+
+        if (parsedCommands.isEmpty()) {
+            return "No commands registered.";
+        }
+
+        return Joiner.on(", ").join(parsedCommands);
+
+    }
+
+    public static String load(Plugin plugin) {
+        return load(plugin.getName());
+    }
+
     public static String load(String name) {
 
         File pluginDir = new File("plugins");
@@ -119,6 +159,118 @@ public class PluginUtils {
         enable(target);
 
         return PlugMan.getInstance().getMessageManager().format("load.loaded", name);
+
+    }
+
+    public static void reload(Plugin plugin) {
+        if (plugin != null) {
+            unload(plugin);
+            load(plugin);
+        }
+    }
+
+    public static void reloadAll() {
+        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+            if (plugin.getName().equalsIgnoreCase("PlugMan"))
+                continue;
+            reload(plugin);
+        }
+    }
+
+    public static String unload(Plugin plugin) {
+
+        String name = plugin.getName();
+
+        PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+
+        SimpleCommandMap commandMap = null;
+
+        List<Plugin> plugins = null;
+
+        Map<String, Plugin> names = null;
+        Map<String, Command> commands = null;
+        Map<Event, SortedSet<RegisteredListener>> listeners = null;
+
+        boolean reloadlisteners = true;
+
+        if (pluginManager != null) {
+
+            try {
+
+                Field pluginsField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("plugins");
+                pluginsField.setAccessible(true);
+                plugins = (List<Plugin>) pluginsField.get(pluginManager);
+
+                Field lookupNamesField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("lookupNames");
+                lookupNamesField.setAccessible(true);
+                names = (Map<String, Plugin>) lookupNamesField.get(pluginManager);
+
+                try {
+                    Field listenersField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("listeners");
+                    listenersField.setAccessible(true);
+                    listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(pluginManager);
+                } catch (Exception e) {
+                    reloadlisteners = false;
+                }
+
+                Field commandMapField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
+                commandMapField.setAccessible(true);
+                commandMap = (SimpleCommandMap) commandMapField.get(pluginManager);
+
+                Field knownCommandsField = commandMap.getClass().getDeclaredField("knownCommands");
+                knownCommandsField.setAccessible(true);
+                commands = (Map<String, Command>) knownCommandsField.get(commandMap);
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+                return PlugMan.getInstance().getMessageManager().format("unload.failed", name);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return PlugMan.getInstance().getMessageManager().format("unload.failed", name);
+            }
+        }
+
+        for (Plugin p : Bukkit.getServer().getPluginManager().getPlugins()) {
+
+            if (p.getDescription().getName().equalsIgnoreCase(name)) {
+
+                pluginManager.disablePlugin(p);
+
+                if (plugins != null && plugins.contains(p)) {
+                    plugins.remove(p);
+                }
+
+                if (names != null && names.containsKey(name)) {
+                    names.remove(name);
+                }
+
+                if (listeners != null && reloadlisteners) {
+                    for (SortedSet<RegisteredListener> set : listeners.values()) {
+                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext(); ) {
+                            RegisteredListener value = it.next();
+                            if (value.getPlugin() == p) {
+                                it.remove();
+                            }
+                        }
+                    }
+                }
+
+                if (commandMap != null) {
+                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
+                        Map.Entry<String, Command> entry = it.next();
+                        if (entry.getValue() instanceof PluginCommand) {
+                            PluginCommand c = (PluginCommand) entry.getValue();
+                            if (c.getPlugin() == p) {
+                                c.unregister(commandMap);
+                                it.remove();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return PlugMan.getInstance().getMessageManager().format("unload.unloaded", name);
 
     }
 
