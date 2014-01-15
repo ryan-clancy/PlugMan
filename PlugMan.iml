@@ -12,6 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.7.2-R0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.mcstats.bukkit:metrics:R7" level="project" />
+    <orderEntry type="library" name="Maven: net.gravitydevelopment.updater:updater:2.1" level="project" />
   </component>
 </module>
 
