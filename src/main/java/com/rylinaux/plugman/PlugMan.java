@@ -23,6 +23,7 @@ public class PlugMan extends JavaPlugin {
         messageManager = new MessageManager(this);
 
         this.getCommand("plugman").setExecutor(new PlugManCommands());
+        this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());
 
         initConfig();
 
