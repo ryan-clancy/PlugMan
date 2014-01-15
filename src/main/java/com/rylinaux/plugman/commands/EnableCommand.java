@@ -7,8 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-// TODO: Add functionality for all plugins to be enabled, and/or for multiple to be listed.
-
 public class EnableCommand extends AbstractCommand {
 
     public static final String DESCRIPTION = "Enable a plugin.";
@@ -52,8 +50,6 @@ public class EnableCommand extends AbstractCommand {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
             return;
         }
-
-        // TODO: Change messaging format? "{0} is already enabled." vs "That plugin is already enabled."
 
         if (target.isEnabled()) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.already-enabled", target.getName()));
