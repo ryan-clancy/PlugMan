@@ -1,5 +1,8 @@
 package com.rylinaux.plugman.utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -49,6 +52,14 @@ public class PluginUtils {
             }
         }
         return Bukkit.getServer().getPluginManager().getPlugin(plugin);
+    }
+
+    public static List<String> getPluginNames() {
+        List<String> plugins = new ArrayList<>();
+        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+            plugins.add(plugin.getName());
+        }
+        return plugins;
     }
 
 }

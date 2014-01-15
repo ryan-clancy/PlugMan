@@ -1,15 +1,15 @@
 package com.rylinaux.plugman;
 
+import com.rylinaux.plugman.utilities.PluginUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.StringUtil;
 
 public class PlugManTabCompleter implements TabCompleter {
@@ -28,9 +28,9 @@ public class PlugManTabCompleter implements TabCompleter {
         }
 
         if (args.length == 2) {
-            String partial = args[1];
-            List<String> plugins = getPluginNames();
-            StringUtil.copyPartialMatches(partial, plugins, completions);
+            String partialPlugin = args[1];
+            List<String> plugins = PluginUtils.getPluginNames();
+            StringUtil.copyPartialMatches(partialPlugin, plugins, completions);
         }
 
         Collections.sort(completions);
@@ -39,11 +39,4 @@ public class PlugManTabCompleter implements TabCompleter {
 
     }
 
-    private List<String> getPluginNames() {
-        List<String> plugins = new ArrayList<>();
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
-            plugins.add(plugin.getName());
-        }
-        return plugins;
-    }
 }
