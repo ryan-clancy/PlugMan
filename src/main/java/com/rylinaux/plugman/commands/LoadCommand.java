@@ -17,7 +17,7 @@ public class LoadCommand extends AbstractCommand {
 
     public static final String PERMISSION = "plugman.load";
 
-    public static final String USAGE = "/plugman enable [plugin]";
+    public static final String USAGE = "/plugman load [plugin]";
 
     public static final String[] SUB_PERMISSIONS = {""};
 
