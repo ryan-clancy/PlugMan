@@ -1,11 +1,4 @@
-# /plugman debug true/false -s (save to config)
-debug: false
-
-# Should we use Metrics stat collection?
+ignored-plugins: []
 use-metrics: true
-
-# Determine which type of updater we should use.
-# Available options:
-#   - download: this is the default mode and will automatically download the plugin and have it ready for the next restart.
-#   - check: this checks for a new version and alerts you if a new version is available.
+update-alerts: true
 updater-type: download
