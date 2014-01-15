@@ -41,7 +41,9 @@ public class LoadCommand extends AbstractCommand {
             return;
         }
 
-        sender.sendMessage(PluginUtils.load(args));
+        String name = PluginUtils.consolidateStrings(args, 1);
+
+        sender.sendMessage(PluginUtils.load(name));
 
     }
 }

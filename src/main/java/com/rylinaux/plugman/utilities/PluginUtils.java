@@ -78,9 +78,7 @@ public class PluginUtils {
         return plugins;
     }
 
-    public static String load(String[] args) {
-
-        String name = consolidateStrings(args, 1);
+    public static String load(String name) {
 
         File pluginDir = new File("plugins");
 
