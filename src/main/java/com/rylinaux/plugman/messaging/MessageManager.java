@@ -14,7 +14,11 @@ public class MessageManager {
     }
 
     public String format(String key, Object... args) {
-        String message = messaging.get("prefix") + messaging.get(key);
+        return format(true, key, args);
+    }
+
+    public String format(boolean prefix, String key, Object... args) {
+        String message = prefix ? messaging.get("prefix") + messaging.get(key) : messaging.get(key);
         for (int i = 0; i < args.length; i++) {
             message = message.replace("{" + i + "}", String.valueOf(args[i]));
         }
@@ -23,10 +27,6 @@ public class MessageManager {
 
     public CustomConfiguration getMessaging() {
         return messaging;
-    }
-
-    public String raw(String key) {
-        return ChatColor.translateAlternateColorCodes('&', messaging.get(key));
     }
 
 }
