@@ -46,13 +46,13 @@ public class DisableCommand extends AbstractCommand {
 
         Plugin target = PluginUtils.getPluginByName(args, 1);
 
-        if (target.getName().equalsIgnoreCase("PlugMan")) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.itself"));
+        if (target == null) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
             return;
         }
 
-        if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
+        if (target.getName().equalsIgnoreCase("PlugMan")) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.itself"));
             return;
         }
 
