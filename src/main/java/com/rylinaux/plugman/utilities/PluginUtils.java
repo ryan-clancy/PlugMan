@@ -30,9 +30,8 @@ public class PluginUtils {
     public static String consolidateStrings(String[] args, int start) {
         String plugin = args[start];
         if (args.length > (start + 1)) {
-            for (int i = (start + 1); i < args.length; i++) {
+            for (int i = (start + 1); i < args.length; i++)
                 plugin = plugin + " " + args[i];
-            }
         }
         return plugin;
     }
@@ -43,9 +42,8 @@ public class PluginUtils {
     }
 
     public static void enableAll() {
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
             enable(plugin);
-        }
     }
 
     public static void disable(Plugin plugin) {
@@ -73,20 +71,21 @@ public class PluginUtils {
     }
 
     public static Plugin getPluginByName(String[] args, int start) {
-        String plugin = args[start];
-        if (args.length > (start + 1)) {
-            for (int i = (start + 1); i < args.length; i++) {
-                plugin = plugin + " " + args[i];
-            }
+        return getPluginByName(consolidateStrings(args, 1));
+    }
+
+    public static Plugin getPluginByName(String name) {
+        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+            if (name.equalsIgnoreCase(plugin.getName()))
+                return plugin;
         }
-        return Bukkit.getServer().getPluginManager().getPlugin(plugin);
+        return null;
     }
 
     public static List<String> getPluginNames() {
         List<String> plugins = new ArrayList<>();
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
             plugins.add(plugin.getName());
-        }
         return plugins;
     }
 
@@ -100,15 +99,13 @@ public class PluginUtils {
             Iterator commandsIt = commands.entrySet().iterator();
             while (commandsIt.hasNext()) {
                 Map.Entry thisEntry = (Map.Entry) commandsIt.next();
-                if (thisEntry != null) {
+                if (thisEntry != null)
                     parsedCommands.add((String) thisEntry.getKey());
-                }
             }
         }
 
-        if (parsedCommands.isEmpty()) {
+        if (parsedCommands.isEmpty())
             return "No commands registered.";
-        }
 
         return Joiner.on(", ").join(parsedCommands);
 
@@ -122,9 +119,8 @@ public class PluginUtils {
 
         File pluginDir = new File("plugins");
 
-        if (!pluginDir.isDirectory()) {
+        if (!pluginDir.isDirectory())
             return PlugMan.getInstance().getMessageManager().format("load.plugin-directory");
-        }
 
         File pluginFile = new File(pluginDir, name + ".jar");
 
@@ -236,13 +232,11 @@ public class PluginUtils {
 
                 pluginManager.disablePlugin(p);
 
-                if (plugins != null && plugins.contains(p)) {
+                if (plugins != null && plugins.contains(p))
                     plugins.remove(p);
-                }
 
-                if (names != null && names.containsKey(name)) {
+                if (names != null && names.containsKey(name))
                     names.remove(name);
-                }
 
                 if (listeners != null && reloadlisteners) {
                     for (SortedSet<RegisteredListener> set : listeners.values()) {
