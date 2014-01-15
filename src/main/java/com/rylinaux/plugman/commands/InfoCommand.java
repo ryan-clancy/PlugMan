@@ -1,8 +1,11 @@
 package com.rylinaux.plugman.commands;
 
+import com.google.common.base.Joiner;
+
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.utilities.PluginUtils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -41,7 +44,15 @@ public class InfoCommand extends AbstractCommand {
             return;
         }
 
-        // TODO: Info
+        String name = target.getName();
+        String version = target.getDescription().getVersion();
+        String authors = Joiner.on(", ").join(target.getDescription().getAuthors());
+        String status = target.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
+
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("info.header", name));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "info.version", version));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "info.authors", authors));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "info.status", status));
 
     }
 }
