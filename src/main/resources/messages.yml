@@ -1,7 +1,53 @@
+prefix: '&7[&aPlugMan&7] '
+disable:
+  all: '&9All plugins have been disabled (excluding PlugMan).'
+  already-disabled: '&c{0} is already disabled.'
+  disabled: '&9{0} has been disabled.'
 enable:
-  already-enabled: '{0} is already enabled.'
-  enabled: '{0} has been enabled.'
+  all: '&9All plugins have been enabled.'
+  already-enabled: '&c{0} is already enabled.'
+  enabled: '&9{0} has been enabled.'
 error:
-  invalid-plugin: '&4That is not a valid plugin.'
-  no-permission: '&4You do not have permission to do this.'
-  specify-plugin: '&4You must specify a plugin.'
+  invalid-plugin: '&cThat is not a valid plugin.'
+  itself: '&cPlugMan cannot perform such actions on itself.'
+  no-permission: '&cYou do not have permission to do this.'
+  specify-plugin: '&cYou must specify a plugin.'
+help:
+  header: '&7--------------------- [&a PlugMan &7] ---------------------'
+  help: '&7- &a/plugman help &f- &7Displays this.'
+  list: '&7- &a/plugman list [-v] &f- &7List all plugins.'
+  info: '&7- &a/plugman info [plugin] &f- &7Get info on a plugin.'
+  usage: '&7- &a/plugman usage [plugin] &f- &7List commands a plugin has registered.'
+  enable: '&7- &a/plugman enable [plugin|all] &f- &7Enable a plugin.'
+  disable: '&7- &a/plugman disable [plugin|all] &f- &7Disable a plugin.'
+  restart: '&7- &a/plugman restart [plugin|all] &f- &7Restart a plugin.'
+  load: '&7- &a/plugman load [plugin] &f- &7Load a plugin.'
+  reload: '&7- &a/plugman reload [plugin] &f- &7Reload a plugin.'
+  unload: '&7- &a/plugman unload [plugin] &f- &7Unload a plugin.'
+info:
+  header: 'Plugin Information: {0}'
+  version: '&7- Version: &a{0}'
+  authors: '&7- Author(s): &a{0}'
+  status: '&7- Status: {0}'
+list:
+  list: '&9Plugins: {0}'
+load:
+  already-loaded: '&c{0} is already loaded.'
+  cannot-find: '&cCould not find file and failed to search descriptions.'
+  invalid-description: '&cThat plugin has an invalid description.'
+  invalid-plugin: '&cThat file is not a valid plugin.'
+  loaded: '&9{0} has been loaded and enabled.'
+  plugin-dir: '&cPlugin directory not found.'
+reload:
+  all: '&9All plugins have been reloaded.'
+  reloaded: '&9{0} has been reloaded.'
+restart:
+  all: '&9All plugins have been restarted.'
+  restarted: '&9{0} has been restarted.'
+unload:
+  failed: '&cFailed to unload {0}.'
+  unloaded: '&9{0} has been unloaded.'
+updater:
+  available: '&9A new update is available: &ahttp://dev.bukkit.org/bukkit-plugins/plugman/'
+usage:
+  usage: '&9Commands: &7{0}'
