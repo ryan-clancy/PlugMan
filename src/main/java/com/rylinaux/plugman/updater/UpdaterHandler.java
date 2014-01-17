@@ -9,7 +9,7 @@ import java.util.logging.Level;
 
 public class UpdaterHandler {
 
-    private static boolean updateAvailable = true;
+    private static boolean updateAvailable = false;
 
     private final PlugMan plugin;
 
