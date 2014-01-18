@@ -15,7 +15,7 @@ public class CustomConfiguration {
 
     private final JavaPlugin plugin;
 
-    private final Map<String, String> cache = new HashMap<String, String>();
+    private final Map<String, String> cache = new HashMap<>();
 
     private final String fileName;
 

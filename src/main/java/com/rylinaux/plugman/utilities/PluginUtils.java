@@ -83,7 +83,7 @@ public class PluginUtils {
     }
 
     public static List<String> getPluginNames() {
-        List<String> plugins = new ArrayList<String>();
+        List<String> plugins = new ArrayList<>();
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
             plugins.add(plugin.getName());
         return plugins;
@@ -91,7 +91,7 @@ public class PluginUtils {
 
     public static String getUsages(Plugin plugin) {
 
-        List<String> parsedCommands = new ArrayList<String>();
+        List<String> parsedCommands = new ArrayList<>();
 
         Map commands = plugin.getDescription().getCommands();
 
