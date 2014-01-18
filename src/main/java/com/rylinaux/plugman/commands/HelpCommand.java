@@ -31,7 +31,8 @@ public class HelpCommand extends AbstractCommand {
         ConfigurationSection help = PlugMan.getInstance().getMessageManager().getMessaging().getConfig().getConfigurationSection("help");
 
         for (String s : help.getKeys(false)) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, help.getName() + "." + s));
+            if (sender.hasPermission("plugman." + s) || s.equalsIgnoreCase("header"))
+                sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, help.getName() + "." + s));
         }
 
     }
