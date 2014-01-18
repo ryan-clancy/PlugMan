@@ -1,62 +1,86 @@
 package com.rylinaux.plugman;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import com.rylinaux.plugman.listeners.PlugManListener;
+import com.rylinaux.plugman.messaging.MessageManager;
+import com.rylinaux.plugman.metrics.MetricsHandler;
+import com.rylinaux.plugman.updater.UpdaterHandler;
+
 import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import org.mcstats.Metrics;
-
 public class PlugMan extends JavaPlugin {
 
-    private final Utilities utils = new Utilities(this);
+    private static PlugMan instance = null;
 
-    private final List<String> skipPlugins = new ArrayList<String>();
+    private List<String> ignoredPlugins = null;
 
-    @Override
-    public void onDisable() {
-        skipPlugins.clear();
-    }
+    private MessageManager messageManager = null;
 
     @Override
     public void onEnable() {
+
+        instance = this;
+
+        messageManager = new MessageManager(this);
+
+        this.getCommand("plugman").setExecutor(new PlugManCommands());
+        this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());
+
         initConfig();
-        initCommands();
+
+        initAlerts();
         initMetrics();
+        initUpdater();
+
+    }
+
+    @Override
+    public void onDisable() {
+        instance = null;
+        messageManager = null;
+        ignoredPlugins = null;
+    }
+
+    private void initAlerts() {
+        boolean alerts = this.getConfig().getBoolean("update-alerts");
+        if (alerts)
+            this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
     }
 
     private void initConfig() {
-        try {
-            this.getConfig().options().copyDefaults(true);
-            skipPlugins.addAll(this.getConfig().getStringList("skip-on-reload"));
-            this.saveConfig();
-        } catch (Exception e) {
-            this.getLogger().log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
-            skipPlugins.clear();
-        }
-    }
-
-    private void initCommands() {
-        this.getCommand("plugman").setExecutor(new PlugManCommands(this));
+        this.getConfig().options().copyDefaults(true);
+        ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
+        this.saveConfig();
     }
 
     private void initMetrics() {
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-            this.getLogger().log(Level.INFO, "Metrics successfully started!");
-        } catch (IOException e) {
-            this.getLogger().log(Level.SEVERE, "Failed to start Metrics!{0}", e);
-        }
+        boolean useMetrics = this.getConfig().getBoolean("use-metrics");
+        if (useMetrics)
+            new MetricsHandler(this).run();
+        else
+            this.getLogger().log(Level.INFO, "Skipping Metrics.");
     }
 
-    public List<String> getSkipped() {
-        return skipPlugins;
+    private void initUpdater() {
+        String updaterType = this.getConfig().getString("updater-type");
+        if (!updaterType.equalsIgnoreCase("none"))
+            new UpdaterHandler(this, 36006, this.getFile(), updaterType, true).run();
+        else
+            this.getLogger().log(Level.INFO, "Skipping Updater.");
     }
 
-    public Utilities getUtils() {
-        return utils;
+    public static PlugMan getInstance() {
+        return instance;
     }
+
+    public List<String> getIgnoredPlugins() {
+        return ignoredPlugins;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
+
 }

@@ -1,39 +1,43 @@
 name: PlugMan
 main: com.rylinaux.plugman.PlugMan
-version: 1.8.5
-description: Plugin Manager for Bukkit
-authors: rylinaux
+version: 2.0.0-DEV-1
+description: Plugin Manager For Bukkit Plugins
+author: rylinaux
 commands:
   plugman:
-    description: Manage Plugins Status.
-    usage: /plugman [help|list|vlist]
-           /plugman test [node] [player]
-           /plugman [info|usage|status|load|unload|reload|restart|enable|disable] [plugin]
+    description: Manage plugins.
+    usage: /plugman help
+           /plugman list [-v]
+           /plugman [enable|disable|restart] [plugin|all]
+           /plugman [info|usage|load|reload|unload] [plugin]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.
+    default: op
     children:
+      plugman.update: true
+      plugman.help: true
       plugman.help: true
       plugman.list: true
-      plugman.vlist: true
       plugman.info: true
       plugman.usage: true
-      plugman.status: true
-      plugman.test: true
-      plugman.load: true
-      plugman.unload: true
-      plugman.reload: true
-      plugman.restart: true
       plugman.enable: true
+      plugman.enable.all: true
       plugman.disable: true
+      plugman.disable.all: true
+      plugman.restart: true
+      plugman.restart.all: true
+      plugman.load: true
+      plugman.reload: true
+      plugman.unload: true
+  plugman.update:
+    description: Allows the player to see the update alerts.
+    default: op
   plugman.help:
     description: Allows use of the help command.
     default: op
   plugman.list:
     description: Allows use of the list command.
-    default: op
-  plugman.vlist:
-    description: Allows use of the vlist command.
     default: op
   plugman.info:
     description: Allows use of the info command.
@@ -41,27 +45,30 @@ permissions:
   plugman.usage:
     description: Allows use of the usage command.
     default: op
-  plugman.status:
-    description: Allows use of the status command.
+  plugman.enable:
+    description: Allows use of the enable command.
     default: op
-  plugman.test:
-    description: Allowed use of the test command.
+  plugman.enable.all:
+    description: Allows use of the enable all command.
     default: op
-  plugman.load:
-    description: Allows use of the load command.
+  plugman.disable:
+    description: Allows use of the disable command.
     default: op
-  plugman.unload:
-    description: Allows use of the unload command.
+  plugman.disable.all:
+    description: Allows use of the disable all command.
     default: op
   plugman.restart:
     description: Allows use of the restart command.
     default: op
+  plugman.restart.all:
+    description: Allows use of the restart all command.
+    default: op
+  plugman.load:
+    description: Allows use of the load command.
+    default: op
   plugman.reload:
     description: Allows use of the reload command.
     default: op
-  plugman.enable:
-    description: Allows use of the enable command.
-    default: op
-  plugman.disable:
-    description: Allows use of the disable command.
+  plugman.unload:
+    description: Allows use of the unload command.
     default: op
