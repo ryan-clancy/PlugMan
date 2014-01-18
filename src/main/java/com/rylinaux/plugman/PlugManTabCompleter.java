@@ -19,11 +19,11 @@ public class PlugManTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-        List<String> completions = new ArrayList<>();
+        List<String> completions = new ArrayList<String>();
 
         if (args.length == 1) {
             String partialCommand = args[0];
-            List<String> commands = new ArrayList<>(Arrays.asList(COMMANDS));
+            List<String> commands = new ArrayList<String>(Arrays.asList(COMMANDS));
             StringUtil.copyPartialMatches(partialCommand, commands, completions);
         }
 

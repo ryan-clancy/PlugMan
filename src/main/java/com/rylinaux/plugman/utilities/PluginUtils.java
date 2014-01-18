@@ -83,7 +83,7 @@ public class PluginUtils {
     }
 
     public static List<String> getPluginNames() {
-        List<String> plugins = new ArrayList<>();
+        List<String> plugins = new ArrayList<String>();
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
             plugins.add(plugin.getName());
         return plugins;
