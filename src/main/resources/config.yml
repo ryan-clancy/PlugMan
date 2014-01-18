@@ -1,4 +1,5 @@
-ignored-plugins: []
+ignored-plugins:
+  - PlugMan
 use-metrics: true
 update-alerts: true
 updater-type: download
