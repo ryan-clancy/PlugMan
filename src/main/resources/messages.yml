@@ -8,8 +8,8 @@ enable:
   already-enabled: '&c{0} is already enabled.'
   enabled: '&9{0} has been enabled.'
 error:
+  ignored: '&cPlugMan is configured to ignore that plugin.'
   invalid-plugin: '&cThat is not a valid plugin.'
-  itself: '&cPlugMan cannot perform such actions on itself.'
   no-permission: '&cYou do not have permission to do this.'
   specify-plugin: '&cYou must specify a plugin.'
 help:
