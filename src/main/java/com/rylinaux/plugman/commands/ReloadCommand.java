@@ -13,7 +13,7 @@ public class ReloadCommand extends AbstractCommand {
 
     public static final String PERMISSION = "plugman.reload";
 
-    public static final String USAGE = "/plugman load [plugin|all]";
+    public static final String USAGE = "/plugman reload [plugin|all]";
 
     public static final String[] SUB_PERMISSIONS = {"all"};
 
