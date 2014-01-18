@@ -41,8 +41,8 @@ public class UnloadCommand extends AbstractCommand {
             return;
         }
 
-        if (target.getName().equalsIgnoreCase("PlugMan")) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.itself"));
+        if (PluginUtils.isIgnored(target)) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
             return;
         }
 

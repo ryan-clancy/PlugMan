@@ -43,6 +43,11 @@ public class LoadCommand extends AbstractCommand {
 
         String name = PluginUtils.consolidateStrings(args, 1);
 
+        if (PluginUtils.isIgnored(name)) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
+            return;
+        }
+
         sender.sendMessage(PluginUtils.load(name));
 
     }

@@ -51,6 +51,11 @@ public class EnableCommand extends AbstractCommand {
             return;
         }
 
+        if (PluginUtils.isIgnored(target)) {
+            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
+            return;
+        }
+
         if (target.isEnabled()) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.already-enabled", target.getName()));
             return;

@@ -5,6 +5,7 @@ import com.rylinaux.plugman.messaging.MessageManager;
 import com.rylinaux.plugman.metrics.MetricsHandler;
 import com.rylinaux.plugman.updater.UpdaterHandler;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,6 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     private static PlugMan instance = null;
+
+    private List<String> ignoredPlugins = null;
 
     private MessageManager messageManager = null;
 
@@ -37,6 +40,7 @@ public class PlugMan extends JavaPlugin {
     public void onDisable() {
         instance = null;
         messageManager = null;
+        ignoredPlugins = null;
     }
 
     private void initAlerts() {
@@ -47,6 +51,7 @@ public class PlugMan extends JavaPlugin {
 
     private void initConfig() {
         this.getConfig().options().copyDefaults(true);
+        ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
         this.saveConfig();
     }
 
@@ -68,6 +73,10 @@ public class PlugMan extends JavaPlugin {
 
     public static PlugMan getInstance() {
         return instance;
+    }
+
+    public List<String> getIgnoredPlugins() {
+        return ignoredPlugins;
     }
 
     public MessageManager getMessageManager() {

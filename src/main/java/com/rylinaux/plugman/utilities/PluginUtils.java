@@ -43,7 +43,8 @@ public class PluginUtils {
 
     public static void enableAll() {
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
-            enable(plugin);
+            if (!isIgnored(plugin))
+                enable(plugin);
     }
 
     public static void disable(Plugin plugin) {
@@ -53,9 +54,8 @@ public class PluginUtils {
 
     public static void disableAll() {
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (plugin.getName().equalsIgnoreCase("PlugMan"))
-                continue;
-            disable(plugin);
+            if (!isIgnored(plugin))
+                disable(plugin);
         }
     }
 
@@ -111,11 +111,25 @@ public class PluginUtils {
 
     }
 
+    public static boolean isIgnored(Plugin plugin) {
+        return isIgnored(plugin.getName());
+    }
+
+    public static boolean isIgnored(String plugin) {
+        for (String name : PlugMan.getInstance().getIgnoredPlugins()) {
+            if (name.equalsIgnoreCase(plugin))
+                return true;
+        }
+        return false;
+    }
+
     public static String load(Plugin plugin) {
         return load(plugin.getName());
     }
 
     public static String load(String name) {
+
+        Plugin target = null;
 
         File pluginDir = new File("plugins");
 
@@ -141,7 +155,7 @@ public class PluginUtils {
         }
 
         try {
-            Bukkit.getServer().getPluginManager().loadPlugin(pluginFile);
+            target = Bukkit.getServer().getPluginManager().loadPlugin(pluginFile);
         } catch (InvalidDescriptionException e) {
             e.printStackTrace();
             return PlugMan.getInstance().getMessageManager().format("load.invalid-description");
@@ -150,9 +164,8 @@ public class PluginUtils {
             return PlugMan.getInstance().getMessageManager().format("load.invalid-plugin");
         }
 
-        Plugin target = Bukkit.getServer().getPluginManager().getPlugin(name);
         target.onLoad();
-        enable(target);
+        Bukkit.getServer().getPluginManager().enablePlugin(target);
 
         return PlugMan.getInstance().getMessageManager().format("load.loaded", name);
 
@@ -167,9 +180,8 @@ public class PluginUtils {
 
     public static void reloadAll() {
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (plugin.getName().equalsIgnoreCase("PlugMan"))
-                continue;
-            reload(plugin);
+            if (!isIgnored(plugin))
+                reload(plugin);
         }
     }
 
@@ -226,39 +238,33 @@ public class PluginUtils {
             }
         }
 
-        for (Plugin p : Bukkit.getServer().getPluginManager().getPlugins()) {
+        pluginManager.disablePlugin(plugin);
 
-            if (p.getDescription().getName().equalsIgnoreCase(name)) {
+        if (plugins != null && plugins.contains(plugin))
+            plugins.remove(plugin);
 
-                pluginManager.disablePlugin(p);
+        if (names != null && names.containsKey(name))
+            names.remove(name);
 
-                if (plugins != null && plugins.contains(p))
-                    plugins.remove(p);
-
-                if (names != null && names.containsKey(name))
-                    names.remove(name);
-
-                if (listeners != null && reloadlisteners) {
-                    for (SortedSet<RegisteredListener> set : listeners.values()) {
-                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext(); ) {
-                            RegisteredListener value = it.next();
-                            if (value.getPlugin() == p) {
-                                it.remove();
-                            }
-                        }
+        if (listeners != null && reloadlisteners) {
+            for (SortedSet<RegisteredListener> set : listeners.values()) {
+                for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext(); ) {
+                    RegisteredListener value = it.next();
+                    if (value.getPlugin() == plugin) {
+                        it.remove();
                     }
                 }
+            }
+        }
 
-                if (commandMap != null) {
-                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
-                        Map.Entry<String, Command> entry = it.next();
-                        if (entry.getValue() instanceof PluginCommand) {
-                            PluginCommand c = (PluginCommand) entry.getValue();
-                            if (c.getPlugin() == p) {
-                                c.unregister(commandMap);
-                                it.remove();
-                            }
-                        }
+        if (commandMap != null) {
+            for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, Command> entry = it.next();
+                if (entry.getValue() instanceof PluginCommand) {
+                    PluginCommand c = (PluginCommand) entry.getValue();
+                    if (c.getPlugin() == plugin) {
+                        c.unregister(commandMap);
+                        it.remove();
                     }
                 }
             }
