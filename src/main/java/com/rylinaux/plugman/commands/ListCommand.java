@@ -48,7 +48,7 @@ public class ListCommand extends AbstractCommand {
 
         String plugins = Joiner.on(", ").join(pluginList);
 
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("list.list", plugins));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("list.list", plugins, pluginList));
 
     }
 

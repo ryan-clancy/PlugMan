@@ -30,7 +30,7 @@ info:
   authors: '&7- Author(s): &a{0}'
   status: '&7- Status: {0}'
 list:
-  list: '&9Plugins: {0}'
+  list: '&9Plugins ({1}): {0}'
 load:
   already-loaded: '&c{0} is already loaded.'
   cannot-find: '&cCould not find file and failed to search descriptions.'
