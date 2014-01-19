@@ -34,7 +34,7 @@ public class RestartCommand extends AbstractCommand {
             return;
         }
 
-        if (args[1].equalsIgnoreCase("all")) {
+        if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
                 PluginUtils.disableAll();
                 PluginUtils.enableAll();

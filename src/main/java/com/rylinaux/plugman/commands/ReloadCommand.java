@@ -34,7 +34,7 @@ public class ReloadCommand extends AbstractCommand {
             return;
         }
 
-        if (args[1].equalsIgnoreCase("all")) {
+        if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
                 PluginUtils.reloadAll();
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("reload.all"));

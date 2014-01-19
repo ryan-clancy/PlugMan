@@ -34,7 +34,7 @@ public class EnableCommand extends AbstractCommand {
             return;
         }
 
-        if (args[1].equalsIgnoreCase("all")) {
+        if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
                 PluginUtils.enableAll();
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("enable.all"));
