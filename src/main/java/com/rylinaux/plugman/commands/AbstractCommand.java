@@ -3,6 +3,7 @@ package com.rylinaux.plugman.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractCommand {
@@ -90,7 +91,7 @@ public abstract class AbstractCommand {
      * @return does the sender have permission
      */
     public boolean hasPermission() {
-        return sender.hasPermission(permission) || isSenderConsole() || isSenderRcon();
+        return sender.hasPermission(permission) || isSenderConsole() || isSenderRemoteConsole();
     }
 
     /**
@@ -101,7 +102,7 @@ public abstract class AbstractCommand {
      */
     public boolean hasPermission(String sub) {
         String permission = String.format("%s.%s", this.permission, sub);
-        return sender.hasPermission(permission) || isSenderConsole() || isSenderRcon();
+        return sender.hasPermission(permission) || isSenderConsole() || isSenderRemoteConsole();
     }
 
     /**
@@ -127,8 +128,8 @@ public abstract class AbstractCommand {
      *
      * @return is the sender rcon
      */
-    public boolean isSenderRcon() {
-        return sender.getName().equalsIgnoreCase("rcon");
+    public boolean isSenderRemoteConsole() {
+        return sender instanceof RemoteConsoleCommandSender;
     }
 
     /**
