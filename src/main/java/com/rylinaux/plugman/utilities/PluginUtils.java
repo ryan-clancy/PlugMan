@@ -225,7 +225,7 @@ public class PluginUtils {
                 commandMapField.setAccessible(true);
                 commandMap = (SimpleCommandMap) commandMapField.get(pluginManager);
 
-                Field knownCommandsField = commandMap.getClass().getDeclaredField("knownCommands");
+                Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
                 commands = (Map<String, Command>) knownCommandsField.get(commandMap);
 
