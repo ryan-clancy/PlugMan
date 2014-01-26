@@ -1,3 +1,11 @@
+###
+# Custom Messaging File.
+#
+# Messaging can include any of the formatting codes found on http://minecraft.gamepedia.com/Formatting_codes and must use the '&' character to denote them.
+# Make sure to include the single quotes around the custom messages.
+# With new updates, this is subject to change and previous versions might not display information properly. Changes will be noted in the changelog.
+###
+
 prefix: '&7[&aPlugMan&7] '
 disable:
   all: '&9All plugins have been disabled (excluding PlugMan).'
