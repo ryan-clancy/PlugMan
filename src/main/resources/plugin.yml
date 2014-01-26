@@ -1,6 +1,6 @@
 name: PlugMan
 main: com.rylinaux.plugman.PlugMan
-version: 2.0.0-DEV-2
+version: 2.0.0-DEV-3
 description: Plugin Manager For Bukkit Plugins
 author: rylinaux
 commands:
