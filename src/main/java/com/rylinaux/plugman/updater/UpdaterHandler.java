@@ -1,11 +1,11 @@
 package com.rylinaux.plugman.updater;
 
-import net.gravitydevelopment.updater.Updater;
-
 import com.rylinaux.plugman.PlugMan;
 
 import java.io.File;
 import java.util.logging.Level;
+
+import net.gravitydevelopment.updater.Updater;
 
 public class UpdaterHandler {
 
