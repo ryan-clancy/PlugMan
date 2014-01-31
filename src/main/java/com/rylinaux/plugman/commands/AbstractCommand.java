@@ -101,7 +101,7 @@ public abstract class AbstractCommand {
      * @return does the sender have permission
      */
     public boolean hasPermission(String sub) {
-        String permission = String.format("%s.%s", this.permission, sub);
+        String permission = this.permission + "." + sub;
         return sender.hasPermission(permission) || isSenderConsole() || isSenderRemoteConsole();
     }
 
