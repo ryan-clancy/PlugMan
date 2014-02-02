@@ -111,7 +111,7 @@ public abstract class AbstractCommand {
      * @return is the sender a player
      */
     public boolean isSenderPlayer() {
-        return sender instanceof Player;
+        return (sender instanceof Player);
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class AbstractCommand {
      * @return is the sender console
      */
     public boolean isSenderConsole() {
-        return sender instanceof ConsoleCommandSender;
+        return (sender instanceof ConsoleCommandSender);
     }
 
     /**
@@ -129,7 +129,7 @@ public abstract class AbstractCommand {
      * @return is the sender rcon
      */
     public boolean isSenderRemoteConsole() {
-        return sender instanceof RemoteConsoleCommandSender;
+        return (sender instanceof RemoteConsoleCommandSender);
     }
 
     /**
