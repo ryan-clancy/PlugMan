@@ -14,7 +14,7 @@ import org.bukkit.util.StringUtil;
 
 public class PlugManTabCompleter implements TabCompleter {
 
-    private static final String[] COMMANDS = {"disable", "enable", "help", "info", "list", "load", "reload", "restart", "test", "unload", "usage"};
+    private static final String[] COMMANDS = {"disable", "enable", "help", "info", "list", "load", "reload", "restart", "unload", "usage"};
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
