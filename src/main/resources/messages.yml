@@ -30,7 +30,7 @@ help:
   disable: '&7- &a/plugman disable [plugin|all] &f- &7Disable a plugin.'
   restart: '&7- &a/plugman restart [plugin|all] &f- &7Restart a plugin.'
   load: '&7- &a/plugman load [plugin] &f- &7Load a plugin.'
-  reload: '&7- &a/plugman reload [plugin] &f- &7Reload a plugin.'
+  reload: '&7- &a/plugman reload [plugin|all] &f- &7Reload a plugin.'
   unload: '&7- &a/plugman unload [plugin] &f- &7Unload a plugin.'
 info:
   header: 'Plugin Information: {0}'
