@@ -16,6 +16,8 @@ import org.bukkit.plugin.Plugin;
 
 public class ListCommand extends AbstractCommand {
 
+    public static final String NAME = "List";
+
     public static final String DESCRIPTION = "List all plugins.";
 
     public static final String PERMISSION = "plugman.list";
@@ -25,7 +27,7 @@ public class ListCommand extends AbstractCommand {
     public static final String[] SUB_PERMISSIONS = {""};
 
     public ListCommand(CommandSender sender) {
-        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
+        super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
     @Override

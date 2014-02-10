@@ -9,6 +9,8 @@ import org.bukkit.plugin.Plugin;
 
 public class LoadCommand extends AbstractCommand {
 
+    public static final String NAME = "Load";
+
     public static final String DESCRIPTION = "Load a plugin.";
 
     public static final String PERMISSION = "plugman.load";
@@ -18,7 +20,7 @@ public class LoadCommand extends AbstractCommand {
     public static final String[] SUB_PERMISSIONS = {""};
 
     public LoadCommand(CommandSender sender) {
-        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
+        super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class LoadCommand extends AbstractCommand {
 
         if (args.length < 2) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
+            sendUsage();
             return;
         }
 

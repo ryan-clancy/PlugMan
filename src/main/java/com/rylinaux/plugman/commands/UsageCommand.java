@@ -9,6 +9,8 @@ import org.bukkit.plugin.Plugin;
 
 public class UsageCommand extends AbstractCommand {
 
+    public static final String NAME = "Usage";
+
     public static final String DESCRIPTION = "List commands a plugin has registered.";
 
     public static final String PERMISSION = "plugman.usage";
@@ -18,7 +20,7 @@ public class UsageCommand extends AbstractCommand {
     public static final String[] SUB_PERMISSIONS = {""};
 
     public UsageCommand(CommandSender sender) {
-        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
+        super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class UsageCommand extends AbstractCommand {
 
         if (args.length < 2) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
+            sendUsage();
             return;
         }
 
@@ -38,6 +41,7 @@ public class UsageCommand extends AbstractCommand {
 
         if (target == null) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
+            sendUsage();
             return;
         }
 

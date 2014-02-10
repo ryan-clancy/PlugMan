@@ -8,6 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class HelpCommand extends AbstractCommand {
 
+    public static final String NAME = "Help";
+
     public static final String DESCRIPTION = "Displays help information.";
 
     public static final String PERMISSION = "plugman.help";
@@ -17,7 +19,7 @@ public class HelpCommand extends AbstractCommand {
     public static final String[] SUB_PERMISSIONS = {""};
 
     public HelpCommand(CommandSender sender) {
-        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
+        super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
     @Override

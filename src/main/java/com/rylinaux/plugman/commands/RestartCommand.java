@@ -9,6 +9,8 @@ import org.bukkit.plugin.Plugin;
 
 public class RestartCommand extends AbstractCommand {
 
+    public static final String NAME = "Restart";
+
     public static final String DESCRIPTION = "Restart a plugin.";
 
     public static final String PERMISSION = "plugman.restart";
@@ -18,7 +20,7 @@ public class RestartCommand extends AbstractCommand {
     public static final String[] SUB_PERMISSIONS = {"all"};
 
     public RestartCommand(CommandSender sender) {
-        super(sender, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
+        super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class RestartCommand extends AbstractCommand {
 
         if (args.length < 2) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
+            sendUsage();
             return;
         }
 
@@ -49,6 +52,7 @@ public class RestartCommand extends AbstractCommand {
 
         if (target == null) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
+            sendUsage();
             return;
         }
 
