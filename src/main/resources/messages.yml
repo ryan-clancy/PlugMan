@@ -20,6 +20,10 @@ error:
   invalid-plugin: '&cThat is not a valid plugin.'
   no-permission: '&cYou do not have permission to do this.'
   specify-plugin: '&cYou must specify a plugin.'
+  usage:
+    command: '&9Command: &7{0}'
+    description: '&9Description: &7{0}'
+    usage: '&9Usage: &7{0}'
 help:
   header: '&7--------------------- [&a PlugMan &7] ---------------------'
   help: '&7- &a/plugman help &f- &7Displays this.'
