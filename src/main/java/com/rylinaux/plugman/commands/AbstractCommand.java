@@ -1,5 +1,7 @@
 package com.rylinaux.plugman.commands;
 
+import com.rylinaux.plugman.PlugMan;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -12,6 +14,11 @@ public abstract class AbstractCommand {
      * The command's sender
      */
     private final CommandSender sender;
+
+    /**
+     * The command's name
+     */
+    private final String name;
 
     /**
      * The command's description
@@ -41,8 +48,9 @@ public abstract class AbstractCommand {
      * @param permission  the permission to use the command
      * @param usage       the proper usage of the command
      */
-    public AbstractCommand(CommandSender sender, String description, String permission, String[] subPermissions, String usage) {
+    public AbstractCommand(CommandSender sender, String name, String description, String permission, String[] subPermissions, String usage) {
         this.sender = sender;
+        this.name = name;
         this.description = description;
         this.permission = permission;
         this.subPermissions = subPermissions;
@@ -56,6 +64,15 @@ public abstract class AbstractCommand {
      */
     public CommandSender getSender() {
         return sender;
+    }
+
+    /**
+     * Gets the name of the command
+     *
+     * @return the command's name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -103,6 +120,15 @@ public abstract class AbstractCommand {
     public boolean hasPermission(String sub) {
         String permission = this.permission + "." + sub;
         return sender.hasPermission(permission) || isSenderConsole() || isSenderRemoteConsole();
+    }
+
+    /**
+     * Sends the usage message to the sender
+     */
+    public void sendUsage() {
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.command", name));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.description", description));
+        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.usage", usage));
     }
 
     /**
