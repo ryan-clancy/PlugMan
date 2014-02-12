@@ -48,6 +48,7 @@
     </dependencies>
 
     <build>
+        <finalName>PlugMan</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
