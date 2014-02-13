@@ -7,16 +7,31 @@ import java.util.logging.Level;
 
 import org.mcstats.Metrics;
 
-public class MetricsHandler {
+public class MetricsHandler implements Runnable {
 
+    /**
+     * The URL to the Metrics page.
+     */
     private static final String METRICS_URL = "http://mcstats.org/plugin/PlugMan";
 
+    /**
+     * The plugin instance
+     */
     private final PlugMan plugin;
 
+    /**
+     * Construct out object
+     *
+     * @param plugin the plugin instance
+     */
     public MetricsHandler(PlugMan plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Start metrics.
+     */
+    @Override
     public void run() {
         try {
             Metrics metrics = new Metrics(plugin);

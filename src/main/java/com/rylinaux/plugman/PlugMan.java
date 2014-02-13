@@ -8,6 +8,7 @@ import com.rylinaux.plugman.updater.UpdaterHandler;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
@@ -57,18 +58,20 @@ public class PlugMan extends JavaPlugin {
 
     private void initMetrics() {
         boolean useMetrics = this.getConfig().getBoolean("use-metrics");
-        if (useMetrics)
-            new MetricsHandler(this).run();
-        else
+        if (useMetrics) {
+            Bukkit.getScheduler().runTask(this, new MetricsHandler(this));
+        } else {
             this.getLogger().log(Level.INFO, "Skipping Metrics.");
+        }
     }
 
     private void initUpdater() {
         String updaterType = this.getConfig().getString("updater-type");
-        if (!updaterType.equalsIgnoreCase("none"))
-            new UpdaterHandler(this, 36006, this.getFile(), updaterType, true).run();
-        else
+        if (!updaterType.equalsIgnoreCase("none")) {
+            Bukkit.getScheduler().runTask(this, new UpdaterHandler(this, 36006, this.getFile(), updaterType, true));
+        } else {
             this.getLogger().log(Level.INFO, "Skipping Updater.");
+        }
     }
 
     public static PlugMan getInstance() {

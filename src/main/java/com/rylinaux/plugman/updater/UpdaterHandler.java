@@ -7,20 +7,47 @@ import java.util.logging.Level;
 
 import net.gravitydevelopment.updater.Updater;
 
-public class UpdaterHandler {
+public class UpdaterHandler implements Runnable {
 
+    /**
+     * Whether an update is available or .
+     */
     private static boolean updateAvailable = false;
 
+    /**
+     * The instance of the plugin.
+     */
     private final PlugMan plugin;
 
+    /**
+     * ID of the DBO project.
+     */
     private final int id;
 
+    /**
+     * The plugin's file.
+     */
     private final File file;
 
+    /**
+     * The type of Updater to use.
+     */
     private final String updaterType;
 
+    /**
+     * Whether to make the output verbose.
+     */
     private final boolean verbose;
 
+    /**
+     * Construct our object.
+     *
+     * @param plugin      the plugin instance
+     * @param id          the id of the dbo project
+     * @param file        the plugin's file
+     * @param updaterType the type of updater
+     * @param verbose     whether output if verbose
+     */
     public UpdaterHandler(PlugMan plugin, int id, File file, String updaterType, boolean verbose) {
         this.plugin = plugin;
         this.id = id;
@@ -29,6 +56,10 @@ public class UpdaterHandler {
         this.verbose = verbose;
     }
 
+    /**
+     * Run the updater.
+     */
+    @Override
     public void run() {
 
         Updater.UpdateType type;
@@ -86,6 +117,11 @@ public class UpdaterHandler {
 
     }
 
+    /**
+     * Returns whether an update is available.
+     *
+     * @return whether an update is available
+     */
     public static boolean isUpdateAvailable() {
         return updateAvailable;
     }
