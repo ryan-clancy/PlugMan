@@ -62,7 +62,7 @@ public class PluginUtil {
     }
 
     public static Plugin getPluginByName(String[] args, int start) {
-        return getPluginByName(StringUtil.consolidateStrings(args, 1));
+        return getPluginByName(StringUtil.consolidateStrings(args, start));
     }
 
     public static Plugin getPluginByName(String name) {
