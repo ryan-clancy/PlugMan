@@ -16,7 +16,7 @@ public class PlugManListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onJoin(final PlayerJoinEvent event) {
         Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
