@@ -7,22 +7,24 @@ import java.util.logging.Level;
 
 import net.gravitydevelopment.updater.Updater;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 public class UpdaterHandler implements Runnable {
 
     /**
-     * Whether an update is available or .
+     * Whether an update is available.
      */
     private static boolean updateAvailable = false;
 
     /**
-     * The instance of the plugin.
-     */
-    private final PlugMan plugin;
-
-    /**
      * ID of the DBO project.
      */
-    private final int id;
+    private static final int ID = 36006;
+
+    /**
+     * The instance of the plugin.
+     */
+    private final JavaPlugin plugin;
 
     /**
      * The plugin's file.
@@ -35,25 +37,16 @@ public class UpdaterHandler implements Runnable {
     private final String updaterType;
 
     /**
-     * Whether to make the output verbose.
-     */
-    private final boolean verbose;
-
-    /**
      * Construct our object.
      *
      * @param plugin      the plugin instance
-     * @param id          the id of the dbo project
      * @param file        the plugin's file
      * @param updaterType the type of updater
-     * @param verbose     whether output if verbose
      */
-    public UpdaterHandler(PlugMan plugin, int id, File file, String updaterType, boolean verbose) {
+    public UpdaterHandler(JavaPlugin plugin, File file, String updaterType) {
         this.plugin = plugin;
-        this.id = id;
         this.file = file;
         this.updaterType = updaterType;
-        this.verbose = verbose;
     }
 
     /**
@@ -78,7 +71,7 @@ public class UpdaterHandler implements Runnable {
                 type = Updater.UpdateType.DEFAULT;
         }
 
-        Updater updater = new Updater(plugin, id, file, type, verbose);
+        Updater updater = new Updater(plugin, ID, file, type, true);
 
         Updater.UpdateResult result = updater.getResult();
 

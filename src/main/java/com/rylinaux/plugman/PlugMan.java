@@ -68,7 +68,7 @@ public class PlugMan extends JavaPlugin {
     private void initUpdater() {
         String updaterType = this.getConfig().getString("updater-type");
         if (!updaterType.equalsIgnoreCase("none")) {
-            Bukkit.getScheduler().runTask(this, new UpdaterHandler(this, 36006, this.getFile(), updaterType, true));
+            Bukkit.getScheduler().runTask(this, new UpdaterHandler(this, this.getFile(), updaterType));
         } else {
             this.getLogger().log(Level.INFO, "Skipping Updater.");
         }

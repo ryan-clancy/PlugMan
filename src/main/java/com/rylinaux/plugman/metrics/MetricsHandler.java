@@ -5,6 +5,8 @@ import com.rylinaux.plugman.PlugMan;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import org.mcstats.Metrics;
 
 public class MetricsHandler implements Runnable {
@@ -17,14 +19,14 @@ public class MetricsHandler implements Runnable {
     /**
      * The plugin instance
      */
-    private final PlugMan plugin;
+    private final JavaPlugin plugin;
 
     /**
      * Construct out object
      *
      * @param plugin the plugin instance
      */
-    public MetricsHandler(PlugMan plugin) {
+    public MetricsHandler(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
