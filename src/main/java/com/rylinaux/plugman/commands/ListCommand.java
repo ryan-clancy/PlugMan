@@ -42,7 +42,7 @@ public class ListCommand extends AbstractCommand {
 
         List<String> pluginList = Lists.newArrayList();
 
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             pluginList.add(PluginUtil.getFormattedName(plugin, includeVersions));
         }
 

@@ -18,7 +18,7 @@ public class PlugManListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onJoin(final PlayerJoinEvent event) {
-        Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 if (UpdaterHandler.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {

@@ -29,22 +29,22 @@ public class PluginUtil {
 
     public static void enable(Plugin plugin) {
         if (!plugin.isEnabled() && plugin != null)
-            Bukkit.getServer().getPluginManager().enablePlugin(plugin);
+            Bukkit.getPluginManager().enablePlugin(plugin);
     }
 
     public static void enableAll() {
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
             if (!isIgnored(plugin))
                 enable(plugin);
     }
 
     public static void disable(Plugin plugin) {
         if (plugin.isEnabled() && plugin != null)
-            Bukkit.getServer().getPluginManager().disablePlugin(plugin);
+            Bukkit.getPluginManager().disablePlugin(plugin);
     }
 
     public static void disableAll() {
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (!isIgnored(plugin))
                 disable(plugin);
         }
@@ -66,7 +66,7 @@ public class PluginUtil {
     }
 
     public static Plugin getPluginByName(String name) {
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (name.equalsIgnoreCase(plugin.getName()))
                 return plugin;
         }
@@ -75,7 +75,7 @@ public class PluginUtil {
 
     public static List<String> getPluginNames() {
         List<String> plugins = new ArrayList<>();
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins())
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
             plugins.add(plugin.getName());
         return plugins;
     }
@@ -146,7 +146,7 @@ public class PluginUtil {
         }
 
         try {
-            target = Bukkit.getServer().getPluginManager().loadPlugin(pluginFile);
+            target = Bukkit.getPluginManager().loadPlugin(pluginFile);
         } catch (InvalidDescriptionException e) {
             e.printStackTrace();
             return PlugMan.getInstance().getMessageManager().format("load.invalid-description");
@@ -156,7 +156,7 @@ public class PluginUtil {
         }
 
         target.onLoad();
-        Bukkit.getServer().getPluginManager().enablePlugin(target);
+        Bukkit.getPluginManager().enablePlugin(target);
 
         return PlugMan.getInstance().getMessageManager().format("load.loaded", name);
 
@@ -170,7 +170,7 @@ public class PluginUtil {
     }
 
     public static void reloadAll() {
-        for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (!isIgnored(plugin))
                 reload(plugin);
         }
@@ -180,7 +180,7 @@ public class PluginUtil {
 
         String name = plugin.getName();
 
-        PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+        PluginManager pluginManager = Bukkit.getPluginManager();
 
         SimpleCommandMap commandMap = null;
 
@@ -196,23 +196,23 @@ public class PluginUtil {
 
             try {
 
-                Field pluginsField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("plugins");
+                Field pluginsField = Bukkit.getPluginManager().getClass().getDeclaredField("plugins");
                 pluginsField.setAccessible(true);
                 plugins = (List<Plugin>) pluginsField.get(pluginManager);
 
-                Field lookupNamesField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("lookupNames");
+                Field lookupNamesField = Bukkit.getPluginManager().getClass().getDeclaredField("lookupNames");
                 lookupNamesField.setAccessible(true);
                 names = (Map<String, Plugin>) lookupNamesField.get(pluginManager);
 
                 try {
-                    Field listenersField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("listeners");
+                    Field listenersField = Bukkit.getPluginManager().getClass().getDeclaredField("listeners");
                     listenersField.setAccessible(true);
                     listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(pluginManager);
                 } catch (Exception e) {
                     reloadlisteners = false;
                 }
 
-                Field commandMapField = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
+                Field commandMapField = Bukkit.getPluginManager().getClass().getDeclaredField("commandMap");
                 commandMapField.setAccessible(true);
                 commandMap = (SimpleCommandMap) commandMapField.get(pluginManager);
 
