@@ -1,6 +1,6 @@
 package com.rylinaux.plugman;
 
-import com.rylinaux.plugman.utilities.PluginUtils;
+import com.rylinaux.plugman.utilities.PluginUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class PlugManTabCompleter implements TabCompleter {
 
         if (args.length == 2) {
             String partialPlugin = args[1];
-            List<String> plugins = PluginUtils.getPluginNames();
+            List<String> plugins = PluginUtil.getPluginNames();
             StringUtil.copyPartialMatches(partialPlugin, plugins, completions);
         }
 

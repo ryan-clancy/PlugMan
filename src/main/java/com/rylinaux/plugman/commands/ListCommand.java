@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtils;
+import com.rylinaux.plugman.utilities.PluginUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +43,7 @@ public class ListCommand extends AbstractCommand {
         List<String> pluginList = Lists.newArrayList();
 
         for (Plugin plugin : Bukkit.getServer().getPluginManager().getPlugins()) {
-            pluginList.add(PluginUtils.getFormattedName(plugin, includeVersions));
+            pluginList.add(PluginUtil.getFormattedName(plugin, includeVersions));
         }
 
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);

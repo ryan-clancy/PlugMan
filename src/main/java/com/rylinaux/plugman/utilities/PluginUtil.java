@@ -25,16 +25,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
-public class PluginUtils {
-
-    public static String consolidateStrings(String[] args, int start) {
-        String plugin = args[start];
-        if (args.length > (start + 1)) {
-            for (int i = (start + 1); i < args.length; i++)
-                plugin = plugin + " " + args[i];
-        }
-        return plugin;
-    }
+public class PluginUtil {
 
     public static void enable(Plugin plugin) {
         if (!plugin.isEnabled() && plugin != null)
@@ -71,7 +62,7 @@ public class PluginUtils {
     }
 
     public static Plugin getPluginByName(String[] args, int start) {
-        return getPluginByName(consolidateStrings(args, 1));
+        return getPluginByName(StringUtil.consolidateStrings(args, 1));
     }
 
     public static Plugin getPluginByName(String name) {

@@ -1,7 +1,7 @@
 package com.rylinaux.plugman.commands;
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtils;
+import com.rylinaux.plugman.utilities.PluginUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +39,7 @@ public class ReloadCommand extends AbstractCommand {
 
         if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
-                PluginUtils.reloadAll();
+                PluginUtil.reloadAll();
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("reload.all"));
             } else {
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
@@ -47,7 +47,7 @@ public class ReloadCommand extends AbstractCommand {
             return;
         }
 
-        Plugin target = PluginUtils.getPluginByName(args, 1);
+        Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
@@ -55,12 +55,12 @@ public class ReloadCommand extends AbstractCommand {
             return;
         }
 
-        if (PluginUtils.isIgnored(target)) {
+        if (PluginUtil.isIgnored(target)) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
             return;
         }
 
-        PluginUtils.reload(target);
+        PluginUtil.reload(target);
 
         sender.sendMessage(PlugMan.getInstance().getMessageManager().format("reload.reloaded", target.getName()));
 

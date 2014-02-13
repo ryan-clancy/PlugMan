@@ -3,7 +3,7 @@ package com.rylinaux.plugman.commands;
 import com.google.common.base.Joiner;
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtils;
+import com.rylinaux.plugman.utilities.PluginUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -40,7 +40,7 @@ public class InfoCommand extends AbstractCommand {
             return;
         }
 
-        Plugin target = PluginUtils.getPluginByName(args, 1);
+        Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));

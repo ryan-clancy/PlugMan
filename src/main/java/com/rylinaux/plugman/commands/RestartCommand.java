@@ -1,7 +1,7 @@
 package com.rylinaux.plugman.commands;
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtils;
+import com.rylinaux.plugman.utilities.PluginUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,8 +39,8 @@ public class RestartCommand extends AbstractCommand {
 
         if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
-                PluginUtils.disableAll();
-                PluginUtils.enableAll();
+                PluginUtil.disableAll();
+                PluginUtil.enableAll();
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("restart.all"));
             } else {
                 sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
@@ -48,7 +48,7 @@ public class RestartCommand extends AbstractCommand {
             return;
         }
 
-        Plugin target = PluginUtils.getPluginByName(args, 1);
+        Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
@@ -56,13 +56,13 @@ public class RestartCommand extends AbstractCommand {
             return;
         }
 
-        if (PluginUtils.isIgnored(target)) {
+        if (PluginUtil.isIgnored(target)) {
             sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
             return;
         }
 
-        PluginUtils.disable(target);
-        PluginUtils.enable(target);
+        PluginUtil.disable(target);
+        PluginUtil.enable(target);
 
         sender.sendMessage(PlugMan.getInstance().getMessageManager().format("restart.restarted", target.getName()));
 
