@@ -94,6 +94,15 @@ public abstract class AbstractCommand {
     }
 
     /**
+     * Gets the sub permissions associated with the command
+     *
+     * @return the command's sub permissions
+     */
+    public String[] getSubPermissions() {
+        return subPermissions;
+    }
+
+    /**
      * Gets the proper usage for the command
      *
      * @return the command's usage
