@@ -7,6 +7,11 @@ import net.gravitydevelopment.updater.Updater;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Start the Updater.
+ *
+ * @author rylinaux
+ */
 public class UpdaterHandler implements Runnable {
 
     /**

@@ -15,6 +15,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Listen for commands and execute them.
+ *
+ * @author rylinaux
+ */
 public class PlugManCommands implements CommandExecutor {
 
     @Override

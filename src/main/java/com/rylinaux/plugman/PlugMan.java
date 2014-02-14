@@ -11,6 +11,11 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Plugin manager for Bukkit servers.
+ *
+ * @author rylinaux
+ */
 public class PlugMan extends JavaPlugin {
 
     /**

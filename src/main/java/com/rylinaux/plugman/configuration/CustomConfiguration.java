@@ -11,18 +11,44 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Custom configuration implementation with caching.
+ *
+ * @author rylinaux
+ */
 public class CustomConfiguration {
 
+    /**
+     * The plugin instance.
+     */
     private final JavaPlugin plugin;
 
+    /**
+     * The cache of config values.
+     */
     private final Map<String, String> cache = new HashMap<>();
 
+    /**
+     * The name of the file.
+     */
     private final String fileName;
 
+    /**
+     * The file.
+     */
     private File file = null;
 
+    /**
+     * The configuration.
+     */
     private FileConfiguration customConfig = null;
 
+    /**
+     * Constructs our object.
+     *
+     * @param plugin   the plugin instance
+     * @param fileName the file name
+     */
     public CustomConfiguration(JavaPlugin plugin, String fileName) {
         this.plugin = plugin;
         this.fileName = fileName;
@@ -31,6 +57,9 @@ public class CustomConfiguration {
         cache();
     }
 
+    /**
+     * Clears the cache and re-builds it.
+     */
     public void cache() {
         cache.clear();
         for (String s : getConfig().getKeys(true)) {
@@ -39,28 +68,47 @@ public class CustomConfiguration {
         }
     }
 
+    /**
+     * Copys the defaults to the file.
+     */
     public void copyDefaults() {
         getConfig().options().copyDefaults(true);
         save();
     }
 
-    public String get(String s) {
-        if (cache.containsKey(s))
-            return cache.get(s);
-        else
-            return getConfig().getString(s);
+    /**
+     * Returns the value associated with the key.
+     *
+     * @param key the key
+     * @return the value
+     */
+    public String get(String key) {
+        return cache.containsKey(key) ? cache.get(key) : customConfig.getString(key);
     }
 
+    /**
+     * Get the cache map.
+     *
+     * @return the cache map
+     */
     public Map<String, String> getCache() {
         return cache;
     }
 
+    /**
+     * Returns the config.
+     *
+     * @return the config.
+     */
     public FileConfiguration getConfig() {
         if (customConfig == null)
             reload();
         return customConfig;
     }
 
+    /**
+     * Reload the config.
+     */
     public void reload() {
         if (file == null)
             file = new File(plugin.getDataFolder(), fileName);
@@ -74,6 +122,9 @@ public class CustomConfiguration {
         }
     }
 
+    /**
+     * Save the config.
+     */
     public void save() {
         if (customConfig != null && file != null) {
             try {

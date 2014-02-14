@@ -12,8 +12,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
 
+/**
+ * Completes partial matches in command and plugin names.
+ *
+ * @author rylinaux
+ */
 public class PlugManTabCompleter implements TabCompleter {
 
+    /**
+     * Valid command names.
+     */
     private static final String[] COMMANDS = {"disable", "enable", "help", "info", "list", "load", "reload", "restart", "unload", "usage"};
 
     @Override

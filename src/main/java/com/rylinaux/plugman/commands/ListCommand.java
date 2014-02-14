@@ -14,6 +14,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Command that lists plugins.
+ *
+ * @author rylinaux
+ */
 public class ListCommand extends AbstractCommand {
 
     /**

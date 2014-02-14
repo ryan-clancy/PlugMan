@@ -7,6 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import org.mcstats.Metrics;
 
+/**
+ * Start Metrics.
+ *
+ * @author rylinaux
+ */
 public class MetricsHandler implements Runnable {
 
     /**

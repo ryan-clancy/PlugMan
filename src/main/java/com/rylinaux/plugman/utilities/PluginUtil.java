@@ -25,24 +25,45 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
+/**
+ * Utilities for managing plugins.
+ *
+ * @author rylinaux
+ */
 public class PluginUtil {
 
+    /**
+     * Enable a plugin.
+     *
+     * @param plugin the plugin to enable
+     */
     public static void enable(Plugin plugin) {
         if (!plugin.isEnabled() && plugin != null)
             Bukkit.getPluginManager().enablePlugin(plugin);
     }
 
+    /**
+     * Enable all plugins.
+     */
     public static void enableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
             if (!isIgnored(plugin))
                 enable(plugin);
     }
 
+    /**
+     * Disable a plugin.
+     *
+     * @param plugin the plugin to disable
+     */
     public static void disable(Plugin plugin) {
         if (plugin.isEnabled() && plugin != null)
             Bukkit.getPluginManager().disablePlugin(plugin);
     }
 
+    /**
+     * Disable all plugins.
+     */
     public static void disableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (!isIgnored(plugin))
@@ -50,10 +71,23 @@ public class PluginUtil {
         }
     }
 
+    /**
+     * Returns the formatted name of the plugin.
+     *
+     * @param plugin the plugin to format
+     * @return the formatted name
+     */
     public static String getFormattedName(Plugin plugin) {
         return getFormattedName(plugin, false);
     }
 
+    /**
+     * Returns the formatted name of the plugin.
+     *
+     * @param plugin          the plugin to format
+     * @param includeVersions whether to include the version
+     * @return the formatted name
+     */
     public static String getFormattedName(Plugin plugin, boolean includeVersions) {
         ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
         if (includeVersions)
@@ -61,10 +95,23 @@ public class PluginUtil {
         return color + plugin.getDescription().getName();
     }
 
+    /**
+     * Returns a plugin from an array of Strings.
+     *
+     * @param args  the array
+     * @param start the index to start at
+     * @return the plugin
+     */
     public static Plugin getPluginByName(String[] args, int start) {
         return getPluginByName(StringUtil.consolidateStrings(args, start));
     }
 
+    /**
+     * Returns a plugin from a String.
+     *
+     * @param name the name of the plugin
+     * @return the plugin
+     */
     public static Plugin getPluginByName(String name) {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (name.equalsIgnoreCase(plugin.getName()))
@@ -73,6 +120,11 @@ public class PluginUtil {
         return null;
     }
 
+    /**
+     * Returns a List of plugin names.
+     *
+     * @return list of plugin names
+     */
     public static List<String> getPluginNames() {
         List<String> plugins = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
@@ -80,6 +132,12 @@ public class PluginUtil {
         return plugins;
     }
 
+    /**
+     * Returns the commands a plugin has registered.
+     *
+     * @param plugin the plugin to deal with
+     * @return the commands registered
+     */
     public static String getUsages(Plugin plugin) {
 
         List<String> parsedCommands = new ArrayList<>();
@@ -102,10 +160,22 @@ public class PluginUtil {
 
     }
 
+    /**
+     * Checks whether the plugin is ignored.
+     *
+     * @param plugin the plugin to check
+     * @return whether the plugin is ignored
+     */
     public static boolean isIgnored(Plugin plugin) {
         return isIgnored(plugin.getName());
     }
 
+    /**
+     * Checks whether the plugin is ignored.
+     *
+     * @param plugin the plugin to check
+     * @return whether the plugin is ignored
+     */
     public static boolean isIgnored(String plugin) {
         for (String name : PlugMan.getInstance().getIgnoredPlugins()) {
             if (name.equalsIgnoreCase(plugin))
@@ -114,10 +184,22 @@ public class PluginUtil {
         return false;
     }
 
-    public static String load(Plugin plugin) {
+    /**
+     * Loads and enables a plugin.
+     *
+     * @param plugin plugin to load
+     * @return status message
+     */
+    private static String load(Plugin plugin) {
         return load(plugin.getName());
     }
 
+    /**
+     * Loads and enables a plugin.
+     *
+     * @param name plugin's name
+     * @return status message
+     */
     public static String load(String name) {
 
         Plugin target = null;
@@ -162,6 +244,11 @@ public class PluginUtil {
 
     }
 
+    /**
+     * Reload a plugin.
+     *
+     * @param plugin the plugin to reload
+     */
     public static void reload(Plugin plugin) {
         if (plugin != null) {
             unload(plugin);
@@ -169,6 +256,9 @@ public class PluginUtil {
         }
     }
 
+    /**
+     * Reload all plugins.
+     */
     public static void reloadAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (!isIgnored(plugin))
@@ -176,6 +266,12 @@ public class PluginUtil {
         }
     }
 
+    /**
+     * Unload a plugin.
+     *
+     * @param plugin the plugin to unload
+     * @return
+     */
     public static String unload(Plugin plugin) {
 
         String name = plugin.getName();

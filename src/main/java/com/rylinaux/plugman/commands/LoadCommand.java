@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that lists plugins.
+ * Command that loads plugin(s).
  *
  * @author rylinaux
  */
