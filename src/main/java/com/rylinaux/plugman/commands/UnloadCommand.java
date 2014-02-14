@@ -7,22 +7,55 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Command that unloads plugin(s).
+ *
+ * @author rylinaux
+ */
 public class UnloadCommand extends AbstractCommand {
 
+    /**
+     * The name of the command.
+     */
     public static final String NAME = "Unload";
 
+    /**
+     * The description of the command.
+     */
     public static final String DESCRIPTION = "Unload a plugin.";
 
+    /**
+     * The main permission of the command.
+     */
     public static final String PERMISSION = "plugman.unload";
 
+    /**
+     * The proper usage of the command.
+     */
     public static final String USAGE = "/plugman unload [plugin]";
 
+    /**
+     * The sub permissions of the command.
+     */
     public static final String[] SUB_PERMISSIONS = {""};
 
+    /**
+     * Construct out object.
+     *
+     * @param sender the command sender
+     */
     public UnloadCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
+    /**
+     * Execute the command.
+     *
+     * @param sender  the sender of the command
+     * @param command the command being done
+     * @param label   the name of the command
+     * @param args    the arguments supplied
+     */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 

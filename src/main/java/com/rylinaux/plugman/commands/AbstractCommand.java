@@ -8,40 +8,45 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Abstract command class that our commands extend.
+ *
+ * @author rylinaux
+ */
 public abstract class AbstractCommand {
 
     /**
-     * The command's sender
+     * The command's sender.
      */
     private final CommandSender sender;
 
     /**
-     * The command's name
+     * The command's name.
      */
     private final String name;
 
     /**
-     * The command's description
+     * The command's description.
      */
     private final String description;
 
     /**
-     * The command's description
+     * The command's description.
      */
     private final String permission;
 
     /**
-     * The command's usage
+     * The command's usage.
      */
     private final String usage;
 
     /**
-     * The sub permissions
+     * The sub permissions.
      */
     private final String[] subPermissions;
 
     /**
-     * Construct the object
+     * Construct the object.
      *
      * @param sender      the sender of the command
      * @param description the description of the command
@@ -58,7 +63,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the sender of the command
+     * Gets the sender of the command.
      *
      * @return the command's sender
      */
@@ -67,7 +72,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the name of the command
+     * Gets the name of the command.
      *
      * @return the command's name
      */
@@ -76,7 +81,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the description of the command
+     * Gets the description of the command.
      *
      * @return the command's description
      */
@@ -85,7 +90,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the permission associated with the command
+     * Gets the permission associated with the command.
      *
      * @return the command's permission
      */
@@ -94,7 +99,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the sub permissions associated with the command
+     * Gets the sub permissions associated with the command.
      *
      * @return the command's sub permissions
      */
@@ -103,7 +108,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Gets the proper usage for the command
+     * Gets the proper usage for the command.
      *
      * @return the command's usage
      */
@@ -112,7 +117,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Checks whether the sender has permission to do the command
+     * Checks whether the sender has permission to do the command.
      *
      * @return does the sender have permission
      */
@@ -121,7 +126,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Checks whether the sender has permission to do the command
+     * Checks whether the sender has permission to do the command.
      *
      * @param sub the sub permission to check
      * @return does the sender have permission
@@ -132,7 +137,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Sends the usage message to the sender
+     * Sends the usage message to the sender.
      */
     public void sendUsage() {
         sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.command", name));
@@ -141,7 +146,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Checks whether the sender is a player
+     * Checks whether the sender is a .
      *
      * @return is the sender a player
      */
@@ -150,7 +155,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Checks whether the sender is the console
+     * Checks whether the sender is the console.
      *
      * @return is the sender console
      */
@@ -159,7 +164,7 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Checks whether the sender is rcon
+     * Checks whether the sender is rcon.
      *
      * @return is the sender rcon
      */
@@ -168,12 +173,12 @@ public abstract class AbstractCommand {
     }
 
     /**
-     * Handles the command
+     * Executes the command.
      *
      * @param sender  the sender of the command
      * @param command the command being done
      * @param label   the name of the command
-     * @param args    the arguements supplied
+     * @param args    the arguments supplied
      */
     public abstract void execute(CommandSender sender, Command command, String label, String[] args);
 

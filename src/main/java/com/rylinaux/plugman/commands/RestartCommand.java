@@ -7,22 +7,55 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Command that restarts plugin(s).
+ *
+ * @author rylinaux
+ */
 public class RestartCommand extends AbstractCommand {
 
+    /**
+     * The name of the command.
+     */
     public static final String NAME = "Restart";
 
+    /**
+     * The description of the command.
+     */
     public static final String DESCRIPTION = "Restart a plugin.";
 
+    /**
+     * The main permission of the command.
+     */
     public static final String PERMISSION = "plugman.restart";
 
+    /**
+     * The proper usage of the command.
+     */
     public static final String USAGE = "/plugman restart [plugin|all]";
 
+    /**
+     * The sub permissions of the command.
+     */
     public static final String[] SUB_PERMISSIONS = {"all"};
 
+    /**
+     * Construct out object.
+     *
+     * @param sender the command sender
+     */
     public RestartCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
+    /**
+     * Execute the command.
+     *
+     * @param sender  the sender of the command
+     * @param command the command being done
+     * @param label   the name of the command
+     * @param args    the arguments supplied
+     */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 

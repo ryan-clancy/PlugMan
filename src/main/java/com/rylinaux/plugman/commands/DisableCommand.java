@@ -7,22 +7,55 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Command that disables plugin(s).
+ *
+ * @author rylinaux
+ */
 public class DisableCommand extends AbstractCommand {
 
+    /**
+     * The name of the command.
+     */
     public static final String NAME = "Disable";
 
+    /**
+     * The description of the command.
+     */
     public static final String DESCRIPTION = "Disable a plugin.";
 
+    /**
+     * The main permission of the command.
+     */
     public static final String PERMISSION = "plugman.disable";
 
+    /**
+     * The proper usage of the command.
+     */
     public static final String USAGE = "/plugman disable [plugin|all]";
 
+    /**
+     * The sub permissions of the command.
+     */
     public static final String[] SUB_PERMISSIONS = {"all"};
 
+    /**
+     * Construct out object.
+     *
+     * @param sender the command sender
+     */
     public DisableCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
+    /**
+     * Execute the command
+     *
+     * @param sender  the sender of the command
+     * @param command the command being done
+     * @param label   the name of the command
+     * @param args    the arguments supplied
+     */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
