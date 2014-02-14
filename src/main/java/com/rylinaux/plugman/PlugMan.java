@@ -1,7 +1,7 @@
 package com.rylinaux.plugman;
 
 import com.rylinaux.plugman.listeners.PlugManListener;
-import com.rylinaux.plugman.messaging.MessageManager;
+import com.rylinaux.plugman.messaging.Messenger;
 import com.rylinaux.plugman.metrics.MetricsHandler;
 import com.rylinaux.plugman.updater.UpdaterHandler;
 
@@ -13,18 +13,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
+    /**
+     * The instance of the plugin
+     */
     private static PlugMan instance = null;
 
+    /**
+     * List of plugins to ignore, partially.
+     */
     private List<String> ignoredPlugins = null;
 
-    private MessageManager messageManager = null;
+    /**
+     * The message manager
+     */
+    private Messenger messenger = null;
 
     @Override
     public void onEnable() {
 
         instance = this;
 
-        messageManager = new MessageManager(this);
+        messenger = new Messenger(this);
 
         this.getCommand("plugman").setExecutor(new PlugManCommands());
         this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());
@@ -40,22 +49,32 @@ public class PlugMan extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
-        messageManager = null;
+        messenger = null;
         ignoredPlugins = null;
     }
 
+    /**
+     * Register event for alerts, if enabled.
+     */
     private void initAlerts() {
         boolean alerts = this.getConfig().getBoolean("update-alerts");
-        if (alerts)
+        if (alerts) {
             this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
+        }
     }
 
+    /**
+     * Copy default config values
+     */
     private void initConfig() {
         this.getConfig().options().copyDefaults(true);
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
         this.saveConfig();
     }
 
+    /**
+     * Start Metrics, if enabled.
+     */
     private void initMetrics() {
         boolean useMetrics = this.getConfig().getBoolean("use-metrics");
         if (useMetrics) {
@@ -65,6 +84,9 @@ public class PlugMan extends JavaPlugin {
         }
     }
 
+    /**
+     * Start Updater, if enabled.
+     */
     private void initUpdater() {
         String updaterType = this.getConfig().getString("updater-type");
         if (!updaterType.equalsIgnoreCase("none")) {
@@ -74,16 +96,31 @@ public class PlugMan extends JavaPlugin {
         }
     }
 
+    /**
+     * Returns the instance of the plugin.
+     *
+     * @return the instance of the plugin
+     */
     public static PlugMan getInstance() {
         return instance;
     }
 
+    /**
+     * Returns the list of ignored plugins.
+     *
+     * @return the ignored plugins
+     */
     public List<String> getIgnoredPlugins() {
         return ignoredPlugins;
     }
 
-    public MessageManager getMessageManager() {
-        return messageManager;
+    /**
+     * Returns the message manager.
+     *
+     * @return the message manager
+     */
+    public Messenger getMessenger() {
+        return messenger;
     }
 
 }

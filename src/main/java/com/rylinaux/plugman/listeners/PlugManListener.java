@@ -8,10 +8,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * Alerts appropriate players of plugin updates.
+ *
+ * @author rylinaux
+ */
 public class PlugManListener implements Listener {
 
+    /**
+     * The plugin instance.
+     */
     private final PlugMan plugin;
 
+    /**
+     * Construct out object.
+     *
+     * @param plugin the plugin instance
+     */
     public PlugManListener(PlugMan plugin) {
         this.plugin = plugin;
     }
@@ -22,7 +35,7 @@ public class PlugManListener implements Listener {
             @Override
             public void run() {
                 if (UpdaterHandler.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
-                    event.getPlayer().sendMessage(plugin.getMessageManager().format("updater.available"));
+                    event.getPlayer().sendMessage(plugin.getMessenger().format("updater.available"));
                 }
             }
         }, 100L);

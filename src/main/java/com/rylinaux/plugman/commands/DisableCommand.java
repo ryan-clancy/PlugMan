@@ -60,12 +60,12 @@ public class DisableCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
             return;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
             sendUsage();
             return;
         }
@@ -73,9 +73,9 @@ public class DisableCommand extends AbstractCommand {
         if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
                 PluginUtil.disableAll();
-                sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.all"));
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.all"));
             } else {
-                sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
             }
             return;
         }
@@ -83,24 +83,24 @@ public class DisableCommand extends AbstractCommand {
         Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.invalid-plugin"));
             sendUsage();
             return;
         }
 
         if (PluginUtil.isIgnored(target)) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.ignored"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
             return;
         }
 
         if (!target.isEnabled()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.already-disabled", target.getName()));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.already-disabled", target.getName()));
             return;
         }
 
         PluginUtil.disable(target);
 
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("disable.disabled", target.getName()));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.disabled", target.getName()));
 
     }
 

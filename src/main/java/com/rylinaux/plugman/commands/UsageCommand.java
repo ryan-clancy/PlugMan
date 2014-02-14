@@ -60,12 +60,12 @@ public class UsageCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
             return;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.specify-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
             sendUsage();
             return;
         }
@@ -73,14 +73,14 @@ public class UsageCommand extends AbstractCommand {
         Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.invalid-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.invalid-plugin"));
             sendUsage();
             return;
         }
 
         String usages = PluginUtil.getUsages(target);
 
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("usage.usage", usages));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("usage.usage", usages));
 
     }
 }

@@ -1,7 +1,5 @@
 package com.rylinaux.plugman.metrics;
 
-import com.rylinaux.plugman.PlugMan;
-
 import java.io.IOException;
 import java.util.logging.Level;
 

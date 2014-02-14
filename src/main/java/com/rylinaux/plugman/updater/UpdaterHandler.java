@@ -1,7 +1,5 @@
 package com.rylinaux.plugman.updater;
 
-import com.rylinaux.plugman.PlugMan;
-
 import java.io.File;
 import java.util.logging.Level;
 
@@ -12,14 +10,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UpdaterHandler implements Runnable {
 
     /**
-     * Whether an update is available.
-     */
-    private static boolean updateAvailable = false;
-
-    /**
      * ID of the DBO project.
      */
     private static final int ID = 36006;
+
+    /**
+     * Whether an update is available.
+     */
+    private static boolean updateAvailable = false;
 
     /**
      * The instance of the plugin.

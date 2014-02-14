@@ -62,7 +62,7 @@ public class ListCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageManager().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
             return;
         }
 
@@ -78,7 +78,7 @@ public class ListCommand extends AbstractCommand {
 
         String plugins = Joiner.on(", ").join(pluginList);
 
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format("list.list", pluginList.size(), plugins));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("list.list", pluginList.size(), plugins));
 
     }
 

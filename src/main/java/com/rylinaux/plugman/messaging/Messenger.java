@@ -5,11 +5,11 @@ import com.rylinaux.plugman.configuration.CustomConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MessageManager {
+public class Messenger {
 
     private final CustomConfiguration messaging;
 
-    public MessageManager(JavaPlugin plugin) {
+    public Messenger(JavaPlugin plugin) {
         this.messaging = new CustomConfiguration(plugin, "messages.yml");
     }
 

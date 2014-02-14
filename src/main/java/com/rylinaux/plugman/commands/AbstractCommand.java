@@ -140,9 +140,9 @@ public abstract class AbstractCommand {
      * Sends the usage message to the sender.
      */
     public void sendUsage() {
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.command", name));
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.description", description));
-        sender.sendMessage(PlugMan.getInstance().getMessageManager().format(false, "error.usage.usage", usage));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "error.usage.command", name));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "error.usage.description", description));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "error.usage.usage", usage));
     }
 
     /**
