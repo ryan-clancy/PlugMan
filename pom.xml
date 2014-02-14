@@ -1,5 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rylinaux</groupId>
@@ -8,7 +10,31 @@
     <packaging>jar</packaging>
 
     <name>PlugMan</name>
-    <url>http://maven.apache.org</url>
+    <description>Plugin managing plugin for Bukkit servers.</description>
+    <url>http://dev.bukkit.org/bukkit-plugins/plugman/</url>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>rylinaux</name>
+            <email>rylinaux@gmail.com</email>
+            <roles>
+                <role>Lead Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GPLv3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <ciManagement>
+        <url>http://ci.ultimateminecraft.net/</url>
+    </ciManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
