@@ -18,11 +18,11 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | /plugman list [-v] | List plugins in alphabetical order. Use "-v" to include versions. |
 | /plugman info [plugin] | Displays information about a plugin. |
 | /plugman usage [plugin] | List commands that a plugin has registered. |
-| /plugman enable [plugin|all] | Enable a plugin. |
-| /plugman disable [plugin|all] | Disable a plugin. |
-| /plugman restart [plugin|all] | Restart (disable/enable) a plugin. |
+| /plugman enable [plugin&#124;all] | Enable a plugin. |
+| /plugman disable [plugin&#124;all] | Disable a plugin. |
+| /plugman restart [plugin&#124;all] | Restart (disable/enable) a plugin. |
 | /plugman load [plugin] | Load a plugin. |
-| /plugman reload [plugin|all] | Reload (unload/load) a plugin. |
+| /plugman reload [plugin&#124;all] | Reload (unload/load) a plugin. |
 | /plugman unload [plugin] | Unload a plugin. |
 
 ## Permissions
