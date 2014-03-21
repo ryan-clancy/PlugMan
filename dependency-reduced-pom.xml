@@ -5,7 +5,7 @@
   <artifactId>PlugMan</artifactId>
   <name>PlugMan</name>
   <version>2.0.0</version>
-  <description>Plugin managing plugin for Bukkit servers.</description>
+  <description>Plugin manager for Bukkit servers.</description>
   <url>http://dev.bukkit.org/bukkit-plugins/plugman/</url>
   <ciManagement>
     <url>http://ci.ultimateminecraft.net/</url>
