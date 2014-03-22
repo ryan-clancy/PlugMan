@@ -1,7 +1,9 @@
 package com.rylinaux.plugman.utilities;
 
 import com.google.common.base.Joiner;
+
 import com.rylinaux.plugman.PlugMan;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -91,9 +94,10 @@ public class PluginUtil {
      */
     public static String getFormattedName(Plugin plugin, boolean includeVersions) {
         ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
+        String pluginName = color + plugin.getName();
         if (includeVersions)
-            return color + plugin.getDescription().getFullName();
-        return color + plugin.getDescription().getName();
+            pluginName += " (" + plugin.getDescription().getVersion() + ")";
+        return pluginName;
     }
 
     /**
@@ -357,24 +361,24 @@ public class PluginUtil {
                 }
             }
         }
-        
+
         // Attempt to close the classloader to unlock any handles on the plugin's
         // jar file.
         ClassLoader cl = plugin.getClass().getClassLoader();
-        
+
         if (cl instanceof URLClassLoader) {
             try {
-                ((URLClassLoader)cl).close();
+                ((URLClassLoader) cl).close();
             } catch (IOException ex) {
                 Logger.getLogger(PluginUtil.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         // Will not work on processes started with the -XX:+DisableExplicitGC flag,
         // but lets try it anyway. This tries to get around the issue where Windows
         // refuses to unlock jar files that were previously loaded into the JVM.
         System.gc();
-        
+
         return PlugMan.getInstance().getMessenger().format("unload.unloaded", name);
 
     }
