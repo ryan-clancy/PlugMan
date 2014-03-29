@@ -33,3 +33,10 @@ update-alerts: true
 ###
 
 updater-type: download
+
+###
+# Silently ignore Metrics and Updater without displaying messages.
+#
+# This takes a value of either "true" or "false"
+###
+silently-ignore: false

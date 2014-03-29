@@ -72,9 +72,8 @@ public class PlugMan extends JavaPlugin {
      * Copy default config values
      */
     private void initConfig() {
-        this.getConfig().options().copyDefaults(true);
+        this.saveDefaultConfig();
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
-        this.saveConfig();
     }
 
     /**
@@ -85,7 +84,8 @@ public class PlugMan extends JavaPlugin {
         if (useMetrics) {
             Bukkit.getScheduler().runTask(this, new MetricsHandler(this));
         } else {
-            this.getLogger().log(Level.INFO, "Skipping Metrics.");
+            if (!this.getConfig().getBoolean("silently-ignore"))
+                this.getLogger().log(Level.INFO, "Skipping Metrics.");
         }
     }
 
@@ -97,7 +97,8 @@ public class PlugMan extends JavaPlugin {
         if (!updaterType.equalsIgnoreCase("none")) {
             Bukkit.getScheduler().runTask(this, new UpdaterHandler(this, this.getFile(), updaterType));
         } else {
-            this.getLogger().log(Level.INFO, "Skipping Updater.");
+            if (!this.getConfig().getBoolean("silently-ignore"))
+                this.getLogger().log(Level.INFO, "Skipping Updater.");
         }
     }
 
