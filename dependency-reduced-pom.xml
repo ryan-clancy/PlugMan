@@ -22,8 +22,8 @@
   </developers>
   <licenses>
     <license>
-      <name>GPLv3</name>
-      <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+      <name>MIT</name>
+      <url>http://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
   <build>
