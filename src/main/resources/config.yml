@@ -39,4 +39,5 @@ updater-type: download
 #
 # This takes a value of either "true" or "false"
 ###
+
 silently-ignore: false
