@@ -13,7 +13,8 @@
   <inceptionYear>2010</inceptionYear>
   <developers>
     <developer>
-      <name>rylinaux</name>
+      <id>rylinaux</id>
+      <name>Ryan Clancy</name>
       <email>rylinaux@gmail.com</email>
       <roles>
         <role>Lead Developer</role>

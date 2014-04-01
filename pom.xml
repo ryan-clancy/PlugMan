@@ -17,8 +17,9 @@
 
     <developers>
         <developer>
-            <name>rylinaux</name>
+            <name>Ryan Clancy</name>
             <email>rylinaux@gmail.com</email>
+            <id>rylinaux</id>
             <roles>
                 <role>Lead Developer</role>
             </roles>
