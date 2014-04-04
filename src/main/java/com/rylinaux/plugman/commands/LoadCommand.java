@@ -111,7 +111,7 @@ public class LoadCommand extends AbstractCommand {
             return;
         }
 
-        sender.sendMessage(PluginUtil.load(name));
+        sender.sendMessage(PluginUtil.load(potential));
 
     }
 }
