@@ -33,6 +33,7 @@ import com.rylinaux.plugman.PlugMan;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URISyntaxException;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -221,17 +222,23 @@ public class PluginUtil {
      * @param plugin plugin to load
      * @return status message
      */
-    private static String load(Plugin plugin) {
-        return load(plugin.getName());
+    public static String load(Plugin plugin) {       
+        try {
+            File f = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+            return load(plugin.getName(), f);
+        } catch (URISyntaxException ex) {
+            return PlugMan.getInstance().getMessenger().format("load.cannot-find");
+        }
     }
 
     /**
      * Loads and enables a plugin.
      *
      * @param name plugin's name
+     * @param pluginFile plugin's jarfile
      * @return status message
      */
-    public static String load(String name) {
+    public static String load(String name, File pluginFile) {
 
         Plugin target = null;
 
@@ -239,9 +246,7 @@ public class PluginUtil {
 
         if (!pluginDir.isDirectory())
             return PlugMan.getInstance().getMessenger().format("load.plugin-directory");
-
-        File pluginFile = new File(pluginDir, name + ".jar");
-
+        
         if (!pluginFile.isFile()) {
             for (File f : pluginDir.listFiles()) {
                 if (f.getName().endsWith(".jar")) {
