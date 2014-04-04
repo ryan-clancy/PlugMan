@@ -247,6 +247,7 @@ public class PluginUtil {
         if (!pluginDir.isDirectory())
             return PlugMan.getInstance().getMessenger().format("load.plugin-directory");
         
+        /*
         if (!pluginFile.isFile()) {
             for (File f : pluginDir.listFiles()) {
                 if (f.getName().endsWith(".jar")) {
@@ -262,6 +263,7 @@ public class PluginUtil {
                 }
             }
         }
+        */
 
         try {
             target = Bukkit.getPluginManager().loadPlugin(pluginFile);
