@@ -38,37 +38,205 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="plugman" class="anchor" href="#plugman"><span class="octicon octicon-link"></span></a>PlugMan</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>PlugMan is a simple, easy to use plugin that lets server admins manage plugins from either in-game or console without the need to restart the server.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<ul>
+<li>Enable, disable, restart, load, reload, and unload plugins from in-game or console.</li>
+<li>List plugins alphabetically, with version if specified.</li>
+<li>Get useful information on plugins such as commands, version, author(s), etc.</li>
+<li>Easily manage plugins without having to constantly restart your server.</li>
+<li>List commands a plugin has registered.</li>
+<li>Tab completion for command names and plugin names.</li>
+<li>Permissions Support - All commands default to OP.</li>
+</ul><h2>
+<a name="commands" class="anchor" href="#commands"><span class="octicon octicon-link"></span></a>Commands</h2>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<table>
+<thead><tr>
+<th>Command</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>/plugman help</td>
+<td>Show help information.</td>
+</tr>
+<tr>
+<td>/plugman list [-v]</td>
+<td>List plugins in alphabetical order. Use "-v" to include versions.</td>
+</tr>
+<tr>
+<td>/plugman info [plugin]</td>
+<td>Displays information about a plugin.</td>
+</tr>
+<tr>
+<td>/plugman usage [plugin]</td>
+<td>List commands that a plugin has registered.</td>
+</tr>
+<tr>
+<td>/plugman enable [plugin|all]</td>
+<td>Enable a plugin.</td>
+</tr>
+<tr>
+<td>/plugman disable [plugin|all]</td>
+<td>Disable a plugin.</td>
+</tr>
+<tr>
+<td>/plugman restart [plugin|all]</td>
+<td>Restart (disable/enable) a plugin.</td>
+</tr>
+<tr>
+<td>/plugman load [plugin]</td>
+<td>Load a plugin.</td>
+</tr>
+<tr>
+<td>/plugman reload [plugin|all]</td>
+<td>Reload (unload/load) a plugin.</td>
+</tr>
+<tr>
+<td>/plugman unload [plugin]</td>
+<td>Unload a plugin.</td>
+</tr>
+</tbody>
+</table><h2>
+<a name="permissions" class="anchor" href="#permissions"><span class="octicon octicon-link"></span></a>Permissions</h2>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<table>
+<thead><tr>
+<th>Permission Node</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>plugman.admin</td>
+<td>OP</td>
+<td>Allows use of all PlugMan commands.</td>
+</tr>
+<tr>
+<td>plugman.update</td>
+<td>OP</td>
+<td>Allows user to see update messages.</td>
+</tr>
+<tr>
+<td>plugman.help</td>
+<td>OP</td>
+<td>Allow use of the help command.</td>
+</tr>
+<tr>
+<td>plugman.list</td>
+<td>OP</td>
+<td>Allow use of the list command.</td>
+</tr>
+<tr>
+<td>plugman.info</td>
+<td>OP</td>
+<td>Allow use of the info command.</td>
+</tr>
+<tr>
+<td>plugman.usage</td>
+<td>OP</td>
+<td>Allow use of the usage command.</td>
+</tr>
+<tr>
+<td>plugman.enable</td>
+<td>OP</td>
+<td>Allow use of the enable command.</td>
+</tr>
+<tr>
+<td>plugman.enable.all</td>
+<td>OP</td>
+<td>Allow use of the enable all command.</td>
+</tr>
+<tr>
+<td>plugman.disable</td>
+<td>OP</td>
+<td>Allow use of the disable command.</td>
+</tr>
+<tr>
+<td>plugman.disable.all</td>
+<td>OP</td>
+<td>Allow use of the disable all command.</td>
+</tr>
+<tr>
+<td>plugman.restart</td>
+<td>OP</td>
+<td>Allow use of the restart command.</td>
+</tr>
+<tr>
+<td>plugman.restart.all</td>
+<td>OP</td>
+<td>Allow use of the restart all command.</td>
+</tr>
+<tr>
+<td>plugman.load</td>
+<td>OP</td>
+<td>Allow use of the load command.</td>
+</tr>
+<tr>
+<td>plugman.reload</td>
+<td>OP</td>
+<td>Allow use of the reload command.</td>
+</tr>
+<tr>
+<td>plugman.reload.all</td>
+<td>OP</td>
+<td>Allow use of the reload all command.</td>
+</tr>
+<tr>
+<td>plugman.unload</td>
+<td>OP</td>
+<td>Allow use of the unload command.</td>
+</tr>
+</tbody>
+</table><h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<table>
+<thead><tr>
+<th>File</th>
+<th>URL</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>config.yml</td>
+<td><a href="https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/config.yml">https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/config.yml</a></td>
+</tr>
+<tr>
+<td>messages.yml</td>
+<td><a href="https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/messages.yml">https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/messages.yml</a></td>
+</tr>
+</tbody>
+</table><h2>
+<a name="sponsors" class="anchor" href="#sponsors"><span class="octicon octicon-link"></span></a>Sponsors</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p></p><div>
+<img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png" alt="image" title="JetBrains"><p>JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>Take a look a JetBrain's leading software products over on <a href="http://www.jetbrains.com/">their website.</a></p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<hr>
+<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png" alt="image" title="JetBrains"></p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>YourKit, LLC is the creator of innovative and intelligent tools for profiling Java and .NET applications.</p>
+
+<p>Take a look at YourKit's leading software products: <a href="http://www.yourkit.com/java/profiler/index.jsp">YourKit Java Profiler</a> and <a href="http://www.yourkit.com/.net/profiler/index.jsp">YourKit .NET Profiler</a>.</p>
+
+<hr>
+<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png" alt="image" title="Intreppid Logo"></p>
+
+<p>Intreppid is kindly supporting the PlugMan open source project with hosting for the Jenkins build server along with a test platform for development.</p>
+
+<p>Take a look at Intreppid's premium Minecraft server and dedicated servers on <a href="https://www.intreppid.com/">their website</a>.</p>
+</div>
       </section>
 
     </div>
