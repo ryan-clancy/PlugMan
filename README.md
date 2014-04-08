@@ -50,3 +50,30 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | ----- | ------- |
 | config.yml | https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/config.yml |
 | messages.yml | https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/messages.yml |
+
+## Sponsors
+
+<div style="text-align:center" markdown="1">
+![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png "JetBrains")
+
+JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.
+
+Take a look a JetBrain's leading software products over on <a href="http://www.jetbrains.com/">their website.</a>
+
+---
+
+![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png "JetBrains")
+
+YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.
+
+YourKit, LLC is the creator of innovative and intelligent tools for profiling Java and .NET applications.
+
+Take a look at YourKit's leading software products: <a href="http://www.yourkit.com/java/profiler/index.jsp">YourKit Java Profiler</a> and <a href="http://www.yourkit.com/.net/profiler/index.jsp">YourKit .NET Profiler</a>.
+
+---
+
+![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png "Intreppid Logo")
+
+Intreppid is kindly supporting the PlugMan open source project with hosting for the Jenkins build server along with a test platform for development.
+
+Take a look at Intreppid's premium Minecraft server and dedicated servers on <a href="https://www.intreppid.com/">their website</a>.
