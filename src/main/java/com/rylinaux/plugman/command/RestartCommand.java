@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -26,54 +26,51 @@ package com.rylinaux.plugman.commands;
  * #L%
  */
 
-import com.google.common.base.Joiner;
-
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtil;
+import com.rylinaux.plugman.util.PluginUtil;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that displays information on a plugin.
+ * Command that restarts plugin(s).
  *
  * @author rylinaux
  */
-public class InfoCommand extends AbstractCommand {
+public class RestartCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Info";
+    public static final String NAME = "Restart";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "View information on a plugin.";
+    public static final String DESCRIPTION = "Restart a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.info";
+    public static final String PERMISSION = "plugman.restart";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman info [plugin]";
+    public static final String USAGE = "/plugman restart [plugin|all]";
 
     /**
      * The sub permissions of the command.
      */
-    public static final String[] SUB_PERMISSIONS = {""};
+    public static final String[] SUB_PERMISSIONS = {"all"};
 
     /**
      * Construct out object.
      *
      * @param sender the command sender
      */
-    public InfoCommand(CommandSender sender) {
+    public RestartCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -99,6 +96,17 @@ public class InfoCommand extends AbstractCommand {
             return;
         }
 
+        if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
+            if (hasPermission("all")) {
+                PluginUtil.disableAll();
+                PluginUtil.enableAll();
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format("restart.all"));
+            } else {
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
+            }
+            return;
+        }
+
         Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
@@ -107,15 +115,15 @@ public class InfoCommand extends AbstractCommand {
             return;
         }
 
-        String name = target.getName();
-        String version = target.getDescription().getVersion();
-        String authors = Joiner.on(", ").join(target.getDescription().getAuthors());
-        String status = target.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
+        if (PluginUtil.isIgnored(target)) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
+            return;
+        }
 
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format("info.header", name));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.version", version));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.authors", authors));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.status", status));
+        PluginUtil.disable(target);
+        PluginUtil.enable(target);
+
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("restart.restarted", target.getName()));
 
     }
 }

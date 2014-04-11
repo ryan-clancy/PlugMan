@@ -26,7 +26,7 @@ package com.rylinaux.plugman;
  * #L%
  */
 
-import com.rylinaux.plugman.listeners.PlugManListener;
+import com.rylinaux.plugman.listener.PlugManListener;
 import com.rylinaux.plugman.messaging.Messenger;
 import com.rylinaux.plugman.metrics.MetricsHandler;
 import com.rylinaux.plugman.updater.UpdaterHandler;

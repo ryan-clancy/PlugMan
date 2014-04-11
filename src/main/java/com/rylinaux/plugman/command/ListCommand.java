@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -26,39 +26,46 @@ package com.rylinaux.plugman.commands;
  * #L%
  */
 
-import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtil;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 
+import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.util.PluginUtil;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that unloads plugin(s).
+ * Command that lists plugins.
  *
  * @author rylinaux
  */
-public class UnloadCommand extends AbstractCommand {
+public class ListCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Unload";
+    public static final String NAME = "List";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "Unload a plugin.";
+    public static final String DESCRIPTION = "List all plugins.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.unload";
+    public static final String PERMISSION = "plugman.list";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman unload [plugin]";
+    public static final String USAGE = "/plugman list [-v]";
 
     /**
      * The sub permissions of the command.
@@ -70,7 +77,7 @@ public class UnloadCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public UnloadCommand(CommandSender sender) {
+    public ListCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -90,26 +97,28 @@ public class UnloadCommand extends AbstractCommand {
             return;
         }
 
-        if (args.length < 2) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
-            sendUsage();
-            return;
+        boolean includeVersions = includeVersions(args);
+
+        List<String> pluginList = Lists.newArrayList();
+
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            pluginList.add(PluginUtil.getFormattedName(plugin, includeVersions));
         }
 
-        Plugin target = PluginUtil.getPluginByName(args, 1);
+        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
 
-        if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.invalid-plugin"));
-            sendUsage();
-            return;
-        }
+        String plugins = Joiner.on(", ").join(pluginList);
 
-        if (PluginUtil.isIgnored(target)) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
-            return;
-        }
-
-        sender.sendMessage(PluginUtil.unload(target));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("list.list", pluginList.size(), plugins));
 
     }
+
+    private boolean includeVersions(String[] args) {
+        for (String arg : args) {
+            if (arg.equalsIgnoreCase("-v"))
+                return true;
+        }
+        return false;
+    }
+
 }

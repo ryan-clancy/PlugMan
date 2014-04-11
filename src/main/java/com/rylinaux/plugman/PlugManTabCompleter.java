@@ -26,7 +26,7 @@ package com.rylinaux.plugman;
  * #L%
  */
 
-import com.rylinaux.plugman.utilities.PluginUtil;
+import com.rylinaux.plugman.util.PluginUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -27,38 +27,38 @@ package com.rylinaux.plugman.commands;
  */
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtil;
+import com.rylinaux.plugman.util.PluginUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that enables plugin(s).
+ * Command that disables plugin(s).
  *
  * @author rylinaux
  */
-public class EnableCommand extends AbstractCommand {
+public class DisableCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Enable";
+    public static final String NAME = "Disable";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "Enable a plugin.";
+    public static final String DESCRIPTION = "Disable a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.enable";
+    public static final String PERMISSION = "plugman.disable";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman enable [plugin|all]";
+    public static final String USAGE = "/plugman disable [plugin|all]";
 
     /**
      * The sub permissions of the command.
@@ -70,7 +70,7 @@ public class EnableCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public EnableCommand(CommandSender sender) {
+    public DisableCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -98,8 +98,8 @@ public class EnableCommand extends AbstractCommand {
 
         if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
             if (hasPermission("all")) {
-                PluginUtil.enableAll();
-                sender.sendMessage(PlugMan.getInstance().getMessenger().format("enable.all"));
+                PluginUtil.disableAll();
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.all"));
             } else {
                 sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
             }
@@ -119,14 +119,14 @@ public class EnableCommand extends AbstractCommand {
             return;
         }
 
-        if (target.isEnabled()) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("enable.already-enabled", target.getName()));
+        if (!target.isEnabled()) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.already-disabled", target.getName()));
             return;
         }
 
-        PluginUtil.enable(target);
+        PluginUtil.disable(target);
 
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format("enable.enabled", target.getName()));
+        sender.sendMessage(PlugMan.getInstance().getMessenger().format("disable.disabled", target.getName()));
 
     }
 

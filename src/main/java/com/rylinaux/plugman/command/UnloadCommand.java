@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -27,38 +27,38 @@ package com.rylinaux.plugman.commands;
  */
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtil;
+import com.rylinaux.plugman.util.PluginUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that lists a plugin's commands.
+ * Command that unloads plugin(s).
  *
  * @author rylinaux
  */
-public class UsageCommand extends AbstractCommand {
+public class UnloadCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Usage";
+    public static final String NAME = "Unload";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "List commands a plugin has registered.";
+    public static final String DESCRIPTION = "Unload a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.usage";
+    public static final String PERMISSION = "plugman.unload";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman usage [plugin]";
+    public static final String USAGE = "/plugman unload [plugin]";
 
     /**
      * The sub permissions of the command.
@@ -70,7 +70,7 @@ public class UsageCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public UsageCommand(CommandSender sender) {
+    public UnloadCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -104,9 +104,12 @@ public class UsageCommand extends AbstractCommand {
             return;
         }
 
-        String usages = PluginUtil.getUsages(target);
+        if (PluginUtil.isIgnored(target)) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
+            return;
+        }
 
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format("usage.usage", usages));
+        sender.sendMessage(PluginUtil.unload(target));
 
     }
 }

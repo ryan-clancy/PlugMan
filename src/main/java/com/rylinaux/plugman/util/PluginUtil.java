@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.utilities;
+package com.rylinaux.plugman.util;
 
 /*
  * #%L
@@ -52,7 +52,6 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
@@ -222,7 +221,7 @@ public class PluginUtil {
      * @param plugin plugin to load
      * @return status message
      */
-    public static String load(Plugin plugin) {       
+    public static String load(Plugin plugin) {
         try {
             File f = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
             return load(plugin.getName(), f);
@@ -234,7 +233,7 @@ public class PluginUtil {
     /**
      * Loads and enables a plugin.
      *
-     * @param name plugin's name
+     * @param name       plugin's name
      * @param pluginFile plugin's jarfile
      * @return status message
      */

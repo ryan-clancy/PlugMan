@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.listeners;
+package com.rylinaux.plugman.listener;
 
 /*
  * #%L

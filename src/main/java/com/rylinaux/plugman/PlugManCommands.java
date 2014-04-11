@@ -26,16 +26,16 @@ package com.rylinaux.plugman;
  * #L%
  */
 
-import com.rylinaux.plugman.commands.DisableCommand;
-import com.rylinaux.plugman.commands.EnableCommand;
-import com.rylinaux.plugman.commands.HelpCommand;
-import com.rylinaux.plugman.commands.InfoCommand;
-import com.rylinaux.plugman.commands.ListCommand;
-import com.rylinaux.plugman.commands.LoadCommand;
-import com.rylinaux.plugman.commands.ReloadCommand;
-import com.rylinaux.plugman.commands.RestartCommand;
-import com.rylinaux.plugman.commands.UnloadCommand;
-import com.rylinaux.plugman.commands.UsageCommand;
+import com.rylinaux.plugman.command.DisableCommand;
+import com.rylinaux.plugman.command.EnableCommand;
+import com.rylinaux.plugman.command.HelpCommand;
+import com.rylinaux.plugman.command.InfoCommand;
+import com.rylinaux.plugman.command.ListCommand;
+import com.rylinaux.plugman.command.LoadCommand;
+import com.rylinaux.plugman.command.ReloadCommand;
+import com.rylinaux.plugman.command.RestartCommand;
+import com.rylinaux.plugman.command.UnloadCommand;
+import com.rylinaux.plugman.command.UsageCommand;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

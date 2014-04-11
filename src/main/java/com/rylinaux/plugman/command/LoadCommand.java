@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -27,37 +27,39 @@ package com.rylinaux.plugman.commands;
  */
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.util.PluginUtil;
+import com.rylinaux.plugman.util.StringUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.plugin.Plugin;
 
 /**
- * Command that displays the help.
+ * Command that loads plugin(s).
  *
  * @author rylinaux
  */
-public class HelpCommand extends AbstractCommand {
+public class LoadCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Help";
+    public static final String NAME = "Load";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "Displays help information.";
+    public static final String DESCRIPTION = "Load a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.help";
+    public static final String PERMISSION = "plugman.load";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman help";
+    public static final String USAGE = "/plugman load [plugin]";
 
     /**
      * The sub permissions of the command.
@@ -69,7 +71,7 @@ public class HelpCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public HelpCommand(CommandSender sender) {
+    public LoadCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -89,12 +91,27 @@ public class HelpCommand extends AbstractCommand {
             return;
         }
 
-        ConfigurationSection help = PlugMan.getInstance().getMessenger().getMessaging().getConfig().getConfigurationSection("help");
-
-        for (String s : help.getKeys(false)) {
-            if (sender.hasPermission("plugman." + s) || s.equalsIgnoreCase("header"))
-                sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, help.getName() + "." + s));
+        if (args.length < 2) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
+            sendUsage();
+            return;
         }
+
+        Plugin potential = PluginUtil.getPluginByName(args, 1);
+
+        if (potential != null) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("load.already-loaded", potential.getName()));
+            return;
+        }
+
+        String name = StringUtil.consolidateStrings(args, 1);
+
+        if (PluginUtil.isIgnored(name)) {
+            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
+            return;
+        }
+
+        sender.sendMessage(PluginUtil.load(potential));
 
     }
 }

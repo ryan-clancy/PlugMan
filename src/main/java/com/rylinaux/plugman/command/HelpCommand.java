@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.commands;
+package com.rylinaux.plugman.command;
 
 /*
  * #%L
@@ -26,46 +26,38 @@ package com.rylinaux.plugman.commands;
  * #L%
  */
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.utilities.PluginUtil;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.configuration.ConfigurationSection;
 
 /**
- * Command that lists plugins.
+ * Command that displays the help.
  *
  * @author rylinaux
  */
-public class ListCommand extends AbstractCommand {
+public class HelpCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "List";
+    public static final String NAME = "Help";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "List all plugins.";
+    public static final String DESCRIPTION = "Displays help information.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.list";
+    public static final String PERMISSION = "plugman.help";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman list [-v]";
+    public static final String USAGE = "/plugman help";
 
     /**
      * The sub permissions of the command.
@@ -77,7 +69,7 @@ public class ListCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public ListCommand(CommandSender sender) {
+    public HelpCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -97,28 +89,12 @@ public class ListCommand extends AbstractCommand {
             return;
         }
 
-        boolean includeVersions = includeVersions(args);
+        ConfigurationSection help = PlugMan.getInstance().getMessenger().getMessaging().getConfig().getConfigurationSection("help");
 
-        List<String> pluginList = Lists.newArrayList();
-
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            pluginList.add(PluginUtil.getFormattedName(plugin, includeVersions));
+        for (String s : help.getKeys(false)) {
+            if (sender.hasPermission("plugman." + s) || s.equalsIgnoreCase("header"))
+                sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, help.getName() + "." + s));
         }
 
-        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-
-        String plugins = Joiner.on(", ").join(pluginList);
-
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format("list.list", pluginList.size(), plugins));
-
     }
-
-    private boolean includeVersions(String[] args) {
-        for (String arg : args) {
-            if (arg.equalsIgnoreCase("-v"))
-                return true;
-        }
-        return false;
-    }
-
 }
