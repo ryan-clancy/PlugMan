@@ -34,8 +34,14 @@
     </licenses>
 
     <ciManagement>
+        <system>Jenkins</system>
         <url>http://ci.ryan-clancy.com/</url>
     </ciManagement>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/rylinaux/PlugMan/issues</url>
+    </issueManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,7 +66,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.5-R0.1-SNAPSHOT</version>
+            <version>1.7.8-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
@@ -75,17 +81,8 @@
     </dependencies>
 
     <build>
-        <finalName>PlugMan</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
@@ -104,6 +101,15 @@
                         <phase>process-sources</phase>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
