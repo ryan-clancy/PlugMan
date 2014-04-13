@@ -34,7 +34,7 @@
     </licenses>
 
     <ciManagement>
-        <url>http://ci.ultimateminecraft.net/</url>
+        <url>http://ci.ryan-clancy.com/</url>
     </ciManagement>
 
     <properties>
