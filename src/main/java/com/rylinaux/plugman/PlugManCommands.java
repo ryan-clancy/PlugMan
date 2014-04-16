@@ -26,6 +26,7 @@ package com.rylinaux.plugman;
  * #L%
  */
 
+import com.rylinaux.plugman.command.AbstractCommand;
 import com.rylinaux.plugman.command.DisableCommand;
 import com.rylinaux.plugman.command.EnableCommand;
 import com.rylinaux.plugman.command.HelpCommand;
@@ -51,59 +52,50 @@ public class PlugManCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-            new HelpCommand(sender).execute(sender, command, label, args);
+        AbstractCommand cmd = new HelpCommand(sender);
+
+        // No args, show help.
+        if (args.length == 0) {
+            cmd.execute(sender, command, label, args);
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("disable")) {
-            new DisableCommand(sender).execute(sender, command, label, args);
-            return true;
+        switch (args[0].toLowerCase()) {
+            case "help":
+                cmd = new HelpCommand(sender);
+                break;
+            case "list":
+                cmd = new ListCommand(sender);
+                break;
+            case "info":
+                cmd = new InfoCommand(sender);
+                break;
+            case "usage":
+                cmd = new UsageCommand(sender);
+                break;
+            case "enable":
+                cmd = new EnableCommand(sender);
+                break;
+            case "disable":
+                cmd = new DisableCommand(sender);
+                break;
+            case "restart":
+                cmd = new RestartCommand(sender);
+                break;
+            case "load":
+                cmd = new LoadCommand(sender);
+                break;
+            case "reload":
+                cmd = new ReloadCommand(sender);
+                break;
+            case "unload":
+                cmd = new UnloadCommand(sender);
+                break;
         }
 
-        if (args[0].equalsIgnoreCase("enable")) {
-            new EnableCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("info")) {
-            new InfoCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("list")) {
-            new ListCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("load")) {
-            new LoadCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("restart")) {
-            new RestartCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("reload")) {
-            new ReloadCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("unload")) {
-            new UnloadCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("usage")) {
-            new UsageCommand(sender).execute(sender, command, label, args);
-            return true;
-        }
-
-        new HelpCommand(sender).execute(sender, command, label, args);
-
+        cmd.execute(sender, command, label, args);
         return true;
+        
     }
 
 }
