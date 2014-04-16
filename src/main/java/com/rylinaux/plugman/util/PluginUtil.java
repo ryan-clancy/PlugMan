@@ -156,10 +156,10 @@ public class PluginUtil {
      *
      * @return list of plugin names
      */
-    public static List<String> getPluginNames() {
+    public static List<String> getPluginNames(boolean fullName) {
         List<String> plugins = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
-            plugins.add(plugin.getName());
+            plugins.add(fullName ? plugin.getDescription().getFullName() : plugin.getName());
         return plugins;
     }
 

@@ -63,7 +63,7 @@ public class PlugManTabCompleter implements TabCompleter {
 
         if (args.length == 2) {
             String partialPlugin = args[1];
-            List<String> plugins = PluginUtil.getPluginNames();
+            List<String> plugins = PluginUtil.getPluginNames(false);
             StringUtil.copyPartialMatches(partialPlugin, plugins, completions);
         }
 
