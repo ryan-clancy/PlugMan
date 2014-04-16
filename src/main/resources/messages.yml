@@ -28,6 +28,7 @@ help:
   header: '&7--------------------- [&a PlugMan &7] ---------------------'
   help: '&7- &a/plugman help &f- &7Displays this.'
   list: '&7- &a/plugman list [-v] &f- &7List all plugins.'
+  dump: '&7- &a/plugman dump &f- &7Dump plugin names and versions to file.'
   info: '&7- &a/plugman info [plugin] &f- &7Get info on a plugin.'
   usage: '&7- &a/plugman usage [plugin] &f- &7List commands a plugin has registered.'
   enable: '&7- &a/plugman enable [plugin|all] &f- &7Enable a plugin.'
