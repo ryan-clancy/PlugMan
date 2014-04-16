@@ -6,7 +6,7 @@ author: rylinaux
 commands:
   plugman:
     description: Manage plugins.
-    usage: /plugman help
+    usage: /plugman [help|dump]
            /plugman list [-v]
            /plugman [enable|disable|restart] [plugin|all]
            /plugman [info|usage|load|reload|unload] [plugin]
@@ -19,6 +19,7 @@ permissions:
       plugman.help: true
       plugman.help: true
       plugman.list: true
+      plugman.dump: true
       plugman.info: true
       plugman.usage: true
       plugman.enable: true
@@ -38,6 +39,9 @@ permissions:
     default: op
   plugman.list:
     description: Allows use of the list command.
+    default: op
+  plugman.dump:
+    description: Allows use of the dump command.
     default: op
   plugman.info:
     description: Allows use of the info command.

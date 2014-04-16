@@ -63,3 +63,6 @@ updater:
   available: '&9A new update is available: &ahttp://dev.bukkit.org/bukkit-plugins/plugman/'
 usage:
   usage: '&9Commands: &7{0}'
+dump:
+  dumped: '&9Plugins dumped to {0}.'
+  error: '&4Could not dump to file.'

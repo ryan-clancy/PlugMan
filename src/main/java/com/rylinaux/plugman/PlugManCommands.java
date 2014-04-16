@@ -28,6 +28,7 @@ package com.rylinaux.plugman;
 
 import com.rylinaux.plugman.command.AbstractCommand;
 import com.rylinaux.plugman.command.DisableCommand;
+import com.rylinaux.plugman.command.DumpCommand;
 import com.rylinaux.plugman.command.EnableCommand;
 import com.rylinaux.plugman.command.HelpCommand;
 import com.rylinaux.plugman.command.InfoCommand;
@@ -67,6 +68,9 @@ public class PlugManCommands implements CommandExecutor {
             case "list":
                 cmd = new ListCommand(sender);
                 break;
+            case "dump":
+                cmd = new DumpCommand(sender);
+                break;
             case "info":
                 cmd = new InfoCommand(sender);
                 break;
@@ -95,7 +99,7 @@ public class PlugManCommands implements CommandExecutor {
 
         cmd.execute(sender, command, label, args);
         return true;
-        
+
     }
 
 }
