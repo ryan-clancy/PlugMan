@@ -39,6 +39,11 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Command that dumps plugin names and versions to file.
+ *
+ * @author rylinaux
+ */
 public class DumpCommand extends AbstractCommand {
 
     /**
@@ -117,7 +122,8 @@ public class DumpCommand extends AbstractCommand {
             sender.sendMessage(PlugMan.getInstance().getMessenger().format("dump.error"));
             e.printStackTrace();
         } finally {
-            writer.close();
+            if (writer != null)
+                writer.close();
         }
 
     }
