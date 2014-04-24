@@ -34,19 +34,19 @@ package com.rylinaux.plugman.util;
 public class StringUtil {
 
     /**
-     * Returns an array as a String.
+     * Returns an array of Strings as a single String.
      *
      * @param args  the array
      * @param start the index to start at
      * @return the array as a String
      */
     public static String consolidateStrings(String[] args, int start) {
-        String plugin = args[start];
+        String ret = args[start];
         if (args.length > (start + 1)) {
             for (int i = (start + 1); i < args.length; i++)
-                plugin = plugin + " " + args[i];
+                ret = ret + " " + args[i];
         }
-        return plugin;
+        return ret;
     }
 
 }

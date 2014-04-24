@@ -69,7 +69,7 @@ public class UpdaterHandler implements Runnable {
      * Construct our object.
      *
      * @param plugin      the plugin instance
-     * @param file        the plugin's file
+     * @param file        the plugin file
      * @param updaterType the type of updater
      */
     public UpdaterHandler(JavaPlugin plugin, File file, String updaterType) {
@@ -134,7 +134,7 @@ public class UpdaterHandler implements Runnable {
                 updateAvailable = true;
                 break;
             default:
-                plugin.getLogger().log(Level.WARNING, "An unexpected result was recieved from Updater.");
+                plugin.getLogger().log(Level.WARNING, "An unexpected result was received from Updater.");
         }
 
     }
