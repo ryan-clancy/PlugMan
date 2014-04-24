@@ -3,7 +3,6 @@
 #
 # This takes the form of a comma separated list enclosed within the brackets.
 ###
-
 ignored-plugins: [PlugMan]
 
 ###
@@ -12,7 +11,6 @@ ignored-plugins: [PlugMan]
 #
 # This takes a value of either "true" or "false".
 ###
-
 use-metrics: true
 
 ###
@@ -20,7 +18,6 @@ use-metrics: true
 #
 # This takes a value of either "true" or "false".
 ###
-
 update-alerts: true
 
 ###
@@ -31,7 +28,6 @@ update-alerts: true
 # force: Force a download of the latest file every time so you always have the most up-to-date version.
 # none: Ignore Updater altogether.
 ###
-
 updater-type: download
 
 ###
@@ -39,5 +35,4 @@ updater-type: download
 #
 # This takes a value of either "true" or "false"
 ###
-
 silently-ignore: false
