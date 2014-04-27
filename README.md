@@ -65,7 +65,7 @@ Take a look a JetBrain's leading software products over on <a href="http://www.j
 
 ---
 
-![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png "JetBrains")
+![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png "YourKit")
 
 YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.
 
