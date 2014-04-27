@@ -9,6 +9,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 * Easily manage plugins without having to constantly restart your server.
 * List commands a plugin has registered.
 * Tab completion for command names and plugin names.
+* Dump plugin list with versions to a file.
 * Permissions Support - All commands default to OP.
 
 ## Commands
@@ -17,6 +18,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | /plugman help | Show help information. |
 | /plugman list [-v] | List plugins in alphabetical order. Use "-v" to include versions. |
 | /plugman info [plugin] | Displays information about a plugin. |
+| /plugman dump | Dump plugin names and version to a file. |
 | /plugman usage [plugin] | List commands that a plugin has registered. |
 | /plugman enable [plugin&#124;all] | Enable a plugin. |
 | /plugman disable [plugin&#124;all] | Disable a plugin. |
@@ -33,6 +35,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | plugman.help | OP | Allow use of the help command. |
 | plugman.list | OP | Allow use of the list command. |
 | plugman.info | OP | Allow use of the info command. |
+| plugman.dump | OP | Allow use of the dump command. |
 | plugman.usage | OP | Allow use of the usage command. |
 | plugman.enable | OP | Allow use of the enable command. |
 | plugman.enable.all | OP | Allow use of the enable all command. |
