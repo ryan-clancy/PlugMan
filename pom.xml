@@ -90,7 +90,7 @@
                 <configuration>
                     <licenseName>mit</licenseName>
                     <licenseResolver>${project.baseUri}/license</licenseResolver>
-                    <organizationName>PlugMan</organizationName>
+                    <organizationName>${artifactId}</organizationName>
                 </configuration>
                 <executions>
                     <execution>
