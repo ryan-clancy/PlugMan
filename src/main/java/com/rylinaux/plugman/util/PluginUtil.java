@@ -52,6 +52,7 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
@@ -221,23 +222,17 @@ public class PluginUtil {
      * @param plugin plugin to load
      * @return status message
      */
-    public static String load(Plugin plugin) {
-        try {
-            File f = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-            return load(plugin.getName(), f);
-        } catch (URISyntaxException ex) {
-            return PlugMan.getInstance().getMessenger().format("load.cannot-find");
-        }
+    private static String load(Plugin plugin) {
+        return load(plugin.getName());
     }
 
     /**
      * Loads and enables a plugin.
      *
-     * @param name       plugin's name
-     * @param pluginFile plugin's jarfile
+     * @param name plugin's name
      * @return status message
      */
-    public static String load(String name, File pluginFile) {
+    public static String load(String name) {
 
         Plugin target = null;
 
@@ -245,8 +240,9 @@ public class PluginUtil {
 
         if (!pluginDir.isDirectory())
             return PlugMan.getInstance().getMessenger().format("load.plugin-directory");
-        
-        /*
+
+        File pluginFile = new File(pluginDir, name + ".jar");
+
         if (!pluginFile.isFile()) {
             for (File f : pluginDir.listFiles()) {
                 if (f.getName().endsWith(".jar")) {
@@ -262,7 +258,6 @@ public class PluginUtil {
                 }
             }
         }
-        */
 
         try {
             target = Bukkit.getPluginManager().loadPlugin(pluginFile);
