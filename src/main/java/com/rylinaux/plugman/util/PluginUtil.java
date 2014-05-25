@@ -301,7 +301,7 @@ public class PluginUtil {
      * Unload a plugin.
      *
      * @param plugin the plugin to unload
-     * @return
+     * @return the message to send to the user.
      */
     public static String unload(Plugin plugin) {
 
