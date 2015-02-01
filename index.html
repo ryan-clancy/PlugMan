@@ -1,50 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Plugman by rylinaux</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <title>Plugman by rylinaux</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/rylinaux/PlugMan">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/rylinaux/PlugMan/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/rylinaux/PlugMan/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <header>
+      <div class="inner">
+        <h1>Plugman</h1>
+        <h2>Plugin Manager For Bukkit</h2>
+        <a href="https://github.com/rylinaux/PlugMan" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Plugman</h1>
-          <p>Plugin Manager For Bukkit</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/rylinaux">rylinaux</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
-<a name="plugman" class="anchor" href="#plugman"><span class="octicon octicon-link"></span></a>PlugMan</h1>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="plugman" class="anchor" href="#plugman" aria-hidden="true"><span class="octicon octicon-link"></span></a>PlugMan</h1>
 
 <p>PlugMan is a simple, easy to use plugin that lets server admins manage plugins from either in-game or console without the need to restart the server.</p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Enable, disable, restart, load, reload, and unload plugins from in-game or console.</li>
@@ -53,15 +43,20 @@
 <li>Easily manage plugins without having to constantly restart your server.</li>
 <li>List commands a plugin has registered.</li>
 <li>Tab completion for command names and plugin names.</li>
+<li>Dump plugin list with versions to a file.</li>
 <li>Permissions Support - All commands default to OP.</li>
-</ul><h2>
-<a name="commands" class="anchor" href="#commands"><span class="octicon octicon-link"></span></a>Commands</h2>
+</ul>
+
+<h2>
+<a id="commands" class="anchor" href="#commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands</h2>
 
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th>Command</th>
 <th>Description</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>/plugman help</td>
@@ -74,6 +69,10 @@
 <tr>
 <td>/plugman info [plugin]</td>
 <td>Displays information about a plugin.</td>
+</tr>
+<tr>
+<td>/plugman dump</td>
+<td>Dump plugin names and version to a file.</td>
 </tr>
 <tr>
 <td>/plugman usage [plugin]</td>
@@ -104,15 +103,19 @@
 <td>Unload a plugin.</td>
 </tr>
 </tbody>
-</table><h2>
-<a name="permissions" class="anchor" href="#permissions"><span class="octicon octicon-link"></span></a>Permissions</h2>
+</table>
+
+<h2>
+<a id="permissions" class="anchor" href="#permissions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Permissions</h2>
 
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th>Permission Node</th>
 <th>Default</th>
 <th>Description</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>plugman.admin</td>
@@ -138,6 +141,11 @@
 <td>plugman.info</td>
 <td>OP</td>
 <td>Allow use of the info command.</td>
+</tr>
+<tr>
+<td>plugman.dump</td>
+<td>OP</td>
+<td>Allow use of the dump command.</td>
 </tr>
 <tr>
 <td>plugman.usage</td>
@@ -195,14 +203,18 @@
 <td>Allow use of the unload command.</td>
 </tr>
 </tbody>
-</table><h2>
-<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+</table>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th>File</th>
 <th>URL</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>config.yml</td>
@@ -213,16 +225,21 @@
 <td><a href="https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/messages.yml">https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/messages.yml</a></td>
 </tr>
 </tbody>
-</table><h2>
-<a name="sponsors" class="anchor" href="#sponsors"><span class="octicon octicon-link"></span></a>Sponsors</h2>
+</table>
+
+<h2>
+<a id="sponsors" class="anchor" href="#sponsors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sponsors</h2>
 
 <p></p><div>
-<img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png" alt="image" title="JetBrains"><p>JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.</p>
+<img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png" alt="image" title="JetBrains">
+
+<p>JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.</p>
 
 <p>Take a look a JetBrain's leading software products over on <a href="http://www.jetbrains.com/">their website.</a></p>
 
 <hr>
-<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png" alt="image" title="JetBrains"></p>
+
+<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png" alt="image" title="YourKit"></p>
 
 <p>YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.</p>
 
@@ -231,16 +248,32 @@
 <p>Take a look at YourKit's leading software products: <a href="http://www.yourkit.com/java/profiler/index.jsp">YourKit Java Profiler</a> and <a href="http://www.yourkit.com/.net/profiler/index.jsp">YourKit .NET Profiler</a>.</p>
 
 <hr>
+
 <p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png" alt="image" title="Intreppid Logo"></p>
 
 <p>Intreppid is kindly supporting the PlugMan open source project with hosting for the Jenkins build server along with a test platform for development.</p>
 
 <p>Take a look at Intreppid's premium Minecraft server and dedicated servers on <a href="https://www.intreppid.com/">their website</a>.</p>
 </div>
-      </section>
+        </section>
 
+        <aside id="sidebar">
+          <a href="https://github.com/rylinaux/PlugMan/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/rylinaux/PlugMan/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/rylinaux/PlugMan"></a> is maintained by <a href="https://github.com/rylinaux">rylinaux</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
+  
   </body>
 </html>
