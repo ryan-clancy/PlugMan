@@ -53,9 +53,9 @@ public class PlugManTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-    	if(sender.isOp() || sender.hasPermission("plugman.admin") || sender.hasPermission("plugman." + args[0])){
-            
-    	    List<String> completions = new ArrayList<>();
+        if (sender.isOp() || sender.hasPermission("plugman.admin") || sender.hasPermission("plugman." + args[0])) {
+
+            List<String> completions = new ArrayList<>();
 
             if (args.length == 1) {
                 String partialCommand = args[0];
@@ -72,11 +72,11 @@ public class PlugManTabCompleter implements TabCompleter {
             Collections.sort(completions);
 
             return completions;
-            
-    	}
-	
-    	return null;
-    	
+
+        }
+
+        return null;
+
     }
 
 }
