@@ -238,7 +238,7 @@ public class PluginUtil {
         File pluginDir = new File("plugins");
 
         if (!pluginDir.isDirectory())
-            return PlugMan.getInstance().getMessenger().format("load.plugin-directory");
+            return PlugMan.getInstance().getMessageFormatter().format("load.plugin-directory");
 
         File pluginFile = new File(pluginDir, name + ".jar");
 
@@ -252,7 +252,7 @@ public class PluginUtil {
                             break;
                         }
                     } catch (InvalidDescriptionException e) {
-                        return PlugMan.getInstance().getMessenger().format("load.cannot-find");
+                        return PlugMan.getInstance().getMessageFormatter().format("load.cannot-find");
                     }
                 }
             }
@@ -262,16 +262,16 @@ public class PluginUtil {
             target = Bukkit.getPluginManager().loadPlugin(pluginFile);
         } catch (InvalidDescriptionException e) {
             e.printStackTrace();
-            return PlugMan.getInstance().getMessenger().format("load.invalid-description");
+            return PlugMan.getInstance().getMessageFormatter().format("load.invalid-description");
         } catch (InvalidPluginException e) {
             e.printStackTrace();
-            return PlugMan.getInstance().getMessenger().format("load.invalid-plugin");
+            return PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin");
         }
 
         target.onLoad();
         Bukkit.getPluginManager().enablePlugin(target);
 
-        return PlugMan.getInstance().getMessenger().format("load.loaded", name);
+        return PlugMan.getInstance().getMessageFormatter().format("load.loaded", name);
 
     }
 
@@ -349,10 +349,10 @@ public class PluginUtil {
 
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
-                return PlugMan.getInstance().getMessenger().format("unload.failed", name);
+                return PlugMan.getInstance().getMessageFormatter().format("unload.failed", name);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-                return PlugMan.getInstance().getMessenger().format("unload.failed", name);
+                return PlugMan.getInstance().getMessageFormatter().format("unload.failed", name);
             }
         }
 
@@ -405,7 +405,7 @@ public class PluginUtil {
         // refuses to unlock jar files that were previously loaded into the JVM.
         System.gc();
 
-        return PlugMan.getInstance().getMessenger().format("unload.unloaded", name);
+        return PlugMan.getInstance().getMessageFormatter().format("unload.unloaded", name);
 
     }
 

@@ -89,12 +89,12 @@ public class InfoCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.specify-plugin"));
             sendUsage();
             return;
         }
@@ -102,7 +102,7 @@ public class InfoCommand extends AbstractCommand {
         Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.invalid-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.invalid-plugin"));
             sendUsage();
             return;
         }
@@ -112,10 +112,10 @@ public class InfoCommand extends AbstractCommand {
         String authors = Joiner.on(", ").join(target.getDescription().getAuthors());
         String status = target.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
 
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format("info.header", name));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.version", version));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.authors", authors));
-        sender.sendMessage(PlugMan.getInstance().getMessenger().format(false, "info.status", status));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("info.header", name));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.version", version));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.authors", authors));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.status", status));
 
     }
 }

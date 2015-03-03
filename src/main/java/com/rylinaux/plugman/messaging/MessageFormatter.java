@@ -26,30 +26,30 @@ package com.rylinaux.plugman.messaging;
  * #L%
  */
 
-import com.rylinaux.plugman.configuration.CustomConfiguration;
+import com.rylinaux.plugman.configuration.Configuration;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Manages custom messaging.
+ * Manages custom messages.
  *
  * @author rylinaux
  */
-public class Messenger {
+public class MessageFormatter {
 
     /**
      * The configuration file.
      */
-    private final CustomConfiguration messaging;
+    private final Configuration messageConfiguration;
 
     /**
      * Construct our object.
      *
      * @param plugin the plugin instance
      */
-    public Messenger(JavaPlugin plugin) {
-        this.messaging = new CustomConfiguration(plugin, "messages.yml");
+    public MessageFormatter(JavaPlugin plugin) {
+        this.messageConfiguration = new Configuration(plugin, "messages.yml");
     }
 
     /**
@@ -72,7 +72,7 @@ public class Messenger {
      * @return the formatted String
      */
     public String format(boolean prefix, String key, Object... args) {
-        String message = prefix ? messaging.get("prefix") + messaging.get(key) : messaging.get(key);
+        String message = prefix ? messageConfiguration.get("prefix") + messageConfiguration.get(key) : messageConfiguration.get(key);
         for (int i = 0; i < args.length; i++) {
             message = message.replace("{" + i + "}", String.valueOf(args[i]));
         }
@@ -80,12 +80,12 @@ public class Messenger {
     }
 
     /**
-     * Returns the messaging configuration.
+     * Returns the message configuration.
      *
-     * @return the messaging configuration.
+     * @return the message configuration.
      */
-    public CustomConfiguration getMessaging() {
-        return messaging;
+    public Configuration getMessageConfiguration() {
+        return messageConfiguration;
     }
 
 }

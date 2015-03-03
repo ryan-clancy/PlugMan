@@ -92,7 +92,7 @@ public class DumpCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
         }
 
@@ -117,9 +117,9 @@ public class DumpCommand extends AbstractCommand {
             writer = new PrintWriter(dumpFile);
             for (String plugin : plugins)
                 writer.println(plugin);
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("dump.dumped", dumpFile.getName()));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("dump.dumped", dumpFile.getName()));
         } catch (IOException e) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("dump.error"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("dump.error"));
             e.printStackTrace();
         } finally {
             if (writer != null)

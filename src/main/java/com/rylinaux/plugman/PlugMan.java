@@ -27,7 +27,7 @@ package com.rylinaux.plugman;
  */
 
 import com.rylinaux.plugman.listener.PlugManListener;
-import com.rylinaux.plugman.messaging.Messenger;
+import com.rylinaux.plugman.messaging.MessageFormatter;
 import com.rylinaux.plugman.task.MetricsTask;
 import com.rylinaux.plugman.task.UpdaterTask;
 
@@ -57,14 +57,14 @@ public class PlugMan extends JavaPlugin {
     /**
      * The message manager
      */
-    private Messenger messenger = null;
+    private MessageFormatter messageFormatter = null;
 
     @Override
     public void onEnable() {
 
         instance = this;
 
-        messenger = new Messenger(this);
+        messageFormatter = new MessageFormatter(this);
 
         this.getCommand("plugman").setExecutor(new PlugManCommandHandler());
         this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());
@@ -80,7 +80,7 @@ public class PlugMan extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
-        messenger = null;
+        messageFormatter = null;
         ignoredPlugins = null;
     }
 
@@ -151,8 +151,8 @@ public class PlugMan extends JavaPlugin {
      *
      * @return the message manager
      */
-    public Messenger getMessenger() {
-        return messenger;
+    public MessageFormatter getMessageFormatter() {
+        return messageFormatter;
     }
 
 }

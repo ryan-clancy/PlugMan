@@ -61,7 +61,7 @@ public class PlugManListener implements Listener {
             @Override
             public void run() {
                 if (UpdaterTask.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
-                    event.getPlayer().sendMessage(plugin.getMessenger().format("updater.available"));
+                    event.getPlayer().sendMessage(plugin.getMessageFormatter().format("updater.available"));
                 }
             }
         }, 100L);

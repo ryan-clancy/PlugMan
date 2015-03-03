@@ -86,12 +86,12 @@ public class UnloadCommand extends AbstractCommand {
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
         if (!hasPermission()) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.no-permission"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.specify-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.specify-plugin"));
             sendUsage();
             return;
         }
@@ -99,13 +99,13 @@ public class UnloadCommand extends AbstractCommand {
         Plugin target = PluginUtil.getPluginByName(args, 1);
 
         if (target == null) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.invalid-plugin"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.invalid-plugin"));
             sendUsage();
             return;
         }
 
         if (PluginUtil.isIgnored(target)) {
-            sender.sendMessage(PlugMan.getInstance().getMessenger().format("error.ignored"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.ignored"));
             return;
         }
 

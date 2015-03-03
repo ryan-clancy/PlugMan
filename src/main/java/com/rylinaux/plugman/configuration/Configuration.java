@@ -42,7 +42,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author rylinaux
  */
-public class CustomConfiguration {
+public class Configuration {
 
     /**
      * The plugin instance.
@@ -75,7 +75,7 @@ public class CustomConfiguration {
      * @param plugin   the plugin instance
      * @param fileName the file name
      */
-    public CustomConfiguration(JavaPlugin plugin, String fileName) {
+    public Configuration(JavaPlugin plugin, String fileName) {
         this.plugin = plugin;
         this.fileName = fileName;
         reload();
