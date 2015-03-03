@@ -48,7 +48,7 @@ import org.bukkit.command.CommandSender;
  *
  * @author rylinaux
  */
-public class PlugManCommands implements CommandExecutor {
+public class PlugManCommandHandler implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

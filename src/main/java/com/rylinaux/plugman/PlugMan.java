@@ -66,7 +66,7 @@ public class PlugMan extends JavaPlugin {
 
         messenger = new Messenger(this);
 
-        this.getCommand("plugman").setExecutor(new PlugManCommands());
+        this.getCommand("plugman").setExecutor(new PlugManCommandHandler());
         this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());
 
         initConfig();
