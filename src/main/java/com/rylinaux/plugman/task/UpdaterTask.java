@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.updater;
+package com.rylinaux.plugman.task;
 
 /*
  * #%L
@@ -38,7 +38,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author rylinaux
  */
-public class UpdaterHandler implements Runnable {
+public class UpdaterTask implements Runnable {
 
     /**
      * ID of the DBO project.
@@ -72,7 +72,7 @@ public class UpdaterHandler implements Runnable {
      * @param file        the plugin file
      * @param updaterType the type of updater
      */
-    public UpdaterHandler(JavaPlugin plugin, File file, String updaterType) {
+    public UpdaterTask(JavaPlugin plugin, File file, String updaterType) {
         this.plugin = plugin;
         this.file = file;
         this.updaterType = updaterType;

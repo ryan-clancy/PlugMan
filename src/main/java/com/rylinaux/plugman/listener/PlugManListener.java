@@ -27,7 +27,7 @@ package com.rylinaux.plugman.listener;
  */
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.updater.UpdaterHandler;
+import com.rylinaux.plugman.task.UpdaterTask;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -60,7 +60,7 @@ public class PlugManListener implements Listener {
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if (UpdaterHandler.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
+                if (UpdaterTask.isUpdateAvailable() && event.getPlayer().hasPermission("plugman.update")) {
                     event.getPlayer().sendMessage(plugin.getMessenger().format("updater.available"));
                 }
             }

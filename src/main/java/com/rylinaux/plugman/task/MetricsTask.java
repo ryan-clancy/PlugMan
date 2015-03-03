@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.metrics;
+package com.rylinaux.plugman.task;
 
 /*
  * #%L
@@ -38,7 +38,7 @@ import org.mcstats.Metrics;
  *
  * @author rylinaux
  */
-public class MetricsHandler implements Runnable {
+public class MetricsTask implements Runnable {
 
     /**
      * The URL to the Metrics page.
@@ -55,7 +55,7 @@ public class MetricsHandler implements Runnable {
      *
      * @param plugin the plugin instance
      */
-    public MetricsHandler(JavaPlugin plugin) {
+    public MetricsTask(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
