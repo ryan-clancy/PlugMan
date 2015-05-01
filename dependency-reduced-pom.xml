@@ -4,7 +4,7 @@
   <groupId>com.rylinaux</groupId>
   <artifactId>PlugMan</artifactId>
   <name>PlugMan</name>
-  <version>2.0.3</version>
+  <version>2.0.4</version>
   <description>Plugin manager for Bukkit servers.</description>
   <url>http://dev.bukkit.org/bukkit-plugins/plugman/</url>
   <issueManagement>
@@ -76,6 +76,9 @@
                 <includes>
                   <include>org.mcstats.bukkit</include>
                   <include>net.gravitydevelopment.updater</include>
+                  <include>commons-io</include>
+                  <include>commons-logging</include>
+                  <include>org.apache.httpcomponents</include>
                 </includes>
               </artifactSet>
             </configuration>

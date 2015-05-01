@@ -69,6 +69,21 @@
             <version>1.7.9-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.6</version>
+        </dependency>
+        <dependency>
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics</artifactId>
             <version>R7</version>
@@ -126,6 +141,9 @@
                                 <includes>
                                     <include>org.mcstats.bukkit</include>
                                     <include>net.gravitydevelopment.updater</include>
+                                    <include>commons-io</include>
+                                    <include>commons-logging</include>
+                                    <include>org.apache.httpcomponents</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
