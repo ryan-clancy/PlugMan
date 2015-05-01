@@ -8,9 +8,10 @@
 
 prefix: '&7[&aPlugMan&7] '
 check:
-  not-found: '&cCould not fetch plugin data - does the plugin exist?'
+  not-found: '&9Plugin not installed - latest available version is {0}.'
+  not-found-dbo: '&cCould not fetch plugin data - does the plugin exist on DBO?'
   outdated: '&cCurrent version (&4{0}&c) does not match latest version (&2{1}&c).'
-  up-to-date: '&9Plugin is up-to-date.'
+  up-to-date: '&9Plugin is up-to-date using version {0}.'
 disable:
   all: '&9All plugins have been disabled (excluding PlugMan).'
   already-disabled: '&c{0} is already disabled.'

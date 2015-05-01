@@ -171,7 +171,10 @@ public class PluginUtil {
      */
     public static String getPluginVersion(String name) {
         Plugin plugin = getPluginByName(name);
-        return plugin.getDescription().getVersion();
+        if (plugin != null && plugin.getDescription() != null)
+//            if (plugin.getDescription() != null)
+                return plugin.getDescription().getVersion();
+        return null;
     }
 
     /**
