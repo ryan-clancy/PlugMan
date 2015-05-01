@@ -101,8 +101,6 @@ public class BukGetUtil {
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            JSONObject json = new JSONObject(body);
-
             return new JSONObject(body);
 
         } catch (IOException e) {

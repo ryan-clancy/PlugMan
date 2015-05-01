@@ -30,6 +30,7 @@ import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.BukGetUtil;
 import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.StringUtil;
+import com.rylinaux.plugman.util.ThreadUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -101,34 +102,43 @@ public class CheckCommand extends AbstractCommand {
             return;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(PlugMan.getInstance(), new Runnable() {
+        final String pluginName = StringUtil.consolidateStrings(args, 1).replaceAll(" ", "+");
+
+        ThreadUtil.async(new Runnable() {
 
             @Override
             public void run() {
 
-                final String pluginName = StringUtil.consolidateStrings(args, 1).replaceAll(" ", "+");
                 final String pluginSlug = BukGetUtil.getPluginSlug(pluginName);
 
                 if (pluginSlug == null || pluginSlug.isEmpty()) {
-                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
-                    return;
+                    ThreadUtil.sync(new Runnable() {
+                        @Override
+                        public void run() {
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
+                            return;
+                        }
+                    });
                 }
 
                 JSONObject json = BukGetUtil.getPluginData(pluginSlug);
                 JSONArray versions = json.getJSONArray("versions");
 
                 if (versions.length() == 0) {
-                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
-                    return;
+                    ThreadUtil.sync(new Runnable() {
+                        @Override
+                        public void run() {
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
+                            return;
+                        }
+                    });
                 }
 
                 final JSONObject latest = versions.getJSONObject(0);
 
-                Bukkit.getScheduler().runTask(PlugMan.getInstance(), new Runnable() {
-
+                ThreadUtil.sync(new Runnable() {
                     @Override
                     public void run() {
-
                         String currentVersion = PluginUtil.getPluginVersion(pluginName);
                         String latestVersion = latest.getString("version");
 
@@ -137,10 +147,9 @@ public class CheckCommand extends AbstractCommand {
                         } else {
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.outdated", currentVersion, latestVersion));
                         }
-
                     }
-
                 });
+
 
             }
 
