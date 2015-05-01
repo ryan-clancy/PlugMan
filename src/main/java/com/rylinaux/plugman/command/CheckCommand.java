@@ -115,7 +115,7 @@ public class CheckCommand extends AbstractCommand {
                     ThreadUtil.sync(new Runnable() {
                         @Override
                         public void run() {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
                         }
                     });
                     return;
@@ -128,7 +128,7 @@ public class CheckCommand extends AbstractCommand {
                     ThreadUtil.sync(new Runnable() {
                         @Override
                         public void run() {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
                         }
                     });
                     return;
@@ -142,8 +142,10 @@ public class CheckCommand extends AbstractCommand {
                         String currentVersion = PluginUtil.getPluginVersion(pluginName);
                         String latestVersion = latest.getString("version");
 
-                        if (currentVersion.equalsIgnoreCase(latestVersion)) {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date"));
+                        if (currentVersion == null) {
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found", latestVersion));
+                        } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date", currentVersion));
                         } else {
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.outdated", currentVersion, latestVersion));
                         }
