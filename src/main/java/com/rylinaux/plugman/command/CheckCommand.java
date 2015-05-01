@@ -116,9 +116,9 @@ public class CheckCommand extends AbstractCommand {
                         @Override
                         public void run() {
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
-                            return;
                         }
                     });
+                    return;
                 }
 
                 JSONObject json = BukGetUtil.getPluginData(pluginSlug);
@@ -129,9 +129,9 @@ public class CheckCommand extends AbstractCommand {
                         @Override
                         public void run() {
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found"));
-                            return;
                         }
                     });
+                    return;
                 }
 
                 final JSONObject latest = versions.getJSONObject(0);
