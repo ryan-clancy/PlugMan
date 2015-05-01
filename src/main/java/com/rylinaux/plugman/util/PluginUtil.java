@@ -164,6 +164,17 @@ public class PluginUtil {
     }
 
     /**
+     * Get the version of another plugin.
+     *
+     * @param name the name of the other plugin.
+     * @return the version.
+     */
+    public static String getPluginVersion(String name) {
+        Plugin plugin = getPluginByName(name);
+        return plugin.getDescription().getVersion();
+    }
+
+    /**
      * Returns the commands a plugin has registered.
      *
      * @param plugin the plugin to deal with
