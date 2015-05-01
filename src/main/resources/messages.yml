@@ -7,6 +7,10 @@
 ###
 
 prefix: '&7[&aPlugMan&7] '
+check:
+  not-found: '&cCould not fetch plugin data - does the plugin exist?'
+  outdated: '&cCurrent version (&4{0}&c) does not match latest version (&2{1}&c).'
+  up-to-date: '&9Plugin is up-to-date.'
 disable:
   all: '&9All plugins have been disabled (excluding PlugMan).'
   already-disabled: '&c{0} is already disabled.'
@@ -37,6 +41,7 @@ help:
   load: '&7- &a/plugman load [plugin] &f- &7Load a plugin.'
   reload: '&7- &a/plugman reload [plugin|all] &f- &7Reload a plugin.'
   unload: '&7- &a/plugman unload [plugin] &f- &7Unload a plugin.'
+  check: '&7- &a/plugman check [plugin] &f- &7Check if a plugin is up-to-date.'
 info:
   header: 'Plugin Information: {0}'
   version: '&7- Version: &a{0}'

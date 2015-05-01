@@ -27,6 +27,7 @@ package com.rylinaux.plugman;
  */
 
 import com.rylinaux.plugman.command.AbstractCommand;
+import com.rylinaux.plugman.command.CheckCommand;
 import com.rylinaux.plugman.command.DisableCommand;
 import com.rylinaux.plugman.command.DumpCommand;
 import com.rylinaux.plugman.command.EnableCommand;
@@ -94,6 +95,9 @@ public class PlugManCommandHandler implements CommandExecutor {
                 break;
             case "unload":
                 cmd = new UnloadCommand(sender);
+                break;
+            case "check":
+                cmd = new CheckCommand(sender);
                 break;
         }
 

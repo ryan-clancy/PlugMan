@@ -9,7 +9,7 @@ commands:
     usage: /plugman [help|dump]
            /plugman list [-v]
            /plugman [enable|disable|restart] [plugin|all]
-           /plugman [info|usage|load|reload|unload] [plugin]
+           /plugman [info|usage|load|reload|unload|check] [plugin]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.
@@ -31,6 +31,7 @@ permissions:
       plugman.load: true
       plugman.reload: true
       plugman.unload: true
+      plugman.check: true
   plugman.update:
     description: Allows the player to see the update alerts.
     default: op
@@ -75,4 +76,7 @@ permissions:
     default: op
   plugman.unload:
     description: Allows use of the unload command.
+    default: op
+  plugman.check:
+    description: Allows use of the check command.
     default: op
