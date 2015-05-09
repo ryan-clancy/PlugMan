@@ -64,7 +64,7 @@ public class PlugMan extends JavaPlugin {
 
         instance = this;
 
-        messageFormatter = new MessageFormatter(this);
+        messageFormatter = new MessageFormatter();
 
         this.getCommand("plugman").setExecutor(new PlugManCommandHandler());
         this.getCommand("plugman").setTabCompleter(new PlugManTabCompleter());

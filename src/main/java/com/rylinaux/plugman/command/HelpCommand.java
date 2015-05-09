@@ -89,7 +89,7 @@ public class HelpCommand extends AbstractCommand {
             return;
         }
 
-        ConfigurationSection help = PlugMan.getInstance().getMessageFormatter().getMessageConfiguration().getConfig().getConfigurationSection("help");
+        ConfigurationSection help = PlugMan.getInstance().getMessageFormatter().getMessageFile().getConfig().getConfigurationSection("help");
 
         for (String s : help.getKeys(false)) {
             if (sender.hasPermission("plugman." + s) || s.equalsIgnoreCase("header"))

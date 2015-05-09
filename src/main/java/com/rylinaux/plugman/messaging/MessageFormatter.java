@@ -26,10 +26,7 @@ package com.rylinaux.plugman.messaging;
  * #L%
  */
 
-import com.rylinaux.plugman.configuration.Configuration;
-
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Manages custom messages.
@@ -41,15 +38,13 @@ public class MessageFormatter {
     /**
      * The configuration file.
      */
-    private final Configuration messageConfiguration;
+    private final MessageFile messageFile;
 
     /**
      * Construct our object.
-     *
-     * @param plugin the plugin instance
      */
-    public MessageFormatter(JavaPlugin plugin) {
-        this.messageConfiguration = new Configuration(plugin, "messages.yml");
+    public MessageFormatter() {
+        this.messageFile = new MessageFile("messages.yml");
     }
 
     /**
@@ -72,10 +67,9 @@ public class MessageFormatter {
      * @return the formatted String
      */
     public String format(boolean prefix, String key, Object... args) {
-        String message = prefix ? messageConfiguration.get("prefix") + messageConfiguration.get(key) : messageConfiguration.get(key);
-        for (int i = 0; i < args.length; i++) {
+        String message = prefix ? messageFile.get("prefix") + messageFile.get(key) : messageFile.get(key);
+        for (int i = 0; i < args.length; i++)
             message = message.replace("{" + i + "}", String.valueOf(args[i]));
-        }
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
@@ -84,8 +78,8 @@ public class MessageFormatter {
      *
      * @return the message configuration.
      */
-    public Configuration getMessageConfiguration() {
-        return messageConfiguration;
+    public MessageFile getMessageFile() {
+        return messageFile;
     }
 
 }
