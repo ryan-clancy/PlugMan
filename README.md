@@ -10,6 +10,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 * List commands a plugin has registered.
 * Tab completion for command names and plugin names.
 * Dump plugin list with versions to a file.
+* Check if a plugin is up-to-date with dev.bukkit.org
 * Permissions Support - All commands default to OP.
 
 ## Commands
