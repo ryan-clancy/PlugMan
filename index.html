@@ -44,6 +44,7 @@
 <li>List commands a plugin has registered.</li>
 <li>Tab completion for command names and plugin names.</li>
 <li>Dump plugin list with versions to a file.</li>
+<li>Check if a plugin is up-to-date with dev.bukkit.org</li>
 <li>Permissions Support - All commands default to OP.</li>
 </ul>
 
@@ -101,6 +102,10 @@
 <tr>
 <td>/plugman unload [plugin]</td>
 <td>Unload a plugin.</td>
+</tr>
+<tr>
+<td>/plugman check [plugin]</td>
+<td>Check if a plugin is up-to-date.</td>
 </tr>
 </tbody>
 </table>
@@ -202,6 +207,11 @@
 <td>OP</td>
 <td>Allow use of the unload command.</td>
 </tr>
+<tr>
+<td>plugman.check</td>
+<td>OP</td>
+<td>Allow use of the check command.</td>
+</tr>
 </tbody>
 </table>
 
@@ -230,9 +240,8 @@
 <h2>
 <a id="sponsors" class="anchor" href="#sponsors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sponsors</h2>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png">
-</p>
+<p></p><div>
+<img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png" alt="image" title="JetBrains">
 
 <p>JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.</p>
 
@@ -240,9 +249,7 @@
 
 <hr>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png">
-</p>
+<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png" alt="image" title="YourKit"></p>
 
 <p>YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.</p>
 
@@ -252,13 +259,12 @@
 
 <hr>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png">
-</p>
+<p><img src="https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png" alt="image" title="Intreppid Logo"></p>
 
 <p>Intreppid is kindly supporting the PlugMan open source project with hosting for the Jenkins build server along with a test platform for development.</p>
 
 <p>Take a look at Intreppid's premium Minecraft server and dedicated servers on <a href="https://www.intreppid.com/">their website</a>.</p>
+</div>
         </section>
 
         <aside id="sidebar">
