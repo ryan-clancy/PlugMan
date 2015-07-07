@@ -34,8 +34,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Utilities for dealing with the Bukget API.
@@ -59,12 +60,13 @@ public class BukGetUtil {
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            JSONArray jsonArray = new JSONArray(body);
+            JSONArray array = (JSONArray) JSONValue.parse(body);
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = jsonArray.getJSONObject(i);
-                if (json.getString("plugin_name").equalsIgnoreCase(name))
-                    return json.getString("slug");
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject json = (JSONObject) array.get(i);
+                String pluginName = (String) json.get("plugin_name");
+                if (name.equalsIgnoreCase(pluginName))
+                    return (String) json.get("slug");
             }
 
         } catch (IOException e) {
@@ -101,7 +103,7 @@ public class BukGetUtil {
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            return new JSONObject(body);
+            return (JSONObject) JSONValue.parse(body);
 
         } catch (IOException e) {
 

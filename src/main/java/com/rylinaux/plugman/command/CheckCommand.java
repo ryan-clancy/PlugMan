@@ -35,8 +35,8 @@ import com.rylinaux.plugman.util.ThreadUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Command that checks if a plugin is up-to-date.
@@ -121,9 +121,9 @@ public class CheckCommand extends AbstractCommand {
                 }
 
                 JSONObject json = BukGetUtil.getPluginData(pluginSlug);
-                JSONArray versions = json.getJSONArray("versions");
+                JSONArray versions = (JSONArray) json.get("versions");
 
-                if (versions.length() == 0) {
+                if (versions.size() == 0) {
                     ThreadUtil.sync(new Runnable() {
                         @Override
                         public void run() {
@@ -133,13 +133,13 @@ public class CheckCommand extends AbstractCommand {
                     return;
                 }
 
-                final JSONObject latest = versions.getJSONObject(0);
+                final JSONObject latest = (JSONObject) versions.get(0);
 
                 ThreadUtil.sync(new Runnable() {
                     @Override
                     public void run() {
                         String currentVersion = PluginUtil.getPluginVersion(pluginName);
-                        String latestVersion = latest.getString("version");
+                        String latestVersion = (String) latest.get("version");
 
                         if (currentVersion == null) {
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found", latestVersion));
