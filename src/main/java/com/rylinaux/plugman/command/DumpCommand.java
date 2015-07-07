@@ -31,6 +31,7 @@ import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.PluginUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -97,16 +98,6 @@ public class DumpCommand extends AbstractCommand {
         }
 
         File dumpFile = new File(PlugMan.getInstance().getDataFolder(), "dump.txt");
-
-        // Delete old file if exists.
-        if (dumpFile.exists())
-            dumpFile.delete();
-
-        try {
-            dumpFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         PrintWriter writer = null;
 
