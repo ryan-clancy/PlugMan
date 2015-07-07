@@ -50,6 +50,42 @@ public class BukGetUtil {
      */
     public static final String API_BASE_URL = "http://api.bukget.org/3/";
 
+    /**
+     * Check if the installed plugin version is consistent with the DBO version.
+     *
+     * @param pluginName the plugin name.
+     * @return the reflective UpdateResult.
+     */
+    public static UpdateResult checkUpToDate(String pluginName) {
+
+        String pluginSlug = BukGetUtil.getPluginSlug(pluginName);
+
+        if (pluginSlug == null || pluginSlug.isEmpty()) {
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN);
+        }
+
+        JSONObject json = BukGetUtil.getPluginData(pluginSlug);
+        JSONArray versions = (JSONArray) json.get("versions");
+
+        if (versions.size() == 0) {
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN);
+        }
+
+        JSONObject latest = (JSONObject) versions.get(0);
+
+        String currentVersion = PluginUtil.getPluginVersion(pluginName);
+        String latestVersion = (String) latest.get("version");
+
+        if (currentVersion == null) {
+            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+        } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
+            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
+        } else {
+            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion);
+        }
+
+    }
+
     public static String getPluginSlug(String name) {
 
         HttpClient client = HttpClients.createMinimal();

@@ -28,15 +28,12 @@ package com.rylinaux.plugman.command;
 
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.BukGetUtil;
-import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
+import com.rylinaux.plugman.util.UpdateResult;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  * Command that checks if a plugin is up-to-date.
@@ -108,49 +105,28 @@ public class CheckCommand extends AbstractCommand {
             @Override
             public void run() {
 
-                final String pluginSlug = BukGetUtil.getPluginSlug(pluginName);
-
-                if (pluginSlug == null || pluginSlug.isEmpty()) {
-                    ThreadUtil.sync(new Runnable() {
-                        @Override
-                        public void run() {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
-                        }
-                    });
-                    return;
-                }
-
-                JSONObject json = BukGetUtil.getPluginData(pluginSlug);
-                JSONArray versions = (JSONArray) json.get("versions");
-
-                if (versions.size() == 0) {
-                    ThreadUtil.sync(new Runnable() {
-                        @Override
-                        public void run() {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
-                        }
-                    });
-                    return;
-                }
-
-                final JSONObject latest = (JSONObject) versions.get(0);
+                final UpdateResult result = BukGetUtil.checkUpToDate(pluginName);
 
                 ThreadUtil.sync(new Runnable() {
+
                     @Override
                     public void run() {
-                        String currentVersion = PluginUtil.getPluginVersion(pluginName);
-                        String latestVersion = (String) latest.get("version");
-
-                        if (currentVersion == null) {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found", latestVersion));
-                        } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date", currentVersion));
-                        } else {
-                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.outdated", currentVersion, latestVersion));
+                        switch (result.getType()) {
+                            case NOT_INSTALLED:
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found", result.getLatestVersion()));
+                                break;
+                            case OUT_OF_DATE:
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.outdated", result.getCurrentVersion(), result.getLatestVersion()));
+                                break;
+                            case UP_TO_DATE:
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date", result.getCurrentVersion()));
+                                break;
+                            default:
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
                         }
                     }
-                });
 
+                });
 
             }
 

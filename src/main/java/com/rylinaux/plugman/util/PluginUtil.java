@@ -55,9 +55,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 /**
  * Utilities for managing plugins.
  *
@@ -175,7 +172,6 @@ public class PluginUtil {
     public static String getPluginVersion(String name) {
         Plugin plugin = getPluginByName(name);
         if (plugin != null && plugin.getDescription() != null)
-//            if (plugin.getDescription() != null)
             return plugin.getDescription().getVersion();
         return null;
     }
@@ -230,38 +226,6 @@ public class PluginUtil {
                 return true;
         }
         return false;
-    }
-
-    public static UpdateResult isUpToDate(String pluginName) {
-
-        String pluginSlug = BukGetUtil.getPluginSlug(pluginName);
-
-        if (pluginSlug == null || pluginSlug.isEmpty()) {
-            return UpdateResult.INVALID_PLUGIN;
-        }
-
-        JSONObject json = BukGetUtil.getPluginData(pluginSlug);
-        JSONArray versions = (JSONArray) json.get("versions");
-
-        if (versions.size() == 0) {
-            return UpdateResult.INVALID_PLUGIN;
-        }
-
-        final JSONObject latest = (JSONObject) versions.get(0);
-
-
-        String currentVersion = PluginUtil.getPluginVersion(pluginName);
-        String latestVersion = (String) latest.get("version");
-
-        if (currentVersion == null) {
-            return UpdateResult.INVALID_PLUGIN;
-        } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
-            return UpdateResult.UP_TO_DATE;
-        } else {
-            return UpdateResult.OUT_OF_DATE;
-        }
-
-
     }
 
     /**

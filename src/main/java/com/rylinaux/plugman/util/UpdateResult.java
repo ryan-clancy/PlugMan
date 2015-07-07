@@ -26,9 +26,82 @@ package com.rylinaux.plugman.util;
  * #L%
  */
 
+/**
+ * Represents a result from an update check from DBO.
+ *
+ * @author rylinaux
+ */
+public class UpdateResult {
 
-public enum UpdateResult {
+    /**
+     * The type of the result.
+     */
+    private final ResultType type;
 
-    INVALID_PLUGIN, OUT_OF_DATE, UP_TO_DATE
+    /**
+     * The current version of the plugin.
+     */
+    private final String currentVersion;
+
+    /**
+     * The latest version of the plugin.
+     */
+    private final String latestVersion;
+
+    /**
+     * Represents the type of the result.
+     */
+    public enum ResultType {
+        INVALID_PLUGIN, NOT_INSTALLED, OUT_OF_DATE, UP_TO_DATE;
+    }
+
+    /**
+     * Construct the object with no versions.
+     *
+     * @param type the type of the result.
+     */
+    public UpdateResult(ResultType type) {
+        this(type, null, null);
+    }
+
+    /**
+     * Construct the object.
+     *
+     * @param type           the type of the result.
+     * @param currentVersion the current version of the plugin.
+     * @param latestVersion  the latest version of the plugin.
+     */
+    public UpdateResult(ResultType type, String currentVersion, String latestVersion) {
+        this.type = type;
+        this.currentVersion = currentVersion;
+        this.latestVersion = latestVersion;
+    }
+
+    /**
+     * Get the type of the result.
+     *
+     * @return the type of the result.
+     */
+    public ResultType getType() {
+        return type;
+    }
+
+    /**
+     * Get the current version of the plugin.
+     *
+     * @return the current version of the plugin.
+     */
+    public String getCurrentVersion() {
+        return currentVersion;
+    }
+
+    /**
+     * Get the latest version of the plugin.
+     *
+     * @return the latest version of the plugin.
+     */
+    public String getLatestVersion() {
+        return latestVersion;
+    }
 
 }
