@@ -74,6 +74,16 @@ public class MessageFormatter {
     }
 
     /**
+     * Add the prefix to a message.
+     *
+     * @param msg the message.
+     * @return the message with the prefix.
+     */
+    public String prefix(String msg) {
+        return ChatColor.translateAlternateColorCodes('&', messageFile.get("prefix") + msg);
+    }
+
+    /**
      * Returns the message configuration.
      *
      * @return the message configuration.

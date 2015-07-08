@@ -27,12 +27,20 @@ package com.rylinaux.plugman.util;
  */
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -51,7 +59,19 @@ public class BukGetUtil {
     public static final String API_BASE_URL = "http://api.bukget.org/3/";
 
     /**
-     * Check if the installed plugin version is consistent with the DBO version.
+     * Check which plugins are up-to-date or not.
+     *
+     * @return a map of the plugins and the results.
+     */
+    public static Map<String, UpdateResult> checkUpToDate() {
+        Map<String, UpdateResult> results = new TreeMap<>();
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+            results.put(plugin.getName(), checkUpToDate(plugin.getName()));
+        return results;
+    }
+
+    /**
+     * Check if the installed plugin version is up-to-date with the DBO version.
      *
      * @param pluginName the plugin name.
      * @return the reflective UpdateResult.

@@ -27,11 +27,19 @@ package com.rylinaux.plugman.command;
  */
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.messaging.MessageFormatter;
 import com.rylinaux.plugman.util.BukGetUtil;
+import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
 import com.rylinaux.plugman.util.UpdateResult;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -98,7 +106,84 @@ public class CheckCommand extends AbstractCommand {
             return;
         }
 
+        if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
+
+            if (hasPermission("all")) {
+
+                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.header"));
+
+                ThreadUtil.async(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        Map<String, UpdateResult> results = BukGetUtil.checkUpToDate();
+
+                        final StringBuilder upToDate = new StringBuilder();
+                        final StringBuilder outOfDate = new StringBuilder();
+
+                        for (Map.Entry<String, UpdateResult> entry : results.entrySet()) {
+                            UpdateResult.ResultType result = entry.getValue().getType();
+                            if (result == UpdateResult.ResultType.UP_TO_DATE) {
+                                upToDate.append(entry.getKey() + "(" + entry.getValue().getCurrentVersion() + ") ");
+                            } else {
+                                outOfDate.append(entry.getKey() + "(" + entry.getValue().getCurrentVersion() + " -> " + entry.getValue().getLatestVersion() + ")");
+                            }
+                        }
+
+                        if (toFile(args)) {
+
+                            File outFile = new File(PlugMan.getInstance().getDataFolder(), "updates.txt");
+
+                            PrintWriter writer = null;
+
+                            try {
+
+                                writer = new PrintWriter(outFile);
+
+                                writer.println("Up-to-date:");
+                                writer.println(upToDate);
+
+                                writer.println("Out-of-date:");
+                                writer.println(outOfDate);
+
+                            } catch (IOException e) {
+
+                            } finally {
+                                if (writer != null)
+                                    writer.close();
+                            }
+
+                            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.file-done", outFile.getPath()));
+
+                        } else {
+
+                            ThreadUtil.sync(new Runnable() {
+                                @Override
+                                public void run() {
+                                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date-player", upToDate.toString()));
+                                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.out-of-date-player", outOfDate.toString()));
+                                }
+                            });
+
+                        }
+
+                    }
+
+                });
+
+
+            } else {
+                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
+            }
+
+            return;
+
+        }
+
         final String pluginName = StringUtil.consolidateStrings(args, 1).replaceAll(" ", "+");
+
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.header"));
 
         ThreadUtil.async(new Runnable() {
 
@@ -116,7 +201,7 @@ public class CheckCommand extends AbstractCommand {
                                 sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found", result.getLatestVersion()));
                                 break;
                             case OUT_OF_DATE:
-                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.outdated", result.getCurrentVersion(), result.getLatestVersion()));
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.out-of-date", result.getCurrentVersion(), result.getLatestVersion()));
                                 break;
                             case UP_TO_DATE:
                                 sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date", result.getCurrentVersion()));
@@ -132,6 +217,13 @@ public class CheckCommand extends AbstractCommand {
 
         });
 
+    }
+
+    private boolean toFile(String[] args) {
+        for (String arg : args)
+            if (arg.equalsIgnoreCase("-f"))
+                return true;
+        return false;
     }
 
 }
