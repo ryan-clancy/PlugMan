@@ -27,9 +27,7 @@ package com.rylinaux.plugman.command;
  */
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.messaging.MessageFormatter;
 import com.rylinaux.plugman.util.BukGetUtil;
-import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
 import com.rylinaux.plugman.util.UpdateResult;
@@ -39,7 +37,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -73,7 +70,7 @@ public class CheckCommand extends AbstractCommand {
     /**
      * The sub permissions of the command.
      */
-    public static final String[] SUB_PERMISSIONS = {""};
+    public static final String[] SUB_PERMISSIONS = {"all"};
 
     /**
      * Construct out object.
