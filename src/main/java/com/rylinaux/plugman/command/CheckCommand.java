@@ -28,6 +28,7 @@ package com.rylinaux.plugman.command;
 
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.BukGetUtil;
+import com.rylinaux.plugman.util.FlagUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
 import com.rylinaux.plugman.util.UpdateResult;
@@ -103,6 +104,8 @@ public class CheckCommand extends AbstractCommand {
             return;
         }
 
+        final boolean toFile = FlagUtil.hasFlag(args, 'f');
+
         if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("*")) {
 
             if (hasPermission("all")) {
@@ -128,7 +131,7 @@ public class CheckCommand extends AbstractCommand {
                             }
                         }
 
-                        if (toFile(args)) {
+                        if (toFile) {
 
                             File outFile = new File(PlugMan.getInstance().getDataFolder(), "updates.txt");
 
@@ -214,19 +217,6 @@ public class CheckCommand extends AbstractCommand {
 
         });
 
-    }
-
-    /**
-     * Check if the the "-f" flag was passed to see if we should dump the info to a file.
-     *
-     * @param args the arguments of the command.
-     * @return true if we should dump to the file.
-     */
-    private boolean toFile(String[] args) {
-        for (String arg : args)
-            if (arg.equalsIgnoreCase("-f"))
-                return true;
-        return false;
     }
 
 }
