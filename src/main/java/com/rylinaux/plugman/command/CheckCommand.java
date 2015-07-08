@@ -178,7 +178,7 @@ public class CheckCommand extends AbstractCommand {
 
         }
 
-        final String pluginName = StringUtil.consolidateStrings(args, 1).replaceAll(" ", "+");
+        final String pluginName = StringUtil.consolidateStrings(args, 1).replaceAll(" ", "+").replace("-[a-zA-Z]", "");
 
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.header"));
 
@@ -216,6 +216,12 @@ public class CheckCommand extends AbstractCommand {
 
     }
 
+    /**
+     * Check if the the "-f" flag was passed to see if we should dump the info to a file.
+     *
+     * @param args the arguments of the command.
+     * @return true if we should dump to the file.
+     */
     private boolean toFile(String[] args) {
         for (String arg : args)
             if (arg.equalsIgnoreCase("-f"))
