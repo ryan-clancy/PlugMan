@@ -27,10 +27,7 @@ package com.rylinaux.plugman.util;
  */
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
@@ -106,6 +103,12 @@ public class BukGetUtil {
 
     }
 
+    /**
+     * Get the slug of the plugin.
+     *
+     * @param name the name of the plugin.
+     * @return the slug of the plugin.
+     */
     public static String getPluginSlug(String name) {
 
         HttpClient client = HttpClients.createMinimal();
