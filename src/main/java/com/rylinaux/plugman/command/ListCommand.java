@@ -30,6 +30,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.util.FlagUtil;
 import com.rylinaux.plugman.util.PluginUtil;
 
 import java.util.Collections;
@@ -97,7 +98,7 @@ public class ListCommand extends AbstractCommand {
             return;
         }
 
-        boolean includeVersions = includeVersions(args);
+        boolean includeVersions = FlagUtil.hasFlag(args, 'v');
 
         List<String> pluginList = Lists.newArrayList();
 
@@ -111,14 +112,6 @@ public class ListCommand extends AbstractCommand {
 
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("list.list", pluginList.size(), plugins));
 
-    }
-
-    private boolean includeVersions(String[] args) {
-        for (String arg : args) {
-            if (arg.equalsIgnoreCase("-v"))
-                return true;
-        }
-        return false;
     }
 
 }
