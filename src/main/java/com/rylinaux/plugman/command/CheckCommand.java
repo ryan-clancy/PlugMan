@@ -66,7 +66,7 @@ public class CheckCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman check [plugin]";
+    public static final String USAGE = "/plugman check <plugin>";
 
     /**
      * The sub permissions of the command.

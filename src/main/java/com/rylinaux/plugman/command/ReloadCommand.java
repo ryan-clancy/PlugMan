@@ -58,7 +58,7 @@ public class ReloadCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman reload [plugin|all]";
+    public static final String USAGE = "/plugman reload <plugin|all>";
 
     /**
      * The sub permissions of the command.

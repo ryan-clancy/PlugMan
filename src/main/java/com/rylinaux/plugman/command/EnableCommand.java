@@ -58,7 +58,7 @@ public class EnableCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman enable [plugin|all]";
+    public static final String USAGE = "/plugman enable <plugin|all>";
 
     /**
      * The sub permissions of the command.

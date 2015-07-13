@@ -58,7 +58,7 @@ public class RestartCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman restart [plugin|all]";
+    public static final String USAGE = "/plugman restart <plugin|all>";
 
     /**
      * The sub permissions of the command.

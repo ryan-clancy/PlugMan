@@ -59,7 +59,7 @@ public class LoadCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman load [plugin]";
+    public static final String USAGE = "/plugman load <plugin>";
 
     /**
      * The sub permissions of the command.

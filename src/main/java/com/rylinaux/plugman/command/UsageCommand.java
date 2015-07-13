@@ -58,7 +58,7 @@ public class UsageCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman usage [plugin]";
+    public static final String USAGE = "/plugman usage <plugin>";
 
     /**
      * The sub permissions of the command.

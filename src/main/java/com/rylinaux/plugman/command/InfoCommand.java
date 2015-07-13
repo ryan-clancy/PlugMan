@@ -61,7 +61,7 @@ public class InfoCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman info [plugin]";
+    public static final String USAGE = "/plugman info <plugin>";
 
     /**
      * The sub permissions of the command.

@@ -58,7 +58,7 @@ public class UnloadCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman unload [plugin]";
+    public static final String USAGE = "/plugman unload <plugin>";
 
     /**
      * The sub permissions of the command.

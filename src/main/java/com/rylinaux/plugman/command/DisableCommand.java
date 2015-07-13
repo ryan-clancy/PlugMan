@@ -58,7 +58,7 @@ public class DisableCommand extends AbstractCommand {
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman disable [plugin|all]";
+    public static final String USAGE = "/plugman disable <plugin|all>";
 
     /**
      * The sub permissions of the command.
