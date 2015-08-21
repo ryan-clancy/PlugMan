@@ -96,7 +96,7 @@ public class DumpCommand extends AbstractCommand {
             return;
         }
 
-        File dumpFile = new File(PlugMan.getInstance().getDataFolder(), "dump.txt");
+        File dumpFile = new File(PlugMan.getInstance().getDataFolder(), "versions.txt");
 
         PrintWriter writer = null;
 
