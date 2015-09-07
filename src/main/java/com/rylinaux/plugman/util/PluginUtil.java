@@ -334,6 +334,8 @@ public class PluginUtil {
 
         if (pluginManager != null) {
 
+            pluginManager.disablePlugin(plugin);
+
             try {
 
                 Field pluginsField = Bukkit.getPluginManager().getClass().getDeclaredField("plugins");
