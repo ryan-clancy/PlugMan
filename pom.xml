@@ -49,10 +49,6 @@
 
     <repositories>
         <repository>
-            <id>gravity-repo</id>
-            <url>http://repo.gravitydevelopment.net</url>
-        </repository>
-        <repository>
             <id>metrics-repo</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
@@ -87,11 +83,6 @@
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics</artifactId>
             <version>R7</version>
-        </dependency>
-        <dependency>
-            <groupId>net.gravitydevelopment.updater</groupId>
-            <artifactId>updater</artifactId>
-            <version>2.3</version>
         </dependency>
     </dependencies>
 
@@ -140,7 +131,6 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit</include>
-                                    <include>net.gravitydevelopment.updater</include>
                                     <include>commons-io</include>
                                     <include>commons-logging</include>
                                     <include>org.apache.httpcomponents</include>
