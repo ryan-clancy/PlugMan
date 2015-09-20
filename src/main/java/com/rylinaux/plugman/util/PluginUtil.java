@@ -68,7 +68,7 @@ public class PluginUtil {
      * @param plugin the plugin to enable
      */
     public static void enable(Plugin plugin) {
-        if (!plugin.isEnabled() && plugin != null)
+        if (plugin != null && !plugin.isEnabled())
             Bukkit.getPluginManager().enablePlugin(plugin);
     }
 
@@ -87,7 +87,7 @@ public class PluginUtil {
      * @param plugin the plugin to disable
      */
     public static void disable(Plugin plugin) {
-        if (plugin.isEnabled() && plugin != null)
+        if (plugin != null && plugin.isEnabled())
             Bukkit.getPluginManager().disablePlugin(plugin);
     }
 
