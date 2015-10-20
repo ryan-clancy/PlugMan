@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.util;
+package com.rylinaux.plugman.pojo;
 
 /*
  * #%L

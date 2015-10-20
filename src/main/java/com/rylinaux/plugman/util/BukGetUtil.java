@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.rylinaux.plugman.pojo.UpdateResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

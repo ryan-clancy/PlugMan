@@ -31,7 +31,7 @@ import com.rylinaux.plugman.util.BukGetUtil;
 import com.rylinaux.plugman.util.FlagUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
-import com.rylinaux.plugman.util.UpdateResult;
+import com.rylinaux.plugman.pojo.UpdateResult;
 
 import java.io.File;
 import java.io.IOException;
