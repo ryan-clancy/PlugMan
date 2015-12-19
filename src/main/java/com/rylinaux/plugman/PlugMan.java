@@ -110,8 +110,7 @@ public class PlugMan extends JavaPlugin {
         if (useMetrics) {
             Bukkit.getScheduler().runTask(this, new MetricsTask(this));
         } else {
-            if (!this.getConfig().getBoolean("silently-ignore"))
-                this.getLogger().log(Level.INFO, "Skipping Metrics.");
+            this.getLogger().log(Level.INFO, "Skipping Metrics.");
         }
     }
 
@@ -123,8 +122,7 @@ public class PlugMan extends JavaPlugin {
         if (!updaterType.equalsIgnoreCase("none")) {
             Bukkit.getScheduler().runTaskAsynchronously(this, new UpdaterTask(this, this.getFile(), updaterType));
         } else {
-            if (!this.getConfig().getBoolean("silently-ignore"))
-                this.getLogger().log(Level.INFO, "Skipping Updater.");
+            this.getLogger().log(Level.INFO, "Skipping Updater.");
         }
     }
 
