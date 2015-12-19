@@ -88,7 +88,7 @@ public class PlugMan extends JavaPlugin {
      * Register event for alerts, if enabled.
      */
     private void initAlerts() {
-        boolean alerts = this.getConfig().getBoolean("update-alerts");
+        boolean alerts = this.getConfig().getBoolean("update-alerts", true);
         if (alerts) {
             this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
         }
@@ -106,7 +106,7 @@ public class PlugMan extends JavaPlugin {
      * Start Metrics, if enabled.
      */
     private void initMetrics() {
-        boolean useMetrics = this.getConfig().getBoolean("use-metrics");
+        boolean useMetrics = this.getConfig().getBoolean("use-metrics", true);
         if (useMetrics) {
             Bukkit.getScheduler().runTask(this, new MetricsTask(this));
         } else {
@@ -118,7 +118,7 @@ public class PlugMan extends JavaPlugin {
      * Start Updater, if enabled.
      */
     private void initUpdater() {
-        String updaterType = this.getConfig().getString("updater-type");
+        String updaterType = this.getConfig().getString("updater-type", "download");
         if (!updaterType.equalsIgnoreCase("none")) {
             Bukkit.getScheduler().runTaskAsynchronously(this, new UpdaterTask(this, this.getFile(), updaterType));
         } else {
