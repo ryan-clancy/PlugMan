@@ -96,6 +96,11 @@
                             <goal>update-file-header</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <includes>
+                                <include>src/main/java/com/rylinaux/*</include>
+                            </includes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
