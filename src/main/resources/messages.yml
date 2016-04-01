@@ -32,6 +32,7 @@ error:
   invalid-plugin: '&cThat is not a valid plugin.'
   no-permission: '&cYou do not have permission to do this.'
   specify-plugin: '&cYou must specify a plugin.'
+  specify-command: '&cYou must specify a command.'
   usage:
     command: '&7- &9Command: &7{0}'
     description: '&7- &9Description: &7{0}'
@@ -43,6 +44,7 @@ help:
   dump: '&7- &a/plugman dump &f- &7Dump plugin names and versions to file.'
   info: '&7- &a/plugman info <plugin> &f- &7Get info on a plugin.'
   usage: '&7- &a/plugman usage <plugin> &f- &7List commands a plugin has registered.'
+  lookup: '&7- &a/plugman lookup <command> &f- &7Find the plugin a command is registered to.'
   enable: '&7- &a/plugman enable <plugin|all> &f- &7Enable a plugin.'
   disable: '&7- &a/plugman disable <plugin|all> &f- &7Disable a plugin.'
   restart: '&7- &a/plugman restart <plugin|all> &f- &7Restart a plugin.'
@@ -64,6 +66,9 @@ load:
   invalid-plugin: '&cThat file is not a valid plugin.'
   loaded: '&9{0} has been loaded and enabled.'
   plugin-dir: '&cPlugin directory not found.'
+lookup:
+  found: '&9/{0} is registered to {1}.'
+  not-found: '&cCommand "/{0}" not registered in any plugin.yml'
 reload:
   all: '&9All plugins have been reloaded.'
   reloaded: '&9{0} has been reloaded.'

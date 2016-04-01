@@ -205,6 +205,31 @@ public class PluginUtil {
     }
 
     /**
+     * Find which plugin has a given command registered.
+     *
+     * @param command the command.
+     * @return the plugin.
+     */
+    public static Plugin findByCommand(String command) {
+
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
+            if (commands != null) {
+                Iterator<String> iterator = commands.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String pluginName = iterator.next();
+                    if (pluginName.equalsIgnoreCase(command)) {
+                        return plugin;
+                    }
+                }
+            }
+        }
+
+        return null;
+
+    }
+
+    /**
      * Checks whether the plugin is ignored.
      *
      * @param plugin the plugin to check
