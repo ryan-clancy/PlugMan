@@ -26,19 +26,7 @@ package com.rylinaux.plugman;
  * #L%
  */
 
-import com.rylinaux.plugman.command.AbstractCommand;
-import com.rylinaux.plugman.command.CheckCommand;
-import com.rylinaux.plugman.command.DisableCommand;
-import com.rylinaux.plugman.command.DumpCommand;
-import com.rylinaux.plugman.command.EnableCommand;
-import com.rylinaux.plugman.command.HelpCommand;
-import com.rylinaux.plugman.command.InfoCommand;
-import com.rylinaux.plugman.command.ListCommand;
-import com.rylinaux.plugman.command.LoadCommand;
-import com.rylinaux.plugman.command.ReloadCommand;
-import com.rylinaux.plugman.command.RestartCommand;
-import com.rylinaux.plugman.command.UnloadCommand;
-import com.rylinaux.plugman.command.UsageCommand;
+import com.rylinaux.plugman.command.*;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -74,6 +62,9 @@ public class PlugManCommandHandler implements CommandExecutor {
                 break;
             case "info":
                 cmd = new InfoCommand(sender);
+                break;
+            case "lookup":
+                cmd = new LookupCommand(sender);
                 break;
             case "usage":
                 cmd = new UsageCommand(sender);

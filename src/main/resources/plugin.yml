@@ -9,6 +9,7 @@ commands:
     usage: /plugman (help|dump)
            /plugman list [-v]
            /plugman check <plugin|all> [-f]
+           /plugman lookup <command>
            /plugman (enable|disable|restart) <plugin|all>
            /plugman (info|usage|load|reload|unload) <plugin>
 permissions:
@@ -23,6 +24,7 @@ permissions:
       plugman.dump: true
       plugman.info: true
       plugman.usage: true
+      plugman.lookup: true
       plugman.enable: true
       plugman.enable.all: true
       plugman.disable: true
@@ -51,6 +53,9 @@ permissions:
     default: op
   plugman.usage:
     description: Allows use of the usage command.
+    default: op
+  plugman.lookup:
+    description: Allows use of the lookup command.
     default: op
   plugman.enable:
     description: Allows use of the enable command.
