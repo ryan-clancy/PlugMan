@@ -213,18 +213,56 @@ public class PluginUtil {
     public static Plugin findByCommand(String command) {
 
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+
+            // Map of commands and their attributes.
             Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
+
             if (commands != null) {
-                Iterator<String> iterator = commands.keySet().iterator();
-                while (iterator.hasNext()) {
-                    String pluginName = iterator.next();
-                    if (pluginName.equalsIgnoreCase(command)) {
+
+                // Iterator for all the plugin's commands.
+                Iterator<Map.Entry<String, Map<String, Object>>> commandIterator = commands.entrySet().iterator();
+
+                while (commandIterator.hasNext()) {
+
+                    // Current value.
+                    Map.Entry<String, Map<String, Object>> commandNext = commandIterator.next();
+
+                    // Plugin name matches - return.
+                    if (commandNext.getKey().equalsIgnoreCase(command)) {
                         return plugin;
                     }
+
+                    // No match - let's iterate over the attributes and see if it has aliases.
+                    Iterator<Map.Entry<String, Object>> attributeIterator = commandNext.getValue().entrySet().iterator();
+
+                    while (attributeIterator.hasNext()) {
+
+                        // Current value.
+                        Map.Entry<String, Object> attributeNext = attributeIterator.next();
+
+                        // Has an alias attribute.
+                        if (attributeNext.getKey().equals("aliases")) {
+
+                            // Cast to a List of Strings.
+                            List<String> array = (List<String>) attributeNext.getValue();
+
+                            // Check for matches here.
+                            for (String str : array) {
+                                if (str.equalsIgnoreCase(command)) {
+                                    return plugin;
+                                }
+                            }
+
+                        }
+
+                    }
                 }
+
             }
+
         }
 
+        // No matches.
         return null;
 
     }
