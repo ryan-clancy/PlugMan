@@ -8,6 +8,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 * Get useful information on plugins such as commands, version, author(s), etc.
 * Easily manage plugins without having to constantly restart your server.
 * List commands a plugin has registered.
+* Find the plugin a command is registered to.
 * Tab completion for command names and plugin names.
 * Dump plugin list with versions to a file.
 * Check if a plugin is up-to-date with dev.bukkit.org
@@ -21,6 +22,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | /plugman info [plugin] | Displays information about a plugin. |
 | /plugman dump | Dump plugin names and version to a file. |
 | /plugman usage [plugin] | List commands that a plugin has registered. |
+| /plugman lookup [plugin] | Find the plugin a command is registered to. |
 | /plugman enable [plugin&#124;all] | Enable a plugin. |
 | /plugman disable [plugin&#124;all] | Disable a plugin. |
 | /plugman restart [plugin&#124;all] | Restart (disable/enable) a plugin. |
@@ -39,6 +41,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | plugman.info | OP | Allow use of the info command. |
 | plugman.dump | OP | Allow use of the dump command. |
 | plugman.usage | OP | Allow use of the usage command. |
+| plugman.lookup | OP | Allow use of the lookup command. |
 | plugman.enable | OP | Allow use of the enable command. |
 | plugman.enable.all | OP | Allow use of the enable all command. |
 | plugman.disable | OP | Allow use of the disable command. |
