@@ -22,7 +22,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | /plugman info [plugin] | Displays information about a plugin. |
 | /plugman dump | Dump plugin names and version to a file. |
 | /plugman usage [plugin] | List commands that a plugin has registered. |
-| /plugman lookup [plugin] | Find the plugin a command is registered to. |
+| /plugman lookup [command] | Find the plugin a command is registered to. |
 | /plugman enable [plugin&#124;all] | Enable a plugin. |
 | /plugman disable [plugin&#124;all] | Disable a plugin. |
 | /plugman restart [plugin&#124;all] | Restart (disable/enable) a plugin. |
