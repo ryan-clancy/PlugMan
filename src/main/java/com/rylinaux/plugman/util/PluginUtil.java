@@ -243,14 +243,24 @@ public class PluginUtil {
                         // Has an alias attribute.
                         if (attributeNext.getKey().equals("aliases")) {
 
-                            // Cast to a List of Strings.
-                            List<String> array = (List<String>) attributeNext.getValue();
+                            Object aliases = attributeNext.getValue();
 
-                            // Check for matches here.
-                            for (String str : array) {
-                                if (str.equalsIgnoreCase(command)) {
+                            if (aliases instanceof String) {
+                                if (((String) aliases).equalsIgnoreCase(command)) {
                                     return plugin;
                                 }
+                            } else {
+
+                                // Cast to a List of Strings.
+                                List<String> array = (List<String>) aliases;
+
+                                // Check for matches here.
+                                for (String str : array) {
+                                    if (str.equalsIgnoreCase(command)) {
+                                        return plugin;
+                                    }
+                                }
+
                             }
 
                         }
