@@ -26,12 +26,15 @@ package com.rylinaux.plugman.command;
  * #L%
  */
 
+import com.google.common.base.Joiner;
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.PluginUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+
+import java.util.List;
 
 /**
  * Command that finds which plugin a command is registered to.
@@ -96,14 +99,14 @@ public class LookupCommand extends AbstractCommand {
             return;
         }
 
-        Plugin plugin = PluginUtil.findByCommand(args[1]);
+        List<String> plugins = PluginUtil.findByCommand(args[1]);
 
-        if (plugin == null) {
+        if (plugins.isEmpty()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.not-found", args[1]));
             return;
         }
 
-        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.found", args[1], plugin.getName()));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.found", args[1], Joiner.on(", ").join(plugins)));
 
     }
 }

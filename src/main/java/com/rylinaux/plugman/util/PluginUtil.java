@@ -210,7 +210,9 @@ public class PluginUtil {
      * @param command the command.
      * @return the plugin.
      */
-    public static Plugin findByCommand(String command) {
+    public static List<String> findByCommand(String command) {
+
+        List<String> plugins = new ArrayList<>();
 
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 
@@ -229,7 +231,8 @@ public class PluginUtil {
 
                     // Plugin name matches - return.
                     if (commandNext.getKey().equalsIgnoreCase(command)) {
-                        return plugin;
+                        plugins.add(plugin.getName());
+                        continue;
                     }
 
                     // No match - let's iterate over the attributes and see if it has aliases.
@@ -247,7 +250,8 @@ public class PluginUtil {
 
                             if (aliases instanceof String) {
                                 if (((String) aliases).equalsIgnoreCase(command)) {
-                                    return plugin;
+                                    plugins.add(plugin.getName());
+                                    continue;
                                 }
                             } else {
 
@@ -257,7 +261,8 @@ public class PluginUtil {
                                 // Check for matches here.
                                 for (String str : array) {
                                     if (str.equalsIgnoreCase(command)) {
-                                        return plugin;
+                                        plugins.add(plugin.getName());
+                                        continue;
                                     }
                                 }
 
@@ -273,7 +278,7 @@ public class PluginUtil {
         }
 
         // No matches.
-        return null;
+        return plugins;
 
     }
 
