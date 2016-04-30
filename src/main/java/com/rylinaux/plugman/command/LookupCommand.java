@@ -99,14 +99,20 @@ public class LookupCommand extends AbstractCommand {
             return;
         }
 
-        List<String> plugins = PluginUtil.findByCommand(args[1]);
+        String commandName = args[1];
+
+        if (commandName.charAt(0) == '/') {
+            commandName = commandName.substring(1, commandName.length());
+        }
+
+        List<String> plugins = PluginUtil.findByCommand(commandName);
 
         if (plugins.isEmpty()) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.not-found", args[1]));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.not-found", commandName));
             return;
         }
 
-        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.found", args[1], Joiner.on(", ").join(plugins)));
+        sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("lookup.found", commandName, Joiner.on(", ").join(plugins)));
 
     }
 }
