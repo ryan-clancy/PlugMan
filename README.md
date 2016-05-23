@@ -58,12 +58,12 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 ## Configuration
 | File | URL |
 | ----- | ------- |
-| config.yml | https://github.com/rylinaux/PlugMan/blob/master/src/main/resources/config.yml |
+| config.yml | https://github.com/r-clancy/PlugMan/blob/master/src/main/resources/config.yml |
 
 ## Sponsors
 
 <div style="text-align:center" markdown="1">
-![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/jetbrains_logo.png "JetBrains")
+![image](https://raw.githubusercontent.com/r-clancy/PlugMan/master/images/jetbrains_logo.png "JetBrains")
 
 JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.
 
@@ -71,7 +71,7 @@ Take a look a JetBrain's leading software products over on <a href="http://www.j
 
 ---
 
-![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/yourkit_logo.png "YourKit")
+![image](https://raw.githubusercontent.com/r-clancy/PlugMan/master/images/yourkit_logo.png "YourKit")
 
 YourKit is kindly supporting the PlugMan open source project with its full-featured Java Profiler.
 
@@ -81,7 +81,7 @@ Take a look at YourKit's leading software products: <a href="http://www.yourkit.
 
 ---
 
-![image](https://raw.githubusercontent.com/rylinaux/PlugMan/master/images/intreppid_logo.png "Intreppid Logo")
+![image](https://raw.githubusercontent.com/r-clancy/PlugMan/master/images/intreppid_logo.png "Intreppid Logo")
 
 Intreppid is kindly supporting the PlugMan open source project with hosting for the Jenkins build server along with a test platform for development.
 
