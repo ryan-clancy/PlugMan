@@ -52,7 +52,7 @@ public class UpdateResult {
      * Represents the type of the result.
      */
     public enum ResultType {
-        INVALID_PLUGIN, NOT_INSTALLED, OUT_OF_DATE, UP_TO_DATE;
+        INVALID_PLUGIN, NOT_INSTALLED, OUT_OF_DATE, UP_TO_DATE
     }
 
     /**
@@ -62,6 +62,16 @@ public class UpdateResult {
      */
     public UpdateResult(ResultType type) {
         this(type, null, null);
+    }
+
+    /**
+     * Construct the object with only the current version.
+     *
+     * @param type the type of the result.
+     * @param currentVersion the current version.
+     */
+    public UpdateResult(ResultType type, String currentVersion) {
+        this(type, currentVersion, null);
     }
 
     /**
