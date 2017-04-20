@@ -28,32 +28,22 @@ package com.rylinaux.plugman.util;
 
 import com.google.common.base.Joiner;
 
-import com.rylinaux.plugman.PlugMan;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.rylinaux.plugman.PlugMan;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.Event;
-import org.bukkit.plugin.InvalidDescriptionException;
-import org.bukkit.plugin.InvalidPluginException;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredListener;
+import org.bukkit.plugin.*;
 
 /**
  * Utilities for managing plugins.
@@ -68,17 +58,20 @@ public class PluginUtil {
      * @param plugin the plugin to enable
      */
     public static void enable(Plugin plugin) {
-        if (plugin != null && !plugin.isEnabled())
+        if (plugin != null && !plugin.isEnabled()) {
             Bukkit.getPluginManager().enablePlugin(plugin);
+        }
     }
 
     /**
      * Enable all plugins.
      */
     public static void enableAll() {
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
-            if (!isIgnored(plugin))
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            if (!isIgnored(plugin)) {
                 enable(plugin);
+            }
+        }
     }
 
     /**
@@ -87,8 +80,9 @@ public class PluginUtil {
      * @param plugin the plugin to disable
      */
     public static void disable(Plugin plugin) {
-        if (plugin != null && plugin.isEnabled())
+        if (plugin != null && plugin.isEnabled()) {
             Bukkit.getPluginManager().disablePlugin(plugin);
+        }
     }
 
     /**
@@ -96,8 +90,9 @@ public class PluginUtil {
      */
     public static void disableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (!isIgnored(plugin))
+            if (!isIgnored(plugin)) {
                 disable(plugin);
+            }
         }
     }
 
@@ -121,8 +116,9 @@ public class PluginUtil {
     public static String getFormattedName(Plugin plugin, boolean includeVersions) {
         ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
         String pluginName = color + plugin.getName();
-        if (includeVersions)
+        if (includeVersions) {
             pluginName += " (" + plugin.getDescription().getVersion() + ")";
+        }
         return pluginName;
     }
 
@@ -145,8 +141,9 @@ public class PluginUtil {
      */
     public static Plugin getPluginByName(String name) {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (name.equalsIgnoreCase(plugin.getName()))
+            if (name.equalsIgnoreCase(plugin.getName())) {
                 return plugin;
+            }
         }
         return null;
     }
@@ -158,8 +155,9 @@ public class PluginUtil {
      */
     public static List<String> getPluginNames(boolean fullName) {
         List<String> plugins = new ArrayList<>();
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             plugins.add(fullName ? plugin.getDescription().getFullName() : plugin.getName());
+        }
         return plugins;
     }
 
@@ -171,8 +169,9 @@ public class PluginUtil {
      */
     public static String getPluginVersion(String name) {
         Plugin plugin = getPluginByName(name);
-        if (plugin != null && plugin.getDescription() != null)
+        if (plugin != null && plugin.getDescription() != null) {
             return plugin.getDescription().getVersion();
+        }
         return null;
     }
 
@@ -192,8 +191,9 @@ public class PluginUtil {
             Iterator commandsIt = commands.entrySet().iterator();
             while (commandsIt.hasNext()) {
                 Map.Entry thisEntry = (Map.Entry) commandsIt.next();
-                if (thisEntry != null)
+                if (thisEntry != null) {
                     parsedCommands.add((String) thisEntry.getKey());
+                }
             }
         }
 
@@ -235,7 +235,8 @@ public class PluginUtil {
                         continue;
                     }
 
-                    // No match - let's iterate over the attributes and see if it has aliases.
+                    // No match - let's iterate over the attributes and see if
+                    // it has aliases.
                     Iterator<Map.Entry<String, Object>> attributeIterator = commandNext.getValue().entrySet().iterator();
 
                     while (attributeIterator.hasNext()) {
@@ -300,8 +301,9 @@ public class PluginUtil {
      */
     public static boolean isIgnored(String plugin) {
         for (String name : PlugMan.getInstance().getIgnoredPlugins()) {
-            if (name.equalsIgnoreCase(plugin))
+            if (name.equalsIgnoreCase(plugin)) {
                 return true;
+            }
         }
         return false;
     }
@@ -328,8 +330,9 @@ public class PluginUtil {
 
         File pluginDir = new File("plugins");
 
-        if (!pluginDir.isDirectory())
+        if (!pluginDir.isDirectory()) {
             return PlugMan.getInstance().getMessageFormatter().format("load.plugin-directory");
+        }
 
         File pluginFile = new File(pluginDir, name + ".jar");
 
@@ -383,8 +386,9 @@ public class PluginUtil {
      */
     public static void reloadAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (!isIgnored(plugin))
+            if (!isIgnored(plugin)) {
                 reload(plugin);
+            }
         }
     }
 
@@ -447,6 +451,7 @@ public class PluginUtil {
                 e.printStackTrace();
                 return PlugMan.getInstance().getMessageFormatter().format("unload.failed", name);
             }
+
         }
 
         pluginManager.disablePlugin(plugin);
@@ -481,21 +486,36 @@ public class PluginUtil {
             }
         }
 
-        // Attempt to close the classloader to unlock any handles on the plugin's
-        // jar file.
+        // Attempt to close the classloader to unlock any handles on the plugin's jar file.
         ClassLoader cl = plugin.getClass().getClassLoader();
 
         if (cl instanceof URLClassLoader) {
+
             try {
+
+                Field pluginField = cl.getClass().getDeclaredField("plugin");
+                pluginField.setAccessible(true);
+                pluginField.set(cl, null);
+
+                Field pluginInitField = cl.getClass().getDeclaredField("pluginInit");
+                pluginInitField.setAccessible(true);
+                pluginInitField.set(cl, null);
+
+            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+                Logger.getLogger(PluginUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+
                 ((URLClassLoader) cl).close();
             } catch (IOException ex) {
                 Logger.getLogger(PluginUtil.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
 
-        // Will not work on processes started with the -XX:+DisableExplicitGC flag,
-        // but lets try it anyway. This tries to get around the issue where Windows
-        // refuses to unlock jar files that were previously loaded into the JVM.
+        // Will not work on processes started with the -XX:+DisableExplicitGC flag, but lets try it anyway.
+        // This tries to get around the issue where Windows refuses to unlock jar files that were previously loaded into the JVM.
         System.gc();
 
         return PlugMan.getInstance().getMessageFormatter().format("unload.unloaded", name);

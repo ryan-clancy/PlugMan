@@ -45,16 +45,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 /**
- * Utilities for dealing with the Bukget API.
+ * Utilities for dealing with the SpiGet API.
  *
  * @author rylinaux
  */
-public class BukGetUtil {
+public class SpiGetUtil {
 
     /**
-     * The base URL for the Bukget API.
+     * The base URL for the SpiGet API.
      */
-    public static final String API_BASE_URL = "http://api.bukget.org/3/";
+    public static final String API_BASE_URL = "https://api.spiget.org/v2/";
 
     /**
      * Check which plugins are up-to-date or not.
@@ -63,39 +63,43 @@ public class BukGetUtil {
      */
     public static Map<String, UpdateResult> checkUpToDate() {
         Map<String, UpdateResult> results = new TreeMap<>();
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             results.put(plugin.getName(), checkUpToDate(plugin.getName()));
+        }
         return results;
     }
 
     /**
-     * Check if the installed plugin version is up-to-date with the DBO version.
+     * Check if the installed plugin version is up-to-date with the Spigot version.
      *
      * @param pluginName the plugin name.
      * @return the reflective UpdateResult.
      */
     public static UpdateResult checkUpToDate(String pluginName) {
 
-        String pluginSlug = BukGetUtil.getPluginSlug(pluginName);
+        long pluginId = SpiGetUtil.getPluginId(pluginName);
 
-        if (pluginSlug == null || pluginSlug.isEmpty()) {
-            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN);
+        if (pluginId < 0) {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
 
-        JSONObject json = BukGetUtil.getPluginData(pluginSlug);
-        JSONArray versions = (JSONArray) json.get("versions");
+        JSONArray versions = SpiGetUtil.getPluginVersions(pluginId);
 
         if (versions.size() == 0) {
-            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN);
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
 
         JSONObject latest = (JSONObject) versions.get(0);
 
         String currentVersion = PluginUtil.getPluginVersion(pluginName);
-        String latestVersion = (String) latest.get("version");
-
+        String latestVersion = (String) latest.get("name");
+        
         if (currentVersion == null) {
             return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+        } else if (latestVersion == null) {
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion);
         } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
             return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
         } else {
@@ -105,68 +109,69 @@ public class BukGetUtil {
     }
 
     /**
-     * Get the slug of the plugin.
+     * Get the id of the plugin.
      *
      * @param name the name of the plugin.
-     * @return the slug of the plugin.
+     * @return the id of the plugin.
      */
-    public static String getPluginSlug(String name) {
+    public static long getPluginId(String name) {
 
         HttpClient client = HttpClients.createMinimal();
-        HttpGet get = new HttpGet(API_BASE_URL + "search/slug/like/" + name + "?fields=plugin_name,slug");
+
+        HttpGet get = new HttpGet(API_BASE_URL + "search/resources/" + name + "?field=name&fields=id%2Cname");
+        get.setHeader("User-Agent", "PlugMan");
 
         try {
 
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            JSONArray array = (JSONArray) JSONValue.parse(body);
+            Object object = JSONValue.parse(body);
 
-            for (int i = 0; i < array.size(); i++) {
-                JSONObject json = (JSONObject) array.get(i);
-                String pluginName = (String) json.get("plugin_name");
-                if (name.equalsIgnoreCase(pluginName))
-                    return (String) json.get("slug");
+            if (object instanceof JSONArray) {
+
+                JSONArray array = (JSONArray) JSONValue.parse(body);
+
+                for (int i = 0; i < array.size(); i++) {
+                    JSONObject json = (JSONObject) array.get(i);
+                    String pluginName = (String) json.get("name");
+                    if (name.equalsIgnoreCase(pluginName)) {
+                        return (long) json.get("id");
+                    }
+                }
+
             }
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
-        return null;
+        return -1;
 
     }
 
     /**
-     * Get the plugin data for the latest version.
+     * Get the versions for a given plugin.
      *
-     * @param slug the plugin slug.
+     * @param id the plugin id.
      * @return the JSON encoded data.
      */
-    public static JSONObject getPluginData(String slug) {
-        return getPluginData(slug, "latest");
-    }
-
-    /**
-     * Get the plugin data for a certain version.
-     *
-     * @param slug the plugin slug.
-     * @return the JSON encoded data.
-     */
-    public static JSONObject getPluginData(String slug, String version) {
+    public static JSONArray getPluginVersions(long id) {
 
         HttpClient client = HttpClients.createMinimal();
-        HttpGet get = new HttpGet(API_BASE_URL + "plugins/bukkit/" + slug + "/" + version);
+
+        HttpGet get = new HttpGet(API_BASE_URL + "/resources/" + id + "/versions?sort=-releaseDate");
+        get.setHeader("User-Agent", "PlugMan");
 
         try {
 
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            return (JSONObject) JSONValue.parse(body);
+            return (JSONArray) JSONValue.parse(body);
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
         return null;

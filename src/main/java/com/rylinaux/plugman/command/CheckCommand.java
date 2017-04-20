@@ -27,7 +27,7 @@ package com.rylinaux.plugman.command;
  */
 
 import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.util.BukGetUtil;
+import com.rylinaux.plugman.util.SpiGetUtil;
 import com.rylinaux.plugman.util.FlagUtil;
 import com.rylinaux.plugman.util.StringUtil;
 import com.rylinaux.plugman.util.ThreadUtil;
@@ -38,8 +38,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Command that checks if a plugin is up-to-date.
@@ -117,18 +119,24 @@ public class CheckCommand extends AbstractCommand {
                     @Override
                     public void run() {
 
-                        Map<String, UpdateResult> results = BukGetUtil.checkUpToDate();
+                        Map<String, UpdateResult> results = SpiGetUtil.checkUpToDate();
 
-                        final StringBuilder upToDate = new StringBuilder();
-                        final StringBuilder outOfDate = new StringBuilder();
+                        final StringBuilder upToDate = new StringBuilder(), outOfDate = new StringBuilder(), unknown = new StringBuilder();
 
                         for (Map.Entry<String, UpdateResult> entry : results.entrySet()) {
+
                             UpdateResult.ResultType result = entry.getValue().getType();
+
+                            String currentVersion = Bukkit.getPluginManager().getPlugin(entry.getKey()).getDescription().getVersion();
+
                             if (result == UpdateResult.ResultType.UP_TO_DATE) {
-                                upToDate.append(entry.getKey() + "(" + entry.getValue().getCurrentVersion() + ") ");
+                                upToDate.append(entry.getKey() + "(" + currentVersion + ") ");
+                            } else if (result == UpdateResult.ResultType.INVALID_PLUGIN || result == UpdateResult.ResultType.NOT_INSTALLED) {
+                                unknown.append(entry.getKey() + "(" + currentVersion + ") ");
                             } else {
-                                outOfDate.append(entry.getKey() + "(" + entry.getValue().getCurrentVersion() + " -> " + entry.getValue().getLatestVersion() + ")");
+                                outOfDate.append(entry.getKey() + "(" + currentVersion + " -> " + entry.getValue().getLatestVersion() + ") ");
                             }
+
                         }
 
                         if (toFile) {
@@ -141,17 +149,21 @@ public class CheckCommand extends AbstractCommand {
 
                                 writer = new PrintWriter(outFile);
 
-                                writer.println("Up-to-date:");
+                                writer.println("Up-to-date (Installed):");
                                 writer.println(upToDate);
 
-                                writer.println("Out-of-date:");
+                                writer.println("Out-of-date (Installed -> Latest):");
                                 writer.println(outOfDate);
+
+                                writer.println("Unknown (Installed):");
+                                writer.println(unknown);
 
                             } catch (IOException e) {
 
                             } finally {
-                                if (writer != null)
+                                if (writer != null) {
                                     writer.close();
+                                }
                             }
 
                             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.file-done", outFile.getPath()));
@@ -163,6 +175,7 @@ public class CheckCommand extends AbstractCommand {
                                 public void run() {
                                     sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date-player", upToDate.toString()));
                                     sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.out-of-date-player", outOfDate.toString()));
+                                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.unknown-player", unknown.toString()));
                                 }
                             });
 
@@ -190,7 +203,7 @@ public class CheckCommand extends AbstractCommand {
             @Override
             public void run() {
 
-                final UpdateResult result = BukGetUtil.checkUpToDate(pluginName);
+                final UpdateResult result = SpiGetUtil.checkUpToDate(pluginName);
 
                 ThreadUtil.sync(new Runnable() {
 
@@ -207,7 +220,7 @@ public class CheckCommand extends AbstractCommand {
                                 sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date", result.getCurrentVersion()));
                                 break;
                             default:
-                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-dbo"));
+                                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.not-found-spigot"));
                         }
                     }
 
