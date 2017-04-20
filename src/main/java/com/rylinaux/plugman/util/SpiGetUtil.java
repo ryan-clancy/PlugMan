@@ -116,6 +116,7 @@ public class SpiGetUtil {
         HttpClient client = HttpClients.createMinimal();
 
         HttpGet get = new HttpGet(API_BASE_URL + "search/resources/" + name + "?field=name&fields=id%2Cname");
+        get.setHeader("User-Agent", "PlugMan");
 
         try {
 
@@ -155,7 +156,9 @@ public class SpiGetUtil {
     public static JSONArray getPluginVersions(long id) {
 
         HttpClient client = HttpClients.createMinimal();
+
         HttpGet get = new HttpGet(API_BASE_URL + "/resources/" + id + "/versions?sort=-releaseDate");
+        get.setHeader("User-Agent", "PlugMan");
 
         try {
 
