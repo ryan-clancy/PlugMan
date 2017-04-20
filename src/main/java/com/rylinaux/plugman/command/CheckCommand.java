@@ -131,11 +131,12 @@ public class CheckCommand extends AbstractCommand {
 
                             if (result == UpdateResult.ResultType.UP_TO_DATE) {
                                 upToDate.append(entry.getKey() + "(" + currentVersion + ") ");
-                            } else if (result == UpdateResult.ResultType.INVALID_PLUGIN) {
+                            } else if (result == UpdateResult.ResultType.INVALID_PLUGIN || result == UpdateResult.ResultType.NOT_INSTALLED) {
                                 unknown.append(entry.getKey() + "(" + currentVersion + ") ");
                             } else {
                                 outOfDate.append(entry.getKey() + "(" + currentVersion + " -> " + entry.getValue().getLatestVersion() + ") ");
                             }
+
                         }
 
                         if (toFile) {
@@ -148,13 +149,13 @@ public class CheckCommand extends AbstractCommand {
 
                                 writer = new PrintWriter(outFile);
 
-                                writer.println("Up-to-date:");
+                                writer.println("Up-to-date (Installed):");
                                 writer.println(upToDate);
 
-                                writer.println("Out-of-date:");
+                                writer.println("Out-of-date (Installed -> Latest):");
                                 writer.println(outOfDate);
 
-                                writer.println("Unknown:");
+                                writer.println("Unknown (Installed):");
                                 writer.println(unknown);
 
                             } catch (IOException e) {

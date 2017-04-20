@@ -63,8 +63,9 @@ public class SpiGetUtil {
      */
     public static Map<String, UpdateResult> checkUpToDate() {
         Map<String, UpdateResult> results = new TreeMap<>();
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             results.put(plugin.getName(), checkUpToDate(plugin.getName()));
+        }
         return results;
     }
 
@@ -94,9 +95,11 @@ public class SpiGetUtil {
 
         String currentVersion = PluginUtil.getPluginVersion(pluginName);
         String latestVersion = (String) latest.get("name");
-
+        
         if (currentVersion == null) {
             return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+        } else if (latestVersion == null) {
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion);
         } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
             return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
         } else {
