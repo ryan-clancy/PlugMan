@@ -31,6 +31,7 @@ import com.rylinaux.plugman.messaging.MessageFormatter;
 import com.rylinaux.plugman.task.MetricsTask;
 import com.rylinaux.plugman.task.UpdaterTask;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -151,6 +152,10 @@ public class PlugMan extends JavaPlugin {
      */
     public MessageFormatter getMessageFormatter() {
         return messageFormatter;
+    }
+
+    public File getFile() {
+        return this.getFile();
     }
 
 }
