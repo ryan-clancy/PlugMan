@@ -6,14 +6,6 @@
 ignored-plugins: [PlugMan]
 
 ###
-# Whether or not we want to use the Metrics plugin staticstics.
-# Information collected can be found here: http://mcstats.org/plugin/PlugMan
-#
-# This takes a value of either "true" or "false".
-###
-use-metrics: true
-
-###
 # Should we send updates alerts to players with plugman.update if updater mode is set to check?
 #
 # This takes a value of either "true" or "false".

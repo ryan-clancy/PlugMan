@@ -28,7 +28,6 @@ package com.rylinaux.plugman;
 
 import com.rylinaux.plugman.listener.PlugManListener;
 import com.rylinaux.plugman.messaging.MessageFormatter;
-import com.rylinaux.plugman.task.MetricsTask;
 import com.rylinaux.plugman.task.UpdaterTask;
 
 import java.util.List;
@@ -72,7 +71,6 @@ public class PlugMan extends JavaPlugin {
         initConfig();
 
         initAlerts();
-        initMetrics();
         initUpdater();
 
     }
@@ -100,18 +98,6 @@ public class PlugMan extends JavaPlugin {
     private void initConfig() {
         this.saveDefaultConfig();
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
-    }
-
-    /**
-     * Start Metrics, if enabled.
-     */
-    private void initMetrics() {
-        boolean useMetrics = this.getConfig().getBoolean("use-metrics", true);
-        if (useMetrics) {
-            Bukkit.getScheduler().runTask(this, new MetricsTask(this));
-        } else {
-            this.getLogger().log(Level.INFO, "Skipping Metrics.");
-        }
     }
 
     /**
