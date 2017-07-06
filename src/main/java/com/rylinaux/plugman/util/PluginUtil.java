@@ -365,7 +365,7 @@ public class PluginUtil {
         target.onLoad();
         Bukkit.getPluginManager().enablePlugin(target);
 
-        return PlugMan.getInstance().getMessageFormatter().format("load.loaded", name);
+        return PlugMan.getInstance().getMessageFormatter().format("load.loaded", target.getName());
 
     }
 
