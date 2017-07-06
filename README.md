@@ -63,6 +63,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 ## Sponsors
 
 <div style="text-align:center" markdown="1">
+
 ![image](https://raw.githubusercontent.com/r-clancy/PlugMan/master/images/jetbrains_logo.png "JetBrains")
 
 JetBrains is kindly supporting the PlugMan open source project with it's full-featured Java IDE.
