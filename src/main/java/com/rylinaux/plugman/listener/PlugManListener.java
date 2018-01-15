@@ -27,12 +27,21 @@ package com.rylinaux.plugman.listener;
  */
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.PlugManTabCompleter;
 import com.rylinaux.plugman.task.UpdaterTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.event.server.TabCompleteEvent;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Alerts appropriate players of plugin updates.
@@ -41,6 +50,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class PlugManListener implements Listener {
 
+    public static final Pattern PLUGIN_CMD_PATTERN = Pattern.compile("^/?pl(?:ugins)? ");
     /**
      * The plugin instance.
      */
@@ -65,6 +75,53 @@ public class PlugManListener implements Listener {
                 }
             }
         }, 100L);
+    }
+
+    @EventHandler
+    public void onConsoleCommandPreprocess(ServerCommandEvent e) {
+        if (plugin.isCommandOverrideEnabled()) {
+            String newCommand = getNewCommand(e.getCommand());
+            if (newCommand != null) e.setCommand(newCommand);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        if (plugin.isCommandOverrideEnabled()) {
+            String newCommand = getNewCommand(e.getMessage().substring(1));
+            if (newCommand != null) e.setMessage("/" + newCommand);
+        }
+    }
+
+    private String getNewCommand(String command) {
+        if (command.toLowerCase().startsWith("pl ")) {
+            return "plugman" + command.substring(2);
+        } else if (command.toLowerCase().startsWith("plugins ")) {
+            return "plugman" + command.substring(7);
+        } else if (command.equalsIgnoreCase("pl") || command.equalsIgnoreCase("plugins")) {
+            return "plugman list";
+        } else {
+            return null;
+        }
+    }
+
+    @EventHandler
+    public void onTabComplete(TabCompleteEvent e) {
+        if (plugin.isCommandOverrideEnabled()) {
+            if (e.getSender() instanceof Player && !e.getBuffer().startsWith("/")) return;
+
+            String buffer = e.getBuffer();
+
+            if (buffer.startsWith("/")) buffer = buffer.substring(1);
+
+            if (!buffer.startsWith("pl ") && !buffer.startsWith("plugins ")) return;
+
+            PlugManTabCompleter tab = new PlugManTabCompleter();
+            String[] args = buffer.split(" ");
+            List<String> completions = tab.onTabComplete(e.getSender(), null, args[0], Arrays.copyOfRange(args, 1, args.length));
+
+            e.setCompletions(completions);
+        }
     }
 
 }

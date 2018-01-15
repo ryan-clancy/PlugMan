@@ -54,6 +54,11 @@ public class PlugMan extends JavaPlugin {
     private List<String> ignoredPlugins = null;
 
     /**
+     * What command to override Bukkit's /pl and /plugins with.
+     */
+    private boolean commandOverride = false;
+
+    /**
      * The message manager
      */
     private MessageFormatter messageFormatter = null;
@@ -98,6 +103,7 @@ public class PlugMan extends JavaPlugin {
     private void initConfig() {
         this.saveDefaultConfig();
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
+        commandOverride = this.getConfig().getBoolean("command-override");
     }
 
     /**
@@ -128,6 +134,13 @@ public class PlugMan extends JavaPlugin {
      */
     public List<String> getIgnoredPlugins() {
         return ignoredPlugins;
+    }
+
+    /**
+     * What command to override Bukkit's /pl and /plugins with.
+     */
+    public boolean isCommandOverrideEnabled() {
+        return commandOverride;
     }
 
     /**

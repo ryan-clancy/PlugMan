@@ -51,27 +51,35 @@ public class PlugManCommandHandler implements CommandExecutor {
         }
 
         switch (args[0].toLowerCase()) {
+            case "?":
+            case "h":
             case "help":
                 cmd = new HelpCommand(sender);
                 break;
+            case "l":
+            case "ls":
             case "list":
                 cmd = new ListCommand(sender);
                 break;
             case "dump":
                 cmd = new DumpCommand(sender);
                 break;
+            case "i":
             case "info":
                 cmd = new InfoCommand(sender);
                 break;
             case "lookup":
                 cmd = new LookupCommand(sender);
                 break;
+            case "u":
             case "usage":
                 cmd = new UsageCommand(sender);
                 break;
+            case "e":
             case "enable":
                 cmd = new EnableCommand(sender);
                 break;
+            case "d":
             case "disable":
                 cmd = new DisableCommand(sender);
                 break;
@@ -81,12 +89,14 @@ public class PlugManCommandHandler implements CommandExecutor {
             case "load":
                 cmd = new LoadCommand(sender);
                 break;
+            case "rl":
             case "reload":
                 cmd = new ReloadCommand(sender);
                 break;
             case "unload":
                 cmd = new UnloadCommand(sender);
                 break;
+            case "c":
             case "check":
                 cmd = new CheckCommand(sender);
                 break;
