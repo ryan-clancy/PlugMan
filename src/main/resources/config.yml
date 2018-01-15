@@ -21,3 +21,10 @@ update-alerts: true
 # none: Ignore Updater altogether.
 ###
 updater-type: download
+
+###
+# Should PlugMan override Bukkit's /pl, /plugins, /rl, and /reload commands?
+#
+# Unlike commands.yml, this works with tab completion.
+###
+command-override: true
