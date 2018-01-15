@@ -215,72 +215,63 @@ public class PluginUtil {
         List<String> plugins = new ArrayList<>();
 
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-
-            // Map of commands and their attributes.
-            Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
-
-            if (commands != null) {
-
-                // Iterator for all the plugin's commands.
-                Iterator<Map.Entry<String, Map<String, Object>>> commandIterator = commands.entrySet().iterator();
-
-                while (commandIterator.hasNext()) {
-
-                    // Current value.
-                    Map.Entry<String, Map<String, Object>> commandNext = commandIterator.next();
-
-                    // Plugin name matches - return.
-                    if (commandNext.getKey().equalsIgnoreCase(command)) {
-                        plugins.add(plugin.getName());
-                        continue;
-                    }
-
-                    // No match - let's iterate over the attributes and see if
-                    // it has aliases.
-                    Iterator<Map.Entry<String, Object>> attributeIterator = commandNext.getValue().entrySet().iterator();
-
-                    while (attributeIterator.hasNext()) {
-
-                        // Current value.
-                        Map.Entry<String, Object> attributeNext = attributeIterator.next();
-
-                        // Has an alias attribute.
-                        if (attributeNext.getKey().equals("aliases")) {
-
-                            Object aliases = attributeNext.getValue();
-
-                            if (aliases instanceof String) {
-                                if (((String) aliases).equalsIgnoreCase(command)) {
-                                    plugins.add(plugin.getName());
-                                    continue;
-                                }
-                            } else {
-
-                                // Cast to a List of Strings.
-                                List<String> array = (List<String>) aliases;
-
-                                // Check for matches here.
-                                for (String str : array) {
-                                    if (str.equalsIgnoreCase(command)) {
-                                        plugins.add(plugin.getName());
-                                        continue;
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                    }
-                }
-
+            if (pluginContainsCommand(plugin, command)) {
+                plugins.add(plugin.getName());
             }
-
         }
 
         // No matches.
         return plugins;
 
+    }
+
+    public static boolean pluginContainsCommand(Plugin plugin, String command) {
+        // Map of commands and their attributes.
+        Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
+
+        if (commands != null) {
+
+            // Iterator for all the plugin's commands.
+
+            for (Map.Entry<String, Map<String, Object>> commandNext : commands.entrySet()) {
+
+                // Current value.
+                // Plugin name matches - return.
+                if (commandNext.getKey().equalsIgnoreCase(command)) {
+                    return true;
+                }
+
+                // No match - let's iterate over the attributes and see if
+                // it has aliases.
+
+                for (Map.Entry<String, Object> attributeNext : commandNext.getValue().entrySet()) {
+
+                    // Current value.
+                    // Has an alias attribute.
+                    if (attributeNext.getKey().equals("aliases")) {
+
+                        Object aliases = attributeNext.getValue();
+
+                        if (aliases instanceof String) {
+                            if (((String) aliases).equalsIgnoreCase(command)) {
+                                return true;
+                            }
+                        } else if (aliases instanceof List) {
+                            // Check for matches here.
+                            for (Object o : (List<?>) aliases) {
+                                if (o != null && o.toString().equalsIgnoreCase(command)) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        return false;
     }
 
     /**
