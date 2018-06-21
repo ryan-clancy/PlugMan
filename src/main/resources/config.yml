@@ -4,20 +4,3 @@
 # This takes the form of a comma separated list enclosed within the brackets.
 ###
 ignored-plugins: [PlugMan]
-
-###
-# Should we send updates alerts to players with plugman.update if updater mode is set to check?
-#
-# This takes a value of either "true" or "false".
-###
-update-alerts: true
-
-###
-# What type of Updater, if any, we should choose.
-#
-# download: Automatically download new versions and have it ready for the next restart.
-# check: Only check if there is a new version available, notify appropriate people.
-# force: Force a download of the latest file every time so you always have the most up-to-date version.
-# none: Ignore Updater altogether.
-###
-updater-type: download

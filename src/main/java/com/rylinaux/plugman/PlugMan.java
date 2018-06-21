@@ -12,10 +12,10 @@ package com.rylinaux.plugman;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,14 +26,10 @@ package com.rylinaux.plugman;
  * #L%
  */
 
-import com.rylinaux.plugman.listener.PlugManListener;
 import com.rylinaux.plugman.messaging.MessageFormatter;
-import com.rylinaux.plugman.task.UpdaterTask;
 
 import java.util.List;
-import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -70,9 +66,6 @@ public class PlugMan extends JavaPlugin {
 
         initConfig();
 
-        initAlerts();
-        initUpdater();
-
     }
 
     @Override
@@ -83,33 +76,11 @@ public class PlugMan extends JavaPlugin {
     }
 
     /**
-     * Register event for alerts, if enabled.
-     */
-    private void initAlerts() {
-        boolean alerts = this.getConfig().getBoolean("update-alerts", true);
-        if (alerts) {
-            this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
-        }
-    }
-
-    /**
      * Copy default config values
      */
     private void initConfig() {
         this.saveDefaultConfig();
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
-    }
-
-    /**
-     * Start Updater, if enabled.
-     */
-    private void initUpdater() {
-        String updaterType = this.getConfig().getString("updater-type", "download");
-        if (!updaterType.equalsIgnoreCase("none")) {
-            Bukkit.getScheduler().runTaskAsynchronously(this, new UpdaterTask(this, this.getFile(), updaterType));
-        } else {
-            this.getLogger().log(Level.INFO, "Skipping Updater.");
-        }
     }
 
     /**
