@@ -60,6 +60,8 @@ info:
   version: '&7- Version: &a{0}'
   authors: '&7- Author(s): &a{0}'
   status: '&7- Status: {0}'
+  depends: '&7- Depends: {0}'
+  softdepends: '&7- SoftDepends: &a{0}'
 list:
   list: '&9Plugins ({0}): {1}'
 load:

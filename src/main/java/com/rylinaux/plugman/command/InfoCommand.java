@@ -36,6 +36,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+import java.util.List;
+
 /**
  * Command that displays information on a plugin.
  *
@@ -111,11 +113,15 @@ public class InfoCommand extends AbstractCommand {
         String version = target.getDescription().getVersion();
         String authors = Joiner.on(", ").join(target.getDescription().getAuthors());
         String status = target.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
+        List<String> dependList = target.getDescription().getDepend();
+        List<String> softdependList = target.getDescription().getSoftDepend();
 
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("info.header", name));
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.version", version));
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.authors", authors));
         sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.status", status));
+        if (!dependList.isEmpty()) sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.depends", Joiner.on(", ").join(dependList)));
+        if (!softdependList.isEmpty()) sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format(false, "info.softdepends", Joiner.on(", ").join(softdependList)));
 
     }
 }
