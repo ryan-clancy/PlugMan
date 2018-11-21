@@ -7,6 +7,7 @@ api-version: 1.13
 commands:
   plugman:
     description: Manage plugins.
+    permission: plugman.help
     usage: /plugman (help|dump)
            /plugman list [-v]
            /plugman check <plugin|all> [-f]
