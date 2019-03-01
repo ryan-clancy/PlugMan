@@ -33,11 +33,6 @@
         </license>
     </licenses>
 
-    <ciManagement>
-        <system>Jenkins</system>
-        <url>http://ci.ryan-clancy.com/</url>
-    </ciManagement>
-
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/rylinaux/PlugMan/issues</url>
@@ -58,7 +53,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

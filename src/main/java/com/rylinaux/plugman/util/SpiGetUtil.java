@@ -86,7 +86,7 @@ public class SpiGetUtil {
 
         JSONArray versions = SpiGetUtil.getPluginVersions(pluginId);
 
-        if (versions.size() == 0) {
+        if (versions == null || versions.size() == 0) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
