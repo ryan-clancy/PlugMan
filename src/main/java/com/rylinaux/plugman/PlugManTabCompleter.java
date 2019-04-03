@@ -49,6 +49,7 @@ public class PlugManTabCompleter implements TabCompleter {
      * Valid command names.
      */
     private static final String[] COMMANDS = {"check", "disable", "dump", "enable", "help", "info", "list", "load", "lookup", "reload", "restart", "unload", "usage"};
+    private static final String[] COMMANDS_NOTAB = {"dump", "help", "list", "lookup"};
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -64,7 +65,9 @@ public class PlugManTabCompleter implements TabCompleter {
             }
 
             if (args.length == 2) {
-                String partialPlugin = args[1];
+            	String partialPlugin = args[1];
+            	List<String> commandsNoTab = new ArrayList<>(Arrays.asList(COMMANDS_NOTAB));
+            	for(String cmd : commandsNoTab) if(args[0].equalsIgnoreCase(cmd)) return completions;
                 List<String> plugins = PluginUtil.getPluginNames(false);
                 StringUtil.copyPartialMatches(partialPlugin, plugins, completions);
             }
