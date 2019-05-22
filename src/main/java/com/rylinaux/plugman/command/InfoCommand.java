@@ -90,6 +90,8 @@ public class InfoCommand extends AbstractCommand {
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
+        // TODO Add information of non-installed plugins? Grab some info off Bukkit and Spigot?
+
         if (!hasPermission()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
