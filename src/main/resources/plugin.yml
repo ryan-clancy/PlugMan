@@ -36,6 +36,8 @@ permissions:
       plugman.unload: true
       plugman.check: true
       plugman.check.all: true
+      plugman.install: true
+      plugman.remove: true
   plugman.update:
     description: Allows the player to see the update alerts.
     default: op
@@ -89,4 +91,10 @@ permissions:
     default: op
   plugman.check.all:
     description: Allows use of the check all command.
+    default: op
+  plugman.install:
+    description: Allows use of the install command.
+    default: op
+  plugman.remove:
+    description: Allows use of the remove command.
     default: op
