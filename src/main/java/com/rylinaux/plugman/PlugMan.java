@@ -28,6 +28,7 @@ package com.rylinaux.plugman;
 
 import com.rylinaux.plugman.messaging.MessageFormatter;
 
+import java.io.File;
 import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -108,6 +109,10 @@ public class PlugMan extends JavaPlugin {
      */
     public MessageFormatter getMessageFormatter() {
         return messageFormatter;
+    }
+
+    public File getFile() {
+        return this.getFile();
     }
 
 }
