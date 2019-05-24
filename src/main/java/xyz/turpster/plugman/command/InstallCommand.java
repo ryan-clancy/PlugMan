@@ -26,10 +26,18 @@ package xyz.turpster.plugman.command;
  * #L%
  */
 
+import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.command.AbstractCommand;
 
+import com.rylinaux.plugman.util.PluginUtil;
+import com.rylinaux.plugman.util.SpiGetUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
+
+import java.io.File;
+import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Command that installs plugin(s) from Bukkit or Spigot repositories.
@@ -82,6 +90,49 @@ public class InstallCommand extends AbstractCommand {
      */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
+        if (!hasPermission()) {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
+            return;
+        }
 
+        if (args.length < 2) {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.specify-plugin"));
+            sendUsage();
+            return;
+        }
+
+        long id = SpiGetUtil.getPluginId(args[1]);
+
+        if (id == -1)
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.not-found"));
+            return;
+        }
+
+        File[] plugins = null;
+
+        try
+        {
+            plugins = SpiGetUtil.downloadPlugin(id);
+        }
+        catch (FileAlreadyExistsException e)
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.external-download"));
+            return;
+        }
+
+        for (File plugin : plugins) {
+            String pluginName;
+            try {
+                pluginName = PluginUtil.load(plugin.getName());
+                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.loaded", pluginName));
+            } catch (InvalidDescriptionException e) {
+                e.printStackTrace();
+                return;
+            } catch (InvalidPluginException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
     }
 }
