@@ -55,6 +55,14 @@ help:
   reload: '&7- &a/plugman reload <plugin|all> &f- &7Reload a plugin.'
   unload: '&7- &a/plugman unload <plugin> &f- &7Unload a plugin.'
   check: '&7- &a/plugman check <plugin|all> [-f] &f- &7Check if a plugin is up-to-date (-f dumps to file for all).'
+  install: '&7- &a/plugman install <plugin> &f- &7Install a plugin.'
+  remove: '&7- &a/plugman remove <plugin> &f- &7Remove a plugin.'
+install:
+  installing: '&9{0} is being installed.'
+  external-download: '&9{0} is an external download and can not be installed, yet.'
+  already-installed: '&9{0} has already been installed.'
+  installed: '&9{0} has been installed.'
+  not-found: '&9{0} has not been found in Spigot repositories.'
 info:
   header: 'Plugin Information: {0}'
   version: '&7- Version: &a{0}'
