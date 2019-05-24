@@ -32,6 +32,8 @@ import com.rylinaux.plugman.util.StringUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -111,7 +113,18 @@ public class LoadCommand extends AbstractCommand {
             return;
         }
 
-        sender.sendMessage(PluginUtil.load(name));
+        try
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.loaded", PluginUtil.load(name)));
+        }
+        catch (InvalidDescriptionException e)
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-description"));
+        }
+        catch (InvalidPluginException e)
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin"));
+        }
 
     }
 }

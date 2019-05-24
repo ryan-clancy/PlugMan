@@ -12,10 +12,10 @@ package com.rylinaux.plugman.util;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -314,7 +314,7 @@ public class PluginUtil {
      * @param plugin plugin to load
      * @return status message
      */
-    private static String load(Plugin plugin) {
+    private static String load(Plugin plugin) throws InvalidDescriptionException, InvalidPluginException {
         return load(plugin.getName());
     }
 
@@ -322,50 +322,44 @@ public class PluginUtil {
      * Loads and enables a plugin.
      *
      * @param name plugin's name
-     * @return status message
+     * @return name of plugin
      */
-    public static String load(String name) {
+    public static String load(String name) throws InvalidDescriptionException, InvalidPluginException {
 
         Plugin target = null;
 
         File pluginDir = new File("plugins");
 
         if (!pluginDir.isDirectory()) {
-            return PlugMan.getInstance().getMessageFormatter().format("load.plugin-directory");
+            new IOException("Server plugin directory is missing.").printStackTrace();
+            return null;
         }
 
-        File pluginFile = new File(pluginDir, name + ".jar");
+        File pluginFile;
+        if (name.endsWith(".jar")) {
+            pluginFile = new File(pluginDir, name);
+        } else {
+            pluginFile = new File(pluginDir, name + ".jar");
+        }
 
         if (!pluginFile.isFile()) {
             for (File f : pluginDir.listFiles()) {
                 if (f.getName().endsWith(".jar")) {
-                    try {
-                        PluginDescriptionFile desc = PlugMan.getInstance().getPluginLoader().getPluginDescription(f);
-                        if (desc.getName().equalsIgnoreCase(name)) {
-                            pluginFile = f;
-                            break;
-                        }
-                    } catch (InvalidDescriptionException e) {
-                        return PlugMan.getInstance().getMessageFormatter().format("load.cannot-find");
+                    PluginDescriptionFile desc = PlugMan.getInstance().getPluginLoader().getPluginDescription(f);
+                    if (desc.getName().equalsIgnoreCase(name)) {
+                        pluginFile = f;
+                        break;
                     }
                 }
             }
         }
 
-        try {
-            target = Bukkit.getPluginManager().loadPlugin(pluginFile);
-        } catch (InvalidDescriptionException e) {
-            e.printStackTrace();
-            return PlugMan.getInstance().getMessageFormatter().format("load.invalid-description");
-        } catch (InvalidPluginException e) {
-            e.printStackTrace();
-            return PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin");
-        }
+        target = Bukkit.getPluginManager().loadPlugin(pluginFile);
 
         target.onLoad();
         Bukkit.getPluginManager().enablePlugin(target);
 
-        return PlugMan.getInstance().getMessageFormatter().format("load.loaded", target.getName());
+        return target.getConfig().getName();
 
     }
 
@@ -377,7 +371,15 @@ public class PluginUtil {
     public static void reload(Plugin plugin) {
         if (plugin != null) {
             unload(plugin);
-            load(plugin);
+            try {
+                load(plugin);
+            } catch (InvalidDescriptionException e) {
+                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, PlugMan.getInstance().getMessageFormatter().format("load.invalid-description"));
+            } catch (InvalidPluginException e) {
+                e.printStackTrace();
+                Bukkit.getLogger().log(Level.SEVERE, PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin"));
+            }
         }
     }
 
