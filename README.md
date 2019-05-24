@@ -30,6 +30,8 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | /plugman reload [plugin&#124;all] | Reload (unload/load) a plugin. |
 | /plugman unload [plugin] | Unload a plugin. |
 | /plugman check [plugin&#124;all] [-f] | Check if a plugin is up-to-date. |
+| /plugman install [plugin] | Install a plugin. |
+| /plugman remove [plugin] | Remove a plugin. |
 
 ## Permissions
 | Permission Node | Default | Description |
@@ -54,6 +56,8 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | plugman.unload | OP | Allow use of the unload command. |
 | plugman.check | OP | Allow use of the check command. |
 | plugman.check.all | OP | Allow use of the check command. |
+| plugman.install | OP | Allow use of the install command. |
+| plugman.remove | OP | Allow use of the remove command. |
 
 ## Configuration
 | File | URL |
