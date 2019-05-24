@@ -26,14 +26,19 @@ package com.rylinaux.plugman.util;
  * #L%
  */
 
+import com.google.gson.*;
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.pojo.UpdateResult;
+import jdk.jfr.internal.Logger;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
@@ -42,6 +47,8 @@ import org.json.simple.JSONValue;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Map;
 import java.util.TreeMap;
@@ -141,9 +148,7 @@ public class SpiGetUtil {
                         return (long) json.get("id");
                     }
                 }
-
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -191,42 +196,46 @@ public class SpiGetUtil {
             return null;
         }
 
-        HttpClient client = HttpClients.createMinimal();
+        HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
-        HttpGet getName = new HttpGet(API_BASE_URL + "/resources/" + id + "?fields=name,external");
+        HttpGet getName = new HttpGet(API_BASE_URL + "resources/" + id + "?fields=name,external");
         getName.setHeader("User-Agent", "PlugMan");
 
-        JSONObject nameJson = null;
+        JsonObject nameJson = null;
         try {
 
             HttpResponse response = client.execute(getName);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            nameJson = (JSONObject) JSONValue.parse(body);
+            nameJson = new JsonParser().parse(body).getAsJsonObject();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        boolean external = (boolean) nameJson.get("external");
+        System.out.println(nameJson.toString());
+
+        boolean external = nameJson.get("external").getAsBoolean();
 
         if (external) {
             // TODO Add external download support: i.e zip files etc.
             throw new NotImplementedException("External download support is not available yet.");
         }
-            String name = (String) nameJson.get("name");
+        String name = nameJson.get("name").getAsString();
 
         destination += "/" + name + ".jar";
+
         File file = new File(destination);
+        System.out.println(file.getAbsolutePath());
 
-        if (file.exists()) {
-            throw new FileAlreadyExistsException(file.getAbsolutePath());
-        }
-
-        HttpGet getDownload = new HttpGet(API_BASE_URL + "/resources/" + id + "/download");
+        HttpGet getDownload = new HttpGet(API_BASE_URL + "resources/" + id + "/download");
         getDownload.setHeader("User-Agent", "PlugMan");
 
         try {
+            if (!file.createNewFile()) {
+                throw new FileAlreadyExistsException(file.getAbsolutePath());
+            }
+
             BufferedInputStream pluginDownloadInputStream = new BufferedInputStream(client.execute(getDownload).getEntity().getContent());
             BufferedOutputStream pluginFileOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 
@@ -244,6 +253,6 @@ public class SpiGetUtil {
 
     public static File[] downloadPlugin(long id) throws FileAlreadyExistsException
     {
-        return downloadPlugin(id, PlugMan.getInstance().getDataFolder() + "/plugins");
+        return downloadPlugin(id, "plugins");
     }
 }
