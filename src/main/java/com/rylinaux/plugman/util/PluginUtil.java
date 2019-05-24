@@ -343,15 +343,7 @@ public class PluginUtil {
         }
 
         if (!pluginFile.isFile()) {
-            for (File f : pluginDir.listFiles()) {
-                if (f.getName().endsWith(".jar")) {
-                    PluginDescriptionFile desc = PlugMan.getInstance().getPluginLoader().getPluginDescription(f);
-                    if (desc.getName().equalsIgnoreCase(name)) {
-                        pluginFile = f;
-                        break;
-                    }
-                }
-            }
+            pluginFile = getPluginFile(name);
         }
 
         target = Bukkit.getPluginManager().loadPlugin(pluginFile);
@@ -361,6 +353,32 @@ public class PluginUtil {
 
         return target.getConfig().getName();
 
+    }
+
+    public static File getPluginFile(String pluginName)
+    {
+        File pluginDir = new File("plugins");
+        File pluginFile = null;
+
+        for (File f : pluginDir.listFiles()) {
+            if (f.getName().endsWith(".jar")) {
+                PluginDescriptionFile desc;
+                try
+                {
+                    desc = PlugMan.getInstance().getPluginLoader().getPluginDescription(f);
+                }
+                catch (InvalidDescriptionException e)
+                {
+                    continue;
+                }
+
+                if (desc.getName().equalsIgnoreCase(pluginName)) {
+                    pluginFile = f;
+                    break;
+                }
+            }
+        }
+        return pluginFile;
     }
 
     /**

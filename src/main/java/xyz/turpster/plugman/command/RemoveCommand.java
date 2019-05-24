@@ -26,9 +26,12 @@ package xyz.turpster.plugman.command;
  * #L%
  */
 
+import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.command.AbstractCommand;
+import com.rylinaux.plugman.util.PluginUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Command that removes specified plugin(s).
@@ -80,6 +83,32 @@ public class RemoveCommand extends AbstractCommand {
      */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
+        if (!hasPermission()) {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
+            return;
+        }
 
+        if (args.length < 2) {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.specify-plugin"));
+            sendUsage();
+            return;
+        }
+
+        Plugin target;
+
+        target = PluginUtil.getPluginByName(args[1]);
+        if (target != null)
+        {
+            PluginUtil.disable(target);
+            PluginUtil.unload(target);
+            if (!PluginUtil.getPluginFile(target.getName()).delete())
+            {
+                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("remove.could-not-remove", args[1]));
+            }
+        }
+        else
+        {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.invalid-plugin"));
+        }
     }
 }

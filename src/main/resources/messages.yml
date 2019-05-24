@@ -88,6 +88,8 @@ reload:
 restart:
   all: '&9All plugins have been restarted.'
   restarted: '&9{0} has been restarted.'
+remove:
+  could-not-remove: '&9Could not remove {0}.'
 unload:
   failed: '&cFailed to unload {0}.'
   unloaded: '&9{0} has been unloaded.'
