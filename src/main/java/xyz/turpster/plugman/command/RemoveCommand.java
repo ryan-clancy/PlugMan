@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.command;
+package xyz.turpster.plugman.command;
 
 /*
  * #%L
@@ -12,10 +12,10 @@ package com.rylinaux.plugman.command;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,41 +27,37 @@ package com.rylinaux.plugman.command;
  */
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.command.AbstractCommand;
 import com.rylinaux.plugman.util.PluginUtil;
-import com.rylinaux.plugman.util.StringUtil;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.InvalidDescriptionException;
-import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Command that loads plugin(s).
+ * Command that removes specified plugin(s).
  *
- * @author rylinaux
+ * @author turpster
  */
-public class LoadCommand extends AbstractCommand {
-
+public class RemoveCommand extends AbstractCommand {
     /**
      * The name of the command.
      */
-    public static final String NAME = "Load";
+    public static final String NAME = "remove";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "Load a plugin.";
+    public static final String DESCRIPTION = "Remove a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.load";
+    public static final String PERMISSION = "plugman.remove";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman load <plugin>";
+    public static final String USAGE = "/plugman remove <plugin>";
 
     /**
      * The sub permissions of the command.
@@ -73,7 +69,7 @@ public class LoadCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public LoadCommand(CommandSender sender) {
+    public RemoveCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -87,7 +83,6 @@ public class LoadCommand extends AbstractCommand {
      */
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
-
         if (!hasPermission()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
@@ -99,32 +94,21 @@ public class LoadCommand extends AbstractCommand {
             return;
         }
 
-        Plugin potential = PluginUtil.getPluginByName(args, 1);
+        Plugin target;
 
-        if (potential != null) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.already-loaded", potential.getName()));
-            return;
-        }
-
-        String name = StringUtil.consolidateStrings(args, 1);
-
-        if (PluginUtil.isIgnored(name)) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.ignored"));
-            return;
-        }
-
-        try
+        target = PluginUtil.getPluginByName(args[1]);
+        if (target != null)
         {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.loaded", PluginUtil.load(name)));
+            PluginUtil.disable(target);
+            PluginUtil.unload(target);
+            if (!PluginUtil.getPluginFile(target.getName()).delete())
+            {
+                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("remove.could-not-remove", args[1]));
+            }
         }
-        catch (InvalidDescriptionException e)
+        else
         {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-description"));
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.invalid-plugin"));
         }
-        catch (InvalidPluginException e)
-        {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin"));
-        }
-
     }
 }

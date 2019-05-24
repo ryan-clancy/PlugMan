@@ -1,4 +1,4 @@
-package com.rylinaux.plugman.command;
+package xyz.turpster.plugman.command;
 
 /*
  * #%L
@@ -12,10 +12,10 @@ package com.rylinaux.plugman.command;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,41 +27,46 @@ package com.rylinaux.plugman.command;
  */
 
 import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.command.AbstractCommand;
 import com.rylinaux.plugman.util.PluginUtil;
-import com.rylinaux.plugman.util.StringUtil;
-
+import com.rylinaux.plugman.util.SpiGetUtil;
+import com.rylinaux.plugman.util.ThreadUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
-import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.util.UUID;
 
 /**
- * Command that loads plugin(s).
+ * Command that installs plugin(s) from Spigot repositories.
  *
- * @author rylinaux
+ * @author turpster
  */
-public class LoadCommand extends AbstractCommand {
+public class InstallCommand extends AbstractCommand {
 
     /**
      * The name of the command.
      */
-    public static final String NAME = "Load";
+    public static final String NAME = "install";
 
     /**
      * The description of the command.
      */
-    public static final String DESCRIPTION = "Load a plugin.";
+    public static final String DESCRIPTION = "Install a plugin.";
 
     /**
      * The main permission of the command.
      */
-    public static final String PERMISSION = "plugman.load";
+    public static final String PERMISSION = "plugman.install";
 
     /**
      * The proper usage of the command.
      */
-    public static final String USAGE = "/plugman load <plugin>";
+    public static final String USAGE = "/plugman install <plugin>";
 
     /**
      * The sub permissions of the command.
@@ -73,7 +78,7 @@ public class LoadCommand extends AbstractCommand {
      *
      * @param sender the command sender
      */
-    public LoadCommand(CommandSender sender) {
+    public InstallCommand(CommandSender sender) {
         super(sender, NAME, DESCRIPTION, PERMISSION, SUB_PERMISSIONS, USAGE);
     }
 
@@ -86,8 +91,7 @@ public class LoadCommand extends AbstractCommand {
      * @param args    the arguments supplied
      */
     @Override
-    public void execute(CommandSender sender, Command command, String label, String[] args) {
-
+    public void execute(final CommandSender sender, Command command, String label, String[] args) {
         if (!hasPermission()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
@@ -99,32 +103,49 @@ public class LoadCommand extends AbstractCommand {
             return;
         }
 
-        Plugin potential = PluginUtil.getPluginByName(args, 1);
+        final long id = SpiGetUtil.getPluginId(args[1]);
 
-        if (potential != null) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.already-loaded", potential.getName()));
+        if (id == -1) {
+            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.not-found"));
             return;
         }
 
-        String name = StringUtil.consolidateStrings(args, 1);
 
-        if (PluginUtil.isIgnored(name)) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.ignored"));
-            return;
-        }
+        ThreadUtil.async(new Runnable() {
+            @Override
+            public void run() {
+                UUID playerUuid = null;
 
-        try
-        {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.loaded", PluginUtil.load(name)));
-        }
-        catch (InvalidDescriptionException e)
-        {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-description"));
-        }
-        catch (InvalidPluginException e)
-        {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("load.invalid-plugin"));
-        }
+                if (sender instanceof Player) {
+                    // Solve exceptions if the player (sender) left after the download.
+                    playerUuid = ((Player) sender).getUniqueId();
+                }
+
+                File[] plugins = null;
+                plugins = SpiGetUtil.downloadPlugin(id);
+
+
+                for (File plugin : plugins) {
+                    String pluginName;
+                    try {
+                        CommandSender newSender;
+
+                        pluginName = PluginUtil.load(plugin.getName());
+                        if (playerUuid != null) {
+                            newSender = Bukkit.getPlayer(playerUuid);
+                        } else {
+                            newSender = sender;
+                        }
+
+                        newSender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.loaded", pluginName));
+                    } catch (InvalidDescriptionException | InvalidPluginException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+
+            }
+        });
 
     }
 }

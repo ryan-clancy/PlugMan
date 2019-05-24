@@ -31,6 +31,8 @@ import com.rylinaux.plugman.command.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import xyz.turpster.plugman.command.InstallCommand;
+import xyz.turpster.plugman.command.RemoveCommand;
 
 /**
  * Listen for commands and execute them.
@@ -89,6 +91,12 @@ public class PlugManCommandHandler implements CommandExecutor {
                 break;
             case "check":
                 cmd = new CheckCommand(sender);
+                break;
+            case "install":
+                cmd = new InstallCommand(sender);
+                break;
+            case "remove":
+                cmd = new RemoveCommand(sender);
                 break;
         }
 

@@ -12,10 +12,10 @@ package com.rylinaux.plugman.util;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,23 +26,27 @@ package com.rylinaux.plugman.util;
  * #L%
  */
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rylinaux.plugman.pojo.UpdateResult;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Utilities for dealing with the SpiGet API.
@@ -95,7 +99,7 @@ public class SpiGetUtil {
 
         String currentVersion = PluginUtil.getPluginVersion(pluginName);
         String latestVersion = (String) latest.get("name");
-        
+
         if (currentVersion == null) {
             return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
         } else if (latestVersion == null) {
@@ -139,9 +143,7 @@ public class SpiGetUtil {
                         return (long) json.get("id");
                     }
                 }
-
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -175,7 +177,80 @@ public class SpiGetUtil {
         }
 
         return null;
-
     }
 
+    /**
+     * Download the plugin.
+     *
+     * @param id          the plugin id.
+     * @param destination the download's destination.
+     * @return the plugin jarfile(s).
+     */
+    public static File[] downloadPlugin(long id, String destination) throws NotImplementedException {
+
+        if (id == -1) {
+            return null;
+        }
+
+        // LaxRedirectStrategy allows the client to redirect to the download.
+        HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
+
+        HttpGet getName = new HttpGet(API_BASE_URL + "resources/" + id + "?fields=name,external");
+        getName.setHeader("User-Agent", "PlugMan");
+
+        JsonObject pluginInfo = null;
+        try {
+            HttpResponse response = client.execute(getName);
+            String body = IOUtils.toString(response.getEntity().getContent());
+
+            pluginInfo = new JsonParser().parse(body).getAsJsonObject();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        boolean external = pluginInfo.get("external").getAsBoolean();
+
+        if (external) {
+            // TODO Add external download support: i.e zip files etc.
+            throw new NotImplementedException("External download support is not available yet.");
+        }
+        String name = pluginInfo.get("name").getAsString();
+
+        destination += "/" + name + ".jar";
+
+        File file = new File(destination);
+
+        HttpGet getDownload = new HttpGet(API_BASE_URL + "resources/" + id + "/download");
+        getDownload.setHeader("User-Agent", "PlugMan");
+
+        try {
+            if (!file.createNewFile()) {
+                throw new FileAlreadyExistsException(file.getAbsolutePath());
+            }
+
+            BufferedInputStream pluginDownloadInputStream = new BufferedInputStream(client.execute(getDownload).getEntity().getContent());
+            BufferedOutputStream pluginFileOutputStream = new BufferedOutputStream(new FileOutputStream(file));
+
+            int inByte;
+            while ((inByte = pluginDownloadInputStream.read()) != -1) pluginFileOutputStream.write(inByte);
+            pluginDownloadInputStream.close();
+            pluginFileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new File[]{file};
+    }
+
+    /**
+     * Download the plugin.
+     *
+     * @param id the plugin id.
+     * @return the plugin jarfile(s).
+     */
+    public static File[] downloadPlugin(long id) {
+        return downloadPlugin(id, "plugins");
+    }
 }

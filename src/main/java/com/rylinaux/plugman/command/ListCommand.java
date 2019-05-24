@@ -93,6 +93,8 @@ public class ListCommand extends AbstractCommand {
     @Override
     public void execute(CommandSender sender, Command command, String label, String[] args) {
 
+        // TODO Search for non-installed plugins from Spigot?
+
         if (!hasPermission()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
