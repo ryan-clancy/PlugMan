@@ -39,7 +39,7 @@ import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
 
 /**
- * Command that installs plugin(s) from Bukkit or Spigot repositories.
+ * Command that installs plugin(s) from Spigot repositories.
  *
  * @author turpster
  */
