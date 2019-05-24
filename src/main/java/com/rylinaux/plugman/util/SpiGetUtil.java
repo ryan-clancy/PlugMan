@@ -186,7 +186,7 @@ public class SpiGetUtil {
      * @param destination the download's destination.
      * @return the plugin jarfile(s).
      */
-    public static File[] downloadPlugin(long id, String destination) throws FileAlreadyExistsException, NotImplementedException {
+    public static File[] downloadPlugin(long id, String destination) throws NotImplementedException {
         if (id == -1) {
             return null;
         }
@@ -196,32 +196,28 @@ public class SpiGetUtil {
         HttpGet getName = new HttpGet(API_BASE_URL + "resources/" + id + "?fields=name,external");
         getName.setHeader("User-Agent", "PlugMan");
 
-        JsonObject nameJson = null;
+        JsonObject pluginInfo = null;
         try {
-
             HttpResponse response = client.execute(getName);
             String body = IOUtils.toString(response.getEntity().getContent());
 
-            nameJson = new JsonParser().parse(body).getAsJsonObject();
+            pluginInfo = new JsonParser().parse(body).getAsJsonObject();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println(nameJson.toString());
-
-        boolean external = nameJson.get("external").getAsBoolean();
+        boolean external = pluginInfo.get("external").getAsBoolean();
 
         if (external) {
             // TODO Add external download support: i.e zip files etc.
             throw new NotImplementedException("External download support is not available yet.");
         }
-        String name = nameJson.get("name").getAsString();
+        String name = pluginInfo.get("name").getAsString();
 
         destination += "/" + name + ".jar";
 
         File file = new File(destination);
-        System.out.println(file.getAbsolutePath());
 
         HttpGet getDownload = new HttpGet(API_BASE_URL + "resources/" + id + "/download");
         getDownload.setHeader("User-Agent", "PlugMan");
@@ -252,7 +248,7 @@ public class SpiGetUtil {
      * @param id the plugin id.
      * @return the plugin jarfile(s).
      */
-    public static File[] downloadPlugin(long id) throws FileAlreadyExistsException {
+    public static File[] downloadPlugin(long id) {
         return downloadPlugin(id, "plugins");
     }
 }
