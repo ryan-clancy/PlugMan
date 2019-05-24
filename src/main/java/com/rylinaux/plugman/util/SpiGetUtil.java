@@ -251,6 +251,12 @@ public class SpiGetUtil {
         return new File[] { file };
     }
 
+    /**
+     * Download the plugin.
+     *
+     * @param id          the plugin id.
+     * @return the plugin jarfile(s).
+     */
     public static File[] downloadPlugin(long id) throws FileAlreadyExistsException
     {
         return downloadPlugin(id, "plugins");
