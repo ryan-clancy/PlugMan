@@ -187,10 +187,12 @@ public class SpiGetUtil {
      * @return the plugin jarfile(s).
      */
     public static File[] downloadPlugin(long id, String destination) throws NotImplementedException {
+
         if (id == -1) {
             return null;
         }
 
+        // LaxRedirectStrategy allows the client to redirect to the download.
         HttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
         HttpGet getName = new HttpGet(API_BASE_URL + "resources/" + id + "?fields=name,external");

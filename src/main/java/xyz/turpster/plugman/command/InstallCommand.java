@@ -30,13 +30,16 @@ import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.command.AbstractCommand;
 import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.SpiGetUtil;
+import com.rylinaux.plugman.util.ThreadUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 
 import java.io.File;
-import java.nio.file.FileAlreadyExistsException;
+import java.util.UUID;
 
 /**
  * Command that installs plugin(s) from Spigot repositories.
@@ -88,7 +91,7 @@ public class InstallCommand extends AbstractCommand {
      * @param args    the arguments supplied
      */
     @Override
-    public void execute(CommandSender sender, Command command, String label, String[] args) {
+    public void execute(final CommandSender sender, Command command, String label, String[] args) {
         if (!hasPermission()) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("error.no-permission"));
             return;
@@ -100,34 +103,49 @@ public class InstallCommand extends AbstractCommand {
             return;
         }
 
-        long id = SpiGetUtil.getPluginId(args[1]);
+        final long id = SpiGetUtil.getPluginId(args[1]);
 
         if (id == -1) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.not-found"));
             return;
         }
 
-        File[] plugins = null;
 
-        try {
-            plugins = SpiGetUtil.downloadPlugin(id);
-        } catch (FileAlreadyExistsException e) {
-            sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.external-download"));
-            return;
-        }
+        ThreadUtil.async(new Runnable() {
+            @Override
+            public void run() {
+                UUID playerUuid = null;
 
-        for (File plugin : plugins) {
-            String pluginName;
-            try {
-                pluginName = PluginUtil.load(plugin.getName());
-                sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.loaded", pluginName));
-            } catch (InvalidDescriptionException e) {
-                e.printStackTrace();
-                return;
-            } catch (InvalidPluginException e) {
-                e.printStackTrace();
-                return;
+                if (sender instanceof Player) {
+                    // Solve exceptions if the player (sender) left after the download.
+                    playerUuid = ((Player) sender).getUniqueId();
+                }
+
+                File[] plugins = null;
+                plugins = SpiGetUtil.downloadPlugin(id);
+
+
+                for (File plugin : plugins) {
+                    String pluginName;
+                    try {
+                        CommandSender newSender;
+
+                        pluginName = PluginUtil.load(plugin.getName());
+                        if (playerUuid != null) {
+                            newSender = Bukkit.getPlayer(playerUuid);
+                        } else {
+                            newSender = sender;
+                        }
+
+                        newSender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.loaded", pluginName));
+                    } catch (InvalidDescriptionException | InvalidPluginException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+
             }
-        }
+        });
+
     }
 }
