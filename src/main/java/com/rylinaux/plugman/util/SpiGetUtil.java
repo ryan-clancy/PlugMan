@@ -26,16 +26,14 @@ package com.rylinaux.plugman.util;
  * #L%
  */
 
-import com.google.gson.*;
-import com.rylinaux.plugman.PlugMan;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rylinaux.plugman.pojo.UpdateResult;
-import jdk.jfr.internal.Logger;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
@@ -46,9 +44,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Map;
 import java.util.TreeMap;
@@ -240,7 +235,7 @@ public class SpiGetUtil {
             BufferedOutputStream pluginFileOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 
             int inByte;
-            while((inByte = pluginDownloadInputStream.read()) != -1) pluginFileOutputStream.write(inByte);
+            while ((inByte = pluginDownloadInputStream.read()) != -1) pluginFileOutputStream.write(inByte);
             pluginDownloadInputStream.close();
             pluginFileOutputStream.close();
         } catch (IOException e) {
@@ -248,17 +243,16 @@ public class SpiGetUtil {
             return null;
         }
 
-        return new File[] { file };
+        return new File[]{file};
     }
 
     /**
      * Download the plugin.
      *
-     * @param id          the plugin id.
+     * @param id the plugin id.
      * @return the plugin jarfile(s).
      */
-    public static File[] downloadPlugin(long id) throws FileAlreadyExistsException
-    {
+    public static File[] downloadPlugin(long id) throws FileAlreadyExistsException {
         return downloadPlugin(id, "plugins");
     }
 }

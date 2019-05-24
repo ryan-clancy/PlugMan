@@ -28,7 +28,6 @@ package xyz.turpster.plugman.command;
 
 import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.command.AbstractCommand;
-
 import com.rylinaux.plugman.util.PluginUtil;
 import com.rylinaux.plugman.util.SpiGetUtil;
 import org.bukkit.command.Command;
@@ -103,20 +102,16 @@ public class InstallCommand extends AbstractCommand {
 
         long id = SpiGetUtil.getPluginId(args[1]);
 
-        if (id == -1)
-        {
+        if (id == -1) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.not-found"));
             return;
         }
 
         File[] plugins = null;
 
-        try
-        {
+        try {
             plugins = SpiGetUtil.downloadPlugin(id);
-        }
-        catch (FileAlreadyExistsException e)
-        {
+        } catch (FileAlreadyExistsException e) {
             sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("install.external-download"));
             return;
         }

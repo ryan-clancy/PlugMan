@@ -27,7 +27,6 @@ package xyz.turpster.plugman.command;
  */
 
 import com.rylinaux.plugman.command.AbstractCommand;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
