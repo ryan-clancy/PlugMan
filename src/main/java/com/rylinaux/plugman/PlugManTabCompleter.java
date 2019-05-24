@@ -48,7 +48,7 @@ public class PlugManTabCompleter implements TabCompleter {
     /**
      * Valid command names.
      */
-    private static final String[] COMMANDS = {"check", "disable", "dump", "enable", "help", "info", "list", "load", "lookup", "reload", "restart", "unload", "usage"};
+    private static final String[] COMMANDS = {"check", "disable", "dump", "enable", "help", "info", "list", "load", "lookup", "reload", "restart", "unload", "usage", "install", "remove"};
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
