@@ -1,0 +1,6 @@
+[submodule "Updater"]
+	path = Updater
+	url = git@github.com:r-clancy/Updater.git
+[submodule "Metrics"]
+	path = Metrics
+	url = git@github.com:Hidendra/Plugin-Metrics.git
