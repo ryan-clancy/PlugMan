@@ -1,7 +1,7 @@
-name: PlugMan
+name: ${project.name}
 main: com.rylinaux.plugman.PlugMan
-version: 2.1.6
-description: Plugin manager for Bukkit servers
+version: ${project.version}
+description: ${project.description}
 author: rylinaux
 api-version: 1.13
 commands:
