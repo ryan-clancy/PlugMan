@@ -26,11 +26,16 @@ package com.rylinaux.plugman;
  * #L%
  */
 
+import com.rylinaux.plugman.listener.PlugManListener;
 import com.rylinaux.plugman.messaging.MessageFormatter;
 
 import java.io.File;
 import java.util.List;
+import java.util.logging.Level;
 
+import com.rylinaux.plugman.task.MetricsTask;
+import com.rylinaux.plugman.task.UpdaterTask;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -67,6 +72,9 @@ public class PlugMan extends JavaPlugin {
 
         initConfig();
 
+        initAlerts();
+        initMetrics();
+        initUpdater();
     }
 
     @Override
@@ -82,6 +90,39 @@ public class PlugMan extends JavaPlugin {
     private void initConfig() {
         this.saveDefaultConfig();
         ignoredPlugins = this.getConfig().getStringList("ignored-plugins");
+    }
+
+    /**
+     * Register event for alerts, if enabled.
+     */
+    private void initAlerts() {
+        boolean alerts = this.getConfig().getBoolean("update-alerts", true);
+        if (alerts) {
+            this.getServer().getPluginManager().registerEvents(new PlugManListener(this), this);
+        }
+    }
+    /**
+     * Start Metrics, if enabled.
+     */
+    private void initMetrics() {
+        boolean useMetrics = this.getConfig().getBoolean("use-metrics", true);
+        if (useMetrics) {
+            Bukkit.getScheduler().runTask(this, new MetricsTask(this));
+        } else {
+            this.getLogger().log(Level.INFO, "Skipping Metrics.");
+        }
+    }
+
+    /**
+     * Start Updater, if enabled.
+     */
+    private void initUpdater() {
+        String updaterType = this.getConfig().getString("updater-type", "download");
+        if (!updaterType.equalsIgnoreCase("none")) {
+            Bukkit.getScheduler().runTaskAsynchronously(this, new UpdaterTask(this, this.getFile(), updaterType));
+        } else {
+            this.getLogger().log(Level.INFO, "Skipping Updater.");
+        }
     }
 
     /**
