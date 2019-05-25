@@ -180,7 +180,7 @@ public class SpiGetUtil {
     }
 
     /**
-     * Download the plugin.
+     * Download a plugin.
      *
      * @param id          the plugin id.
      * @param destination the download's destination.
@@ -245,7 +245,7 @@ public class SpiGetUtil {
     }
 
     /**
-     * Download the plugin.
+     * Download a plugin.
      *
      * @param id the plugin id.
      * @return the plugin jarfile(s).
