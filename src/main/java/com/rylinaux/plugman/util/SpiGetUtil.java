@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rylinaux.plugman.pojo.UpdateResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -39,10 +42,6 @@ import org.apache.http.impl.client.HttpClients;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 /**
  * Utilities for dealing with the SpiGet API.
@@ -84,17 +83,17 @@ public class SpiGetUtil {
             return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
 
-        JSONArray versions = SpiGetUtil.getPluginVersions(pluginId);
+        JsonArray versions = SpiGetUtil.getPluginVersions(pluginId);
 
         if (versions == null || versions.size() == 0) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
 
-        JSONObject latest = (JSONObject) versions.get(0);
+        JsonObject latest = (JsonObject) versions.get(0);
 
         String currentVersion = PluginUtil.getPluginVersion(pluginName);
-        String latestVersion = (String) latest.get("name");
+        String latestVersion = latest.get("name").getAsString();
         
         if (currentVersion == null) {
             return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
@@ -125,18 +124,18 @@ public class SpiGetUtil {
 
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
+            JsonParser parser = new JsonParser();
+            Object object = parser.parse(body);
 
-            Object object = JSONValue.parse(body);
+            if (object instanceof JsonArray) {
 
-            if (object instanceof JSONArray) {
-
-                JSONArray array = (JSONArray) JSONValue.parse(body);
+                JsonArray array = (JsonArray) parser.parse(body);
 
                 for (int i = 0; i < array.size(); i++) {
-                    JSONObject json = (JSONObject) array.get(i);
-                    String pluginName = (String) json.get("name");
+                    JsonObject json = (JsonObject) array.get(i);
+                    String pluginName = json.get("name").getAsString();
                     if (name.equalsIgnoreCase(pluginName)) {
-                        return (long) json.get("id");
+                        return json.get("id").getAsLong();
                     }
                 }
 
@@ -156,7 +155,7 @@ public class SpiGetUtil {
      * @param id the plugin id.
      * @return the JSON encoded data.
      */
-    public static JSONArray getPluginVersions(long id) {
+    public static JsonArray getPluginVersions(long id) {
 
         HttpClient client = HttpClients.createMinimal();
 
@@ -167,8 +166,8 @@ public class SpiGetUtil {
 
             HttpResponse response = client.execute(get);
             String body = IOUtils.toString(response.getEntity().getContent());
-
-            return (JSONArray) JSONValue.parse(body);
+            JsonParser parser = new JsonParser();
+            return (JsonArray) parser.parse(body);
 
         } catch (IOException e) {
             e.printStackTrace();
