@@ -12,10 +12,10 @@ package com.rylinaux.plugman.util;
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -185,14 +185,14 @@ public class PluginUtil {
 
         List<String> parsedCommands = new ArrayList<>();
 
-        Map commands = plugin.getDescription().getCommands();
+        Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
 
         if (commands != null) {
-            Iterator commandsIt = commands.entrySet().iterator();
+            Iterator<Map.Entry<String, Map<String, Object>>> commandsIt = commands.entrySet().iterator();
             while (commandsIt.hasNext()) {
-                Map.Entry thisEntry = (Map.Entry) commandsIt.next();
+                Map.Entry<String, Map<String, Object>> thisEntry = commandsIt.next();
                 if (thisEntry != null) {
-                    parsedCommands.add((String) thisEntry.getKey());
+                    parsedCommands.add(thisEntry.getKey());
                 }
             }
         }
@@ -218,17 +218,12 @@ public class PluginUtil {
 
             // Map of commands and their attributes.
             Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
-
             if (commands != null) {
-
                 // Iterator for all the plugin's commands.
-                Iterator<Map.Entry<String, Map<String, Object>>> commandIterator = commands.entrySet().iterator();
 
-                while (commandIterator.hasNext()) {
+                for (Map.Entry<String, Map<String, Object>> commandNext : commands.entrySet()) {
 
                     // Current value.
-                    Map.Entry<String, Map<String, Object>> commandNext = commandIterator.next();
-
                     // Plugin name matches - return.
                     if (commandNext.getKey().equalsIgnoreCase(command)) {
                         plugins.add(plugin.getName());
@@ -237,13 +232,10 @@ public class PluginUtil {
 
                     // No match - let's iterate over the attributes and see if
                     // it has aliases.
-                    Iterator<Map.Entry<String, Object>> attributeIterator = commandNext.getValue().entrySet().iterator();
 
-                    while (attributeIterator.hasNext()) {
+                    for (Map.Entry<String, Object> attributeNext : commandNext.getValue().entrySet()) {
 
                         // Current value.
-                        Map.Entry<String, Object> attributeNext = attributeIterator.next();
-
                         // Has an alias attribute.
                         if (attributeNext.getKey().equals("aliases")) {
 
@@ -252,28 +244,25 @@ public class PluginUtil {
                             if (aliases instanceof String) {
                                 if (((String) aliases).equalsIgnoreCase(command)) {
                                     plugins.add(plugin.getName());
-                                    continue;
                                 }
                             } else {
 
                                 // Cast to a List of Strings.
-                                List<String> array = (List<String>) aliases;
-
+//                                System.out.println("Class: "+aliases.getClass());
+                                List array = (List) aliases;
+//                                System.out.println("Element class: "+((List) aliases).get(0).getClass());
                                 // Check for matches here.
-                                for (String str : array) {
-                                    if (str.equalsIgnoreCase(command)) {
+                                for (Object str : array) {
+                                    if (str instanceof String && ((String)str).equalsIgnoreCase(command)) {
                                         plugins.add(plugin.getName());
-                                        continue;
                                     }
                                 }
-
                             }
 
                         }
 
                     }
                 }
-
             }
 
         }
