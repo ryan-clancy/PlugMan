@@ -21,7 +21,6 @@ permissions:
     children:
       plugman.update: true
       plugman.help: true
-      plugman.help: true
       plugman.list: true
       plugman.dump: true
       plugman.info: true
