@@ -90,6 +90,9 @@ public class PlugManCommandHandler implements CommandExecutor {
             case "check":
                 cmd = new CheckCommand(sender);
                 break;
+            case "checkid":
+                cmd = new CheckIdCommand(sender);
+                break;
         }
 
         cmd.execute(sender, command, label, args);

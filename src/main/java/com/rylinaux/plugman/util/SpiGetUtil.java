@@ -109,6 +109,40 @@ public class SpiGetUtil {
     }
 
     /**
+     * Check if the installed plugin version is up-to-date with the Spigot version.
+     *
+     * @param pluginName the plugin name.
+     * @param pluginId the plugin id.
+     * @return the reflective UpdateResult.
+     */
+    public static UpdateResult checkUpToDateByNameAndId(String pluginName, long pluginId) {
+
+        JSONArray versions = SpiGetUtil.getPluginVersions(pluginId);
+
+        if (versions == null || versions.size() == 0) {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
+        }
+
+        JSONObject latest = (JSONObject) versions.get(0);
+
+        String currentVersion = PluginUtil.getPluginVersion(pluginName);
+        String latestVersion = (String) latest.get("name");
+
+        if (currentVersion == null) {
+            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+        } else if (latestVersion == null) {
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion);
+        } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
+            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
+        } else {
+            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion);
+        }
+
+    }
+
+
+    /**
      * Get the id of the plugin.
      *
      * @param name the name of the plugin.
