@@ -15,6 +15,7 @@ check:
   out-of-date-player: '&cOut-of-date (Installed -> Latest): {0}'
   up-to-date: '&9Plugin is up-to-date using version "{0}".'
   up-to-date-player: '&aUp-to-date (Installed): {0}'
+  duplicates-player: '&9Duplicates (Unable to determine ID, please check manually): {0}'
   file-done: '&9File dump complete: {0}'
   unknown: '&cVersion information is unknown.'
   unknown-player: '&cUnknown (Installed): {0}'

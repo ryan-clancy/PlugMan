@@ -26,6 +26,8 @@ package com.rylinaux.plugman.pojo;
  * #L%
  */
 
+import java.util.ArrayList;
+
 /**
  * Represents a result from an update check from DBO.
  *
@@ -49,10 +51,15 @@ public class UpdateResult {
     private final String latestVersion;
 
     /**
+     * All located ids for the plugin
+     */
+    private final ArrayList<Long> pluginIds;
+
+    /**
      * Represents the type of the result.
      */
     public enum ResultType {
-        INVALID_PLUGIN, NOT_INSTALLED, OUT_OF_DATE, UP_TO_DATE
+        INVALID_PLUGIN, NOT_INSTALLED, OUT_OF_DATE, UP_TO_DATE, DUPLICATES_FOUND
     }
 
     /**
@@ -61,7 +68,7 @@ public class UpdateResult {
      * @param type the type of the result.
      */
     public UpdateResult(ResultType type) {
-        this(type, null, null);
+        this(type, null, null, new ArrayList<Long>());
     }
 
     /**
@@ -71,7 +78,7 @@ public class UpdateResult {
      * @param currentVersion the current version.
      */
     public UpdateResult(ResultType type, String currentVersion) {
-        this(type, currentVersion, null);
+        this(type, currentVersion, null, new ArrayList<Long>());
     }
 
     /**
@@ -81,10 +88,11 @@ public class UpdateResult {
      * @param currentVersion the current version of the plugin.
      * @param latestVersion  the latest version of the plugin.
      */
-    public UpdateResult(ResultType type, String currentVersion, String latestVersion) {
+    public UpdateResult(ResultType type, String currentVersion, String latestVersion, ArrayList<Long> pluginIds) {
         this.type = type;
         this.currentVersion = currentVersion;
         this.latestVersion = latestVersion;
+        this.pluginIds = pluginIds;
     }
 
     /**
@@ -113,5 +121,11 @@ public class UpdateResult {
     public String getLatestVersion() {
         return latestVersion;
     }
+
+    /**
+     * Get the ids of the plugin.
+     * Returns: an array of located plugin ids
+     */
+    public ArrayList<Long> getPluginIds() { return pluginIds; }
 
 }

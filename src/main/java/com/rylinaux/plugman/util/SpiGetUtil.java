@@ -27,6 +27,8 @@ package com.rylinaux.plugman.util;
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -77,14 +79,22 @@ public class SpiGetUtil {
      */
     public static UpdateResult checkUpToDate(String pluginName) {
 
-        long pluginId = SpiGetUtil.getPluginId(pluginName);
+        ArrayList<Long> pluginIds = SpiGetUtil.getPluginIds(pluginName);
 
-        if (pluginId < 0) {
+        System.out.println("Ids: " + pluginIds.toString());
+
+        if (pluginIds.size() == 0) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, plugin.getDescription().getVersion());
         }
 
-        JSONArray versions = SpiGetUtil.getPluginVersions(pluginId);
+        String currentVersion = PluginUtil.getPluginVersion(pluginName);
+
+        if (pluginIds.size() > 1) {
+            return new UpdateResult(UpdateResult.ResultType.DUPLICATES_FOUND, currentVersion, null, pluginIds);
+        }
+
+        JSONArray versions = SpiGetUtil.getPluginVersions(pluginIds.get(0));
 
         if (versions == null || versions.size() == 0) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
@@ -92,18 +102,16 @@ public class SpiGetUtil {
         }
 
         JSONObject latest = (JSONObject) versions.get(0);
-
-        String currentVersion = PluginUtil.getPluginVersion(pluginName);
         String latestVersion = (String) latest.get("name");
         
         if (currentVersion == null) {
-            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion, new ArrayList<Long>());
         } else if (latestVersion == null) {
-            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion, new ArrayList<Long>());
         } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
-            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion, pluginIds);
         } else {
-            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion, new ArrayList<Long>());
         }
 
     }
@@ -130,13 +138,13 @@ public class SpiGetUtil {
         String latestVersion = (String) latest.get("name");
 
         if (currentVersion == null) {
-            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.NOT_INSTALLED, currentVersion, latestVersion, new ArrayList<Long>());
         } else if (latestVersion == null) {
-            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.INVALID_PLUGIN, currentVersion, latestVersion, new ArrayList<Long>());
         } else if (currentVersion.equalsIgnoreCase(latestVersion)) {
-            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.UP_TO_DATE, currentVersion, latestVersion, new ArrayList<Long>());
         } else {
-            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion);
+            return new UpdateResult(UpdateResult.ResultType.OUT_OF_DATE, currentVersion, latestVersion, new ArrayList<Long>());
         }
 
     }
@@ -148,7 +156,9 @@ public class SpiGetUtil {
      * @param name the name of the plugin.
      * @return the id of the plugin.
      */
-    public static long getPluginId(String name) {
+    public static ArrayList<Long> getPluginIds(String name) {
+
+        ArrayList<Long> pluginIds = new ArrayList<>();
 
         HttpClient client = HttpClients.createMinimal();
 
@@ -166,11 +176,13 @@ public class SpiGetUtil {
 
                 JSONArray array = (JSONArray) JSONValue.parse(body);
 
+                System.out.println("Results: " + array.toString());
+
                 for (int i = 0; i < array.size(); i++) {
                     JSONObject json = (JSONObject) array.get(i);
                     String pluginName = (String) json.get("name");
                     if (name.equalsIgnoreCase(pluginName)) {
-                        return (long) json.get("id");
+                        pluginIds.add((long) json.get("id"));
                     }
                 }
 
@@ -180,7 +192,7 @@ public class SpiGetUtil {
             e.printStackTrace();
         }
 
-        return -1;
+        return pluginIds;
 
     }
 

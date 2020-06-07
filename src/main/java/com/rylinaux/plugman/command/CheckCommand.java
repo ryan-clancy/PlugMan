@@ -121,7 +121,10 @@ public class CheckCommand extends AbstractCommand {
 
                         Map<String, UpdateResult> results = SpiGetUtil.checkUpToDate();
 
-                        final StringBuilder upToDate = new StringBuilder(), outOfDate = new StringBuilder(), unknown = new StringBuilder();
+                        final StringBuilder upToDate = new StringBuilder(),
+                                outOfDate = new StringBuilder(),
+                                unknown = new StringBuilder(),
+                                duplicates = new StringBuilder();
 
                         for (Map.Entry<String, UpdateResult> entry : results.entrySet()) {
 
@@ -133,6 +136,8 @@ public class CheckCommand extends AbstractCommand {
                                 upToDate.append(entry.getKey() + "(" + currentVersion + ") ");
                             } else if (result == UpdateResult.ResultType.INVALID_PLUGIN || result == UpdateResult.ResultType.NOT_INSTALLED) {
                                 unknown.append(entry.getKey() + "(" + currentVersion + ") ");
+                            } else if (result == UpdateResult.ResultType.DUPLICATES_FOUND) {
+                                duplicates.append(entry.getKey() + "[" + entry.getValue().getPluginIds().toString() + "]  (" + currentVersion + ") ");
                             } else {
                                 outOfDate.append(entry.getKey() + "(" + currentVersion + " -> " + entry.getValue().getLatestVersion() + ") ");
                             }
@@ -151,6 +156,9 @@ public class CheckCommand extends AbstractCommand {
 
                                 writer.println("Up-to-date (Installed):");
                                 writer.println(upToDate);
+
+                                writer.println("Duplicates (Unable to determine ID, please check manually):");
+                                writer.println(duplicates);
 
                                 writer.println("Out-of-date (Installed -> Latest):");
                                 writer.println(outOfDate);
@@ -174,6 +182,7 @@ public class CheckCommand extends AbstractCommand {
                                 @Override
                                 public void run() {
                                     sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.up-to-date-player", upToDate.toString()));
+                                    sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.duplicates-player", duplicates.toString()));
                                     sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.out-of-date-player", outOfDate.toString()));
                                     sender.sendMessage(PlugMan.getInstance().getMessageFormatter().format("check.unknown-player", unknown.toString()));
                                 }

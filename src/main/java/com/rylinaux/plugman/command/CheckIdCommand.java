@@ -119,7 +119,10 @@ public class CheckIdCommand extends AbstractCommand {
 
                         Map<String, UpdateResult> results = SpiGetUtil.checkUpToDate();
 
-                        final StringBuilder upToDate = new StringBuilder(), outOfDate = new StringBuilder(), unknown = new StringBuilder();
+                        final StringBuilder upToDate = new StringBuilder(),
+                                outOfDate = new StringBuilder(),
+                                unknown = new StringBuilder(),
+                                duplicates = new StringBuilder();
 
                         for (Map.Entry<String, UpdateResult> entry : results.entrySet()) {
 
@@ -131,6 +134,8 @@ public class CheckIdCommand extends AbstractCommand {
                                 upToDate.append(entry.getKey() + "(" + currentVersion + ") ");
                             } else if (result == UpdateResult.ResultType.INVALID_PLUGIN || result == UpdateResult.ResultType.NOT_INSTALLED) {
                                 unknown.append(entry.getKey() + "(" + currentVersion + ") ");
+                            } else if (result == UpdateResult.ResultType.DUPLICATES_FOUND) {
+                                duplicates.append(entry.getKey() + "[" + entry.getValue().getPluginIds().toString() + "]  (" + currentVersion + ") ");
                             } else {
                                 outOfDate.append(entry.getKey() + "(" + currentVersion + " -> " + entry.getValue().getLatestVersion() + ") ");
                             }
@@ -149,6 +154,9 @@ public class CheckIdCommand extends AbstractCommand {
 
                                 writer.println("Up-to-date (Installed):");
                                 writer.println(upToDate);
+
+                                writer.println("Duplicates (Unable to determine ID, please check manually):");
+                                writer.println(duplicates);
 
                                 writer.println("Out-of-date (Installed -> Latest):");
                                 writer.println(outOfDate);
